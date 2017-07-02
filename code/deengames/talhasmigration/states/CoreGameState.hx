@@ -7,16 +7,16 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import turbo.ecs.TurboState;
+import deengames.talhasmigration.entities.Turtle;
+using turbo.ecs.EntityFluentApi;
 
 class CoreGameState extends TurboState
 {
+	private var player:Turtle;
+
 	override public function create():Void
 	{
 		super.create();
-	}
-
-	override public function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
+		this.player = new Turtle();
 	}
 }

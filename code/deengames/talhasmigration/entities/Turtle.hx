@@ -8,7 +8,7 @@ class Turtle extends Entity
 {
     public function new()
     {
-        super();
-        this.size(32, 32).colour(255, 0, 0).moveWithKeyboard(100);
+        super(""); // tags are needed for collision
+        this.size(32, 32).colour(255, 0, 0).moveWithKeyboard(100).velocity(25, 0);
     }
 }

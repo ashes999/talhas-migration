@@ -38,11 +38,11 @@ class CoreGameState extends TurboState
 		this.player = new Turtle();
 		this.player.move(this.width / 2, (this.height - player.height) / 2);
 		this.addEntity(this.player);
-		this.player.collideWith("ground");
 	}
 
 	override public function update(elapsedSeconds:Float):Void
 	{
+		// trace('----------- ${Date.now()} ----------');
 		super.update(elapsedSeconds);
 		var previousGround:Entity = ground1.x < ground2.x ? ground1 : ground2;
 		var aheadGround:Entity = previousGround == ground1 ? ground2 : ground1;
@@ -53,5 +53,6 @@ class CoreGameState extends TurboState
 		{
 			previousGround.move(aheadGround.x + aheadGround.width, previousGround.y);
 		}
+		// trace("------------------------------------");
 	}
 }

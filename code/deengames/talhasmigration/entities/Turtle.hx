@@ -9,6 +9,7 @@ class Turtle extends Entity
     public function new()
     {
         super("player"); // tags are needed for collision
-        this.size(32, 32).colour(255, 0, 0).moveWithKeyboard(100).velocity(250, 0).trackWithCamera();
+        this.size(32, 32).colour(255, 0, 0).moveWithKeyboard(300)
+            .velocity(0, 0).trackWithCamera().collideWith("ground");
     }
 }

@@ -26,18 +26,18 @@ class CoreGameState extends HelixState
 		this.bgColor = flixel.util.FlxColor.fromRGB(0, 0, 64);
 
 		ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
-		//ground1.move(0, this.height - 32);
+		ground1.move(0, this.height - 32);
 
-		/*ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
-		ground2.move(ground1.x + ground1.width, ground1.y);*/
+		ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
+		ground2.move(ground1.x + ground1.width, ground1.y);
 		
 		this.player = new Player();
 		this.player.move(this.width / 2, (this.height - player.height) / 2);
 
 		this.player.collideWith(ground1);
-		//this.player.collideWith(ground2);
+		this.player.collideWith(ground2);
 	}
-/*
+
 	override public function update(elapsedSeconds:Float):Void
 	{
 		super.update(elapsedSeconds);
@@ -50,5 +50,5 @@ class CoreGameState extends HelixState
 		{
 			previousGround.move(aheadGround.x + aheadGround.width, previousGround.y);
 		}
-	}*/
+	}
 }

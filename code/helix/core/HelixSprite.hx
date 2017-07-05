@@ -97,17 +97,16 @@ class HelixSprite extends FlxSprite
         return this;
     }
 
-    public function trackWithCamera():HelixSprite
+    private function setComponentVelocity(name:String, vx:Float, vy:Float):HelixSprite
     {
-        FlxG.camera.follow(this);
-        return this;
-    }
-
-    /// End: fluent API
-
-    private function setComponentVelocity(name:String, vx:Float, vy:Float):Void
-    {
-        this.componentVelocities.set(name, new FlxPoint(vx, vy));
+        if (vx == 0 && vy == 0)
+        {
+            this.componentVelocities.remove(name);
+        }
+        else
+        {
+            this.componentVelocities.set(name, new FlxPoint(vx, vy));
+        }
 
         // Cached so accessing velocity is blazing fast (120FPS? no problem!)
         var total = new FlxPoint();
@@ -115,8 +114,20 @@ class HelixSprite extends FlxSprite
         {
             total.add(v.x, v.y);
         }
+
         this.velocity.copyFrom(total);
+
+        trace(this.velocity);
+        return this;
     }
+
+    public function trackWithCamera():HelixSprite
+    {
+        FlxG.camera.follow(this);
+        return this;
+    }
+
+    /// End: fluent API
 
     private function isPressed(keyCode:Int):Bool
     {

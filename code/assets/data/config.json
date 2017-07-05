@@ -1,3 +1,5 @@
 {
-    "playerKeyboardMoveSpeed": 250
+    // All velocities/speeds are in pixels per second
+    "playerKeyboardMoveVelocity": 150,
+    "playerAutoMoveVelocity": 200
 }

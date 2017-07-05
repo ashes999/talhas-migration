@@ -7,45 +7,39 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 
-import turbo.ecs.Entity;
-import turbo.ecs.TurboState;
-using turbo.ecs.EntityFluentApi;
-using turbo.ecs.components.SpriteComponent;
+import helix.core.HelixSprite;
+import helix.core.HelixState;
 
-import deengames.talhasmigration.entities.Turtle;
+import deengames.talhasmigration.entities.Player;
 
-class CoreGameState extends TurboState
+class CoreGameState extends HelixState
 {
-	private var player:Turtle;
+	private var player:Player;
 	// Two pieces of ground, constantly move one ahead of the player so that
 	// it looks like the ground is infinitely scrolling
-	private var ground1:Entity;
-	private var ground2:Entity;
+	private var ground1:HelixSprite;
+	private var ground2:HelixSprite;
 
 	override public function create():Void
 	{
 		super.create();
 		this.bgColor = flixel.util.FlxColor.fromRGB(0, 0, 64);
 
-		ground1 = new Entity("ground").image("assets/images/ground.png").immovable();
+		ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		ground1.move(0, this.height - 32);
-		this.addEntity(ground1);
 
-		ground2 = new Entity("ground").image("assets/images/ground.png").immovable();
+		ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		ground2.move(ground1.x + ground1.width, ground1.y);
-		this.addEntity(ground2);
 		
-		this.player = new Turtle();
+		this.player = new Player();
 		this.player.move(this.width / 2, (this.height - player.height) / 2);
-		this.addEntity(this.player);
 	}
 
 	override public function update(elapsedSeconds:Float):Void
 	{
-		// trace('----------- ${Date.now()} ----------');
 		super.update(elapsedSeconds);
-		var previousGround:Entity = ground1.x < ground2.x ? ground1 : ground2;
-		var aheadGround:Entity = previousGround == ground1 ? ground2 : ground1;
+		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;
+		var aheadGround:HelixSprite = previousGround == ground1 ? ground2 : ground1;
 
 		// this.width/2 and player.width/2 must be accounted for because of centering the camera
 		// otherwise, we get artifacts (slight empty areas) when the ground moves.
@@ -53,6 +47,5 @@ class CoreGameState extends TurboState
 		{
 			previousGround.move(aheadGround.x + aheadGround.width, previousGround.y);
 		}
-		// trace("------------------------------------");
 	}
 }

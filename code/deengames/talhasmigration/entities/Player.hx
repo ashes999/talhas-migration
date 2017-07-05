@@ -9,6 +9,7 @@ class Player extends HelixSprite
     public function new()
     {
         super("assets/images/turtle.png");
-        this.moveWithKeyboard(Config.get("playerKeyboardMoveSpeed"));
+        this.moveWithKeyboard(Config.get("playerKeyboardMoveSpeed"))
+            .trackWithCamera();
     }
 }

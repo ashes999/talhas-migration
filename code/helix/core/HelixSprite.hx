@@ -81,6 +81,12 @@ class HelixSprite extends FlxSprite
         return this;
     }
 
+    public function trackWithCamera():HelixSprite
+    {
+        FlxG.camera.follow(this);
+        return this;
+    }
+
     /// End: fluent API
 
     private function setComponentVelocity(name:String, vx:Float, vy:Float):Void

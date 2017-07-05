@@ -1,5 +1,6 @@
 package helix.core;
 
+import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.input.FlxInput.FlxInputState;
@@ -10,6 +11,7 @@ class HelixSprite extends FlxSprite
 {
     public var keyboardMoveSpeed(default, null):Float = 0;
     private var componentVelocities = new Map<String, FlxPoint>();
+    private var collisionTagets = new Array<FlxBasic>();
 
     public function new(filename:String):Void
     {
@@ -21,6 +23,8 @@ class HelixSprite extends FlxSprite
     override public function update(elapsedSeconds:Float):Void
     {
         super.update(elapsedSeconds);
+
+         // Move to keyboard if specified
         if (keyboardMoveSpeed > 0)
         {
             var vx:Float = 0;
@@ -58,10 +62,22 @@ class HelixSprite extends FlxSprite
                 this.setComponentVelocity("Movement", 0, 0);
             }
         }
+
+        // Collide with specified targets
+        for (target in this.collisionTagets)
+        {
+            FlxG.collide(this, target);
+        }
     }
 
     /// Start: fluent API
 
+    public function collideWith(objectOrGroup:FlxBasic)
+    {
+        this.collisionTagets.push(objectOrGroup);
+    }
+
+    // Sets to immovable for collisions
     public function collisionImmovable():HelixSprite
     {
         this.immovable = true;

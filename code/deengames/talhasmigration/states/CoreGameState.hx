@@ -44,6 +44,10 @@ class CoreGameState extends HelixState
 		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;
 		var aheadGround:HelixSprite = previousGround == ground1 ? ground2 : ground1;
 
+		// Allow colliding with stuff outside of the screen
+		this.setCollisionBounds(0, 0, aheadGround.x + aheadGround.width, this.height);
+
+		// ONLY WORKS if ground width > viewport width
 		// this.width/2 and player.width/2 must be accounted for because of centering the camera
 		// otherwise, we get artifacts (slight empty areas) when the ground moves.
 		if (this.player.x + (player.width / 2) > previousGround.x + previousGround.width + (this.width / 2))

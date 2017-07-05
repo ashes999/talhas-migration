@@ -30,4 +30,11 @@ class HelixState extends FlxState
     {
         return FlxG.stage.stageHeight;
     }
+
+    // https://stackoverflow.com/questions/43792751/flxg-collide-not-working-when-x648
+    // Track collisions outside of screen space
+    public function setCollisionBounds(x:Float, y:Float, width:Float, height:Float):Void
+    {
+        FlxG.worldBounds.set(x, y, width, height);
+    }
 }

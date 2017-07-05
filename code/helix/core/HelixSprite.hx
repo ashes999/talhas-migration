@@ -117,7 +117,6 @@ class HelixSprite extends FlxSprite
 
         this.velocity.copyFrom(total);
 
-        trace(this.velocity);
         return this;
     }
 

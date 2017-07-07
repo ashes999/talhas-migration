@@ -3,8 +3,6 @@ package deengames.talhasmigration.entities;
 import flixel.math.FlxRandom;
 
 import helix.GameTime;
-import helix.core.HelixState;
-import helix.core.HelixSprite;
 
 // Spawns objects on a random interval, uniformly, between min and max time.
 class IntervalSpawner
@@ -12,16 +10,16 @@ class IntervalSpawner
     private var minIntervalSeconds:Float = 0;
     private var maxIntervalSeconds:Float = 0;
     private var random = new FlxRandom();
-    private var entityClass:Class<HelixSprite>;
+    private var onSpawn:Void->Void;
 
     private var createdOn:Float; // GameTime
     private var nextSpawnOn:Float; // GameTime
 
-    public function new(entityClass:Class<HelixSprite>, minIntervalSeconds:Float, maxIntervalSeconds:Float)
+    public function new(minIntervalSeconds:Float, maxIntervalSeconds:Float, onSpawn:Void->Void)
     {
         this.minIntervalSeconds = minIntervalSeconds;
         this.maxIntervalSeconds = maxIntervalSeconds;
-        this.entityClass = entityClass;
+        this.onSpawn = onSpawn;
         this.createdOn = GameTime.totalGameTimeSeconds;
         this.nextSpawnOn = this.createdOn; // Don't spawn immediately
         this.pickNextInterval();
@@ -32,8 +30,7 @@ class IntervalSpawner
         if (GameTime.totalGameTimeSeconds >= this.nextSpawnOn)
         {
             // SPAWN MORE OVERLORDS!            
-            var entity = Type.createInstance(this.entityClass, []);
-            HelixState.current.add(entity);
+            this.onSpawn();
             this.pickNextInterval();
         }
     }

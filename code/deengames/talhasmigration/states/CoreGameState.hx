@@ -3,9 +3,10 @@ package deengames.talhasmigration.states;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.math.FlxMath;
+import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.math.FlxMath;
 
 import helix.core.HelixSprite;
 import helix.core.HelixState;
@@ -40,7 +41,15 @@ class CoreGameState extends HelixState
 		this.player.collideWith(ground1);
 		this.player.collideWith(ground2);
 
-		jellyfishSpawner = new IntervalSpawner(Jellyfish, 0.5, 1);
+		var random:FlxRandom = new FlxRandom();
+
+		jellyfishSpawner = new IntervalSpawner(0.5, 1, function() {
+			var jellyfish:Jellyfish = new Jellyfish();
+			// position randomly off-screen (RHS).
+			 // 1.5x => spawn slightly off-screen
+			var targetX = this.camera.scroll.x + (this.width * 1.5);
+			jellyfish.move(targetX, random.float(0, ground1.y));
+		});
 	}
 
 	override public function update(elapsedSeconds:Float):Void

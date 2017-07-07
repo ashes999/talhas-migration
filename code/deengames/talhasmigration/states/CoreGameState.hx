@@ -10,6 +10,8 @@ import flixel.math.FlxMath;
 import helix.core.HelixSprite;
 import helix.core.HelixState;
 
+import deengames.talhasmigration.entities.IntervalSpawner;
+import deengames.talhasmigration.entities.Jellyfish;
 import deengames.talhasmigration.entities.Player;
 
 class CoreGameState extends HelixState
@@ -19,6 +21,7 @@ class CoreGameState extends HelixState
 	// it looks like the ground is infinitely scrolling
 	private var ground1:HelixSprite;
 	private var ground2:HelixSprite;
+	private var jellyfishSpawner:IntervalSpawner;
 
 	override public function create():Void
 	{
@@ -36,11 +39,15 @@ class CoreGameState extends HelixState
 
 		this.player.collideWith(ground1);
 		this.player.collideWith(ground2);
+
+		jellyfishSpawner = new IntervalSpawner(Jellyfish, 0.5, 1);
 	}
 
 	override public function update(elapsedSeconds:Float):Void
 	{
 		super.update(elapsedSeconds);
+		jellyfishSpawner.update(elapsedSeconds);
+
 		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;
 		var aheadGround:HelixSprite = previousGround == ground1 ? ground2 : ground1;
 

@@ -5,6 +5,7 @@ import flixel.FlxState;
 import flixel.input.FlxInput.FlxInputState;
 import flixel.input.keyboard.FlxKey;
 
+import helix.GameTime;
 import helix.core.HelixSprite;
 
 class HelixState extends FlxState
@@ -19,6 +20,12 @@ class HelixState extends FlxState
     {
         super();
         HelixState.current = this;
+    }
+
+    override public function update(elapsedSeconds:Float):Void
+    {
+        super.update(elapsedSeconds);
+        GameTime.update(elapsedSeconds);
     }
 
     public function get_width():Int

@@ -20,14 +20,19 @@ class CoreGameState extends HelixState
 {
 	private static inline var UI_PADDING:Int = 12;
 
+	// Entities
 	private var player:Player;
 	// Two pieces of ground, constantly move one ahead of the player so that
 	// it looks like the ground is infinitely scrolling
 	private var ground1:HelixSprite;
 	private var ground2:HelixSprite;
 	private var jellyfishSpawner:IntervalSpawner;
-	private var healthText:FlxText;
+
+	// Collision groups
 	private var allJellyfish = new FlxGroup();
+
+	// UI elements
+	private var healthText:FlxText;
 
 	override public function create():Void
 	{
@@ -51,6 +56,16 @@ class CoreGameState extends HelixState
 			player.getHurt();
 			jellyfish.destroy();			
 			this.allJellyfish.remove(jellyfish);
+
+			if (player.dead)
+			{
+				this.remove(player);
+				player.destroy();
+
+				var gameOverText = this.addText(0, 0, "You Died!", 48);
+				gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
+				gameOverText.y = this.camera.scroll.y + (this.height - gameOverText.height) / 2;
+			}
 		});
 
 		var random:FlxRandom = new FlxRandom();
@@ -62,7 +77,7 @@ class CoreGameState extends HelixState
 			 // 1.5x => spawn slightly off-screen
 			var targetX = this.camera.scroll.x + (this.width * 1.5);
 			jellyfish.move(targetX, random.float(0, ground1.y));
-			allJellyfish.add(jellyfish);			
+			allJellyfish.add(jellyfish);		
 		});
 
 		this.healthText = this.addText(0, UI_PADDING, 'Health: ${player.currentHealth}/${player.totalHealth}', 24);

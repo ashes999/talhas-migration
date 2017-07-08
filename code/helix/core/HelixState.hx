@@ -29,16 +29,6 @@ class HelixState extends FlxState
         GameTime.update(elapsedSeconds);
     }
 
-    public function get_width():Int
-    {
-        return FlxG.stage.stageWidth;
-    }
-
-    public function get_height():Int
-    {
-        return FlxG.stage.stageHeight;
-    }
-
     // https://stackoverflow.com/questions/43792751/flxg-collide-not-working-when-x648
     // Track collisions outside of screen space
     public function setCollisionBounds(x:Float, y:Float, width:Float, height:Float):Void
@@ -53,5 +43,15 @@ class HelixState extends FlxState
         toReturn.text = content;
         this.add(toReturn);
         return toReturn;
+    }
+
+    private function get_width():Int
+    {
+        return FlxG.stage.stageWidth;
+    }
+
+    private function get_height():Int
+    {
+        return FlxG.stage.stageHeight;
     }
 }

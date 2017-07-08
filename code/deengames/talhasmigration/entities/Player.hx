@@ -8,6 +8,7 @@ class Player extends HelixSprite
 {
     public var currentHealth(default, null):Int = Config.get("startingHealth");
     public var totalHealth(default, null):Int = Config.get("startingHealth");
+    public var dead(get, null):Bool;
     
     public function new()
     {
@@ -21,5 +22,10 @@ class Player extends HelixSprite
     public function getHurt():Void
     {
         this.currentHealth -= 1;
+    }
+
+    public function get_dead():Bool
+    {
+        return this.currentHealth <= 0;
     }
 }

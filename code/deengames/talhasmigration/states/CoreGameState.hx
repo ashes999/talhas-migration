@@ -43,10 +43,10 @@ class CoreGameState extends HelixState
 		this.player = new Player();
 		this.player.move(this.width / 2, (this.height - player.height) / 2);
 
-		this.player.collideWith(ground1);
-		this.player.collideWith(ground2);
+		this.player.collideResolve(ground1);
+		this.player.collideResolve(ground2);
 
-		this.player.collideWith(this.allJellyfish, function(player:Player, jellyfish:Jellyfish) {
+		this.player.collide(this.allJellyfish, function(player:Player, jellyfish:Jellyfish) {
 			this.remove(jellyfish);
 			player.getHurt();
 			jellyfish.destroy();			

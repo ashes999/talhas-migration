@@ -11,7 +11,11 @@ class HelixSprite extends FlxSprite
 {
     public var keyboardMoveSpeed(default, null):Float = 0;
     private var componentVelocities = new Map<String, FlxPoint>();
-    private var collisionTagets = new Array<FlxBasic>();
+    // collide
+    private var collisionTargets = new Array<FlxBasic>();
+    // collideResolve
+    private var collideAndResolveTargets = new Array<FlxBasic>();
+    // Both for collide-and-move and regular ol' collisions
     private var collisionCallbacks = new Map<FlxBasic, Dynamic->Dynamic->Void>();
 
     public function new(filename:String):Void
@@ -64,18 +68,33 @@ class HelixSprite extends FlxSprite
             }
         }
 
+        for (target in this.collisionTargets)
+        {
+            FlxG.overlap(this, target, this.collisionCallbacks.get(target));
+        }
+
         // Collide with specified targets
-        for (target in this.collisionTagets)
+        for (target in this.collideAndResolveTargets)
         {
             FlxG.collide(this, target, this.collisionCallbacks.get(target));
         }
     }
 
     /// Start: fluent API
-
-    public function collideWith(objectOrGroup:FlxBasic, ?callback:Dynamic->Dynamic->Void = null)
+    // Collide with an object (detect overlap). Doesn't resolve the collision.
+    // If you want resolution/displacement, use collideResolve() instead.
+    public function collide(objectOrGroup:FlxBasic, callback:Dynamic->Dynamic->Void)
     {
-        this.collisionTagets.push(objectOrGroup);
+        this.collisionTargets.push(objectOrGroup);
+        this.collisionCallbacks.set(objectOrGroup, callback);
+    }
+
+    // Collide with an object, and push it out of the way! If you don't want to resolve the
+    // collision, use collide() instead. (Remember to call collisionImmovable() on your sprites if
+    // you don't want them to move when collided.)
+    public function collideResolve(objectOrGroup:FlxBasic, ?callback:Dynamic->Dynamic->Void = null)
+    {
+        this.collideAndResolveTargets.push(objectOrGroup);
         this.collisionCallbacks.set(objectOrGroup, callback);
     }
 

@@ -3,6 +3,7 @@ package deengames.talhasmigration.states;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxRandom;
 import flixel.text.FlxText;
@@ -26,6 +27,7 @@ class CoreGameState extends HelixState
 	private var ground2:HelixSprite;
 	private var jellyfishSpawner:IntervalSpawner;
 	private var healthText:FlxText;
+	private var allJellyfish = new FlxGroup();
 
 	override public function create():Void
 	{
@@ -44,6 +46,13 @@ class CoreGameState extends HelixState
 		this.player.collideWith(ground1);
 		this.player.collideWith(ground2);
 
+		this.player.collideWith(this.allJellyfish, function(player:Player, jellyfish:Jellyfish) {
+			this.remove(jellyfish);
+			player.getHurt();
+			jellyfish.destroy();			
+			this.allJellyfish.remove(jellyfish);
+		});
+
 		var random:FlxRandom = new FlxRandom();
 
 		jellyfishSpawner = new IntervalSpawner(0.5, 1, function()
@@ -53,9 +62,10 @@ class CoreGameState extends HelixState
 			 // 1.5x => spawn slightly off-screen
 			var targetX = this.camera.scroll.x + (this.width * 1.5);
 			jellyfish.move(targetX, random.float(0, ground1.y));
+			allJellyfish.add(jellyfish);			
 		});
 
-		this.healthText = this.addText(0, UI_PADDING, "Health: 3/3", 24);
+		this.healthText = this.addText(0, UI_PADDING, 'Health: ${player.currentHealth}/${player.totalHealth}', 24);
 	}
 
 	override public function update(elapsedSeconds:Float):Void
@@ -77,11 +87,13 @@ class CoreGameState extends HelixState
 			previousGround.move(aheadGround.x + aheadGround.width, previousGround.y);
 		}
 
-		this.repositionUi();
+		this.updateUi();
 	}
 
-	private function repositionUi():Void
+	private function updateUi():Void
 	{
+		this.healthText.text = 'Health: ${player.currentHealth}/${player.totalHealth}';
 		this.healthText.x = this.camera.scroll.x + this.width - this.healthText.width - UI_PADDING;
+		this.healthText.y = this.camera.scroll.y + UI_PADDING;
 	}
 }

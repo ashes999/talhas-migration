@@ -12,6 +12,7 @@ class HelixSprite extends FlxSprite
     public var keyboardMoveSpeed(default, null):Float = 0;
     private var componentVelocities = new Map<String, FlxPoint>();
     private var collisionTagets = new Array<FlxBasic>();
+    private var collisionCallbacks = new Map<FlxBasic, Dynamic->Dynamic->Void>();
 
     public function new(filename:String):Void
     {
@@ -66,15 +67,16 @@ class HelixSprite extends FlxSprite
         // Collide with specified targets
         for (target in this.collisionTagets)
         {
-            FlxG.collide(this, target);
+            FlxG.collide(this, target, this.collisionCallbacks.get(target));
         }
     }
 
     /// Start: fluent API
 
-    public function collideWith(objectOrGroup:FlxBasic)
+    public function collideWith(objectOrGroup:FlxBasic, ?callback:Dynamic->Dynamic->Void = null)
     {
         this.collisionTagets.push(objectOrGroup);
+        this.collisionCallbacks.set(objectOrGroup, callback);
     }
 
     // Sets to immovable for collisions

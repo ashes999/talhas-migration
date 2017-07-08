@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.input.FlxInput.FlxInputState;
 import flixel.input.keyboard.FlxKey;
+import flixel.text.FlxText;
 
 import helix.GameTime;
 import helix.core.HelixSprite;
@@ -43,5 +44,14 @@ class HelixState extends FlxState
     public function setCollisionBounds(x:Float, y:Float, width:Float, height:Float):Void
     {
         FlxG.worldBounds.set(x, y, width, height);
+    }
+
+    public function addText(x:Int, y:Int, content:String, fontSize:Int):FlxText
+    {
+        var toReturn = new FlxText(x, y);
+        toReturn.size = fontSize;
+        toReturn.text = content;
+        this.add(toReturn);
+        return toReturn;
     }
 }

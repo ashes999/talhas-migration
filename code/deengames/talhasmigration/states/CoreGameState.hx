@@ -17,12 +17,15 @@ import deengames.talhasmigration.entities.Player;
 
 class CoreGameState extends HelixState
 {
+	private static inline var UI_PADDING:Int = 12;
+
 	private var player:Player;
 	// Two pieces of ground, constantly move one ahead of the player so that
 	// it looks like the ground is infinitely scrolling
 	private var ground1:HelixSprite;
 	private var ground2:HelixSprite;
 	private var jellyfishSpawner:IntervalSpawner;
+	private var healthText:FlxText;
 
 	override public function create():Void
 	{
@@ -43,13 +46,16 @@ class CoreGameState extends HelixState
 
 		var random:FlxRandom = new FlxRandom();
 
-		jellyfishSpawner = new IntervalSpawner(0.5, 1, function() {
+		jellyfishSpawner = new IntervalSpawner(0.5, 1, function()
+		{
 			var jellyfish:Jellyfish = new Jellyfish();
 			// position randomly off-screen (RHS).
 			 // 1.5x => spawn slightly off-screen
 			var targetX = this.camera.scroll.x + (this.width * 1.5);
 			jellyfish.move(targetX, random.float(0, ground1.y));
 		});
+
+		this.healthText = this.addText(0, UI_PADDING, "Health: 3/3", 24);
 	}
 
 	override public function update(elapsedSeconds:Float):Void
@@ -70,5 +76,12 @@ class CoreGameState extends HelixState
 		{
 			previousGround.move(aheadGround.x + aheadGround.width, previousGround.y);
 		}
+
+		this.repositionUi();
+	}
+
+	private function repositionUi():Void
+	{
+		this.healthText.x = this.camera.scroll.x + this.width - this.healthText.width - UI_PADDING;
 	}
 }

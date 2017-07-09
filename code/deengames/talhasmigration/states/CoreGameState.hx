@@ -78,7 +78,7 @@ class CoreGameState extends HelixState
 
 		jellyfishSpawner = new IntervalSpawner(0.5, 1, function()
 		{
-			var jellyfish:Jellyfish = new Jellyfish();
+			var jellyfish:Jellyfish = new Jellyfish(this.player.velocity.x);
 			// position randomly off-screen (RHS).
 			 // 1.5x => spawn slightly off-screen
 			var targetX = this.camera.scroll.x + (this.width * 1.5);

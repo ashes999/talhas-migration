@@ -3,6 +3,7 @@
     "playerKeyboardMoveVelocity": 150,
     "playerAutoMoveVelocity": 250,
     "startingHealth": 3,
+    "jellyfishVelocityPercent": 40,
 
     // Food points!
     "foodPointsRequiredPerLevel": 20,

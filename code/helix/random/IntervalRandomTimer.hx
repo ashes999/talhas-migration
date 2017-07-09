@@ -12,8 +12,8 @@ class IntervalRandomTimer
     private var random = new FlxRandom();
     private var callback:Void->Void;
 
-    private var createdOn:Float; // GameTime
-    private var nextCallbackTime:Float; // GameTime
+    private var createdOn:TotalGameTime;
+    private var nextCallbackTime:TotalGameTime;
 
     public function new(minIntervalSeconds:Float, maxIntervalSeconds:Float, callback:Void->Void)
     {

@@ -3,6 +3,7 @@
     // Player
     "playerKeyboardMoveVelocity": 150,
     "playerAutoMoveVelocity": 250,
+    "autoMoveVelocityIncreasePerFoodPoint": 5,
     "startingHealth": 3,
 
     // Jellyfish

@@ -126,7 +126,7 @@ class CoreGameState extends HelixState
 
 	private function updateFoodPointsDisplay(pointsGained:Int):Void
 	{
-		player.foodPoints += pointsGained;
+		player.eat(pointsGained);
 		var pointsPerLevel:Int = Config.get("foodPointsRequiredPerLevel");
 		var foodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
 		this.foodPointsText.text = 'Food: ${player.foodPoints}/${(foodLevel + 1) * pointsPerLevel}';

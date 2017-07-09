@@ -32,8 +32,8 @@ class CoreGameState extends HelixState
 	private var entitySpawner:IntervalRandomTimer;
 
 	// Collision groups. Used to set collision handlers once.
-	private var preyGroup = new FlxGroup();
-	private var predatorGroup = new FlxGroup();
+	private var preyGroup = new FlxTypedGroup<HelixSprite>();
+	private var predatorGroup = new FlxTypedGroup<HelixSprite>();
 
 	// UI elements
 	private var healthText:FlxText;
@@ -58,9 +58,7 @@ class CoreGameState extends HelixState
 
 		this.player.collide(this.preyGroup, function(player:Player, prey:HelixSprite)
 		{
-			this.remove(prey);
-			prey.destroy();			
-			this.preyGroup.remove(prey);
+			this.destroyIt(prey, preyGroup);
 
 			var foodPoints:Int = 0;
 			// TODO: use reflection to decide config key OR, refactor points into a
@@ -79,9 +77,7 @@ class CoreGameState extends HelixState
 
 		this.player.collide(this.predatorGroup, function(player:Player, predator:HelixSprite)
 		{
-			this.remove(predator);
-			predator.destroy();			
-			this.predatorGroup.remove(predator);
+			this.destroyIt(predator, predatorGroup);
 
 			player.getHurt();
 			this.healthText.text = 'Health: ${player.currentHealth}/${player.totalHealth}';
@@ -160,8 +156,23 @@ class CoreGameState extends HelixState
 
 		this.updateUi();
 
-		// TODO: kill things that fall off the LHS of the screen?
+		// TODO: kill things that fall off the LHS of the screen. Stuff spawns on the RHS off-screen.
 		// http://forum.haxeflixel.com/topic/617/necessary-to-remove-off-screen-flxsprite-instances
+		for (prey in this.preyGroup)
+		{
+			if (prey.x < this.camera.scroll.x - prey.width)
+			{
+				this.destroyIt(prey, preyGroup);
+			}
+		}
+
+		for (predator in this.predatorGroup)
+		{
+			if (predator.x < this.camera.scroll.x - predator.width)
+			{
+				this.destroyIt(predator, predatorGroup);
+			}
+		}
 	}
 
 	// Done every tick
@@ -180,5 +191,12 @@ class CoreGameState extends HelixState
 		var pointsPerLevel:Int = Config.get("foodPointsRequiredPerLevel");
 		var foodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
 		this.foodPointsText.text = 'Food: ${player.foodPoints}/${(foodLevel + 1) * pointsPerLevel}';
+	}
+
+	private function destroyIt(sprite:HelixSprite, owningGroup:FlxTypedGroup<HelixSprite>):Void
+	{
+		owningGroup.remove(sprite);
+		sprite.destroy();
+		this.remove(sprite);
 	}
 }

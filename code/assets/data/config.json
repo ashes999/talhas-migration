@@ -6,10 +6,22 @@
     "autoMoveVelocityIncreasePerFoodPoint": 5,
     "startingHealth": 3,
 
+    // Probability of spawning stuff. NOT a percentage, and doesn't have
+    // to add up to 100. Eg. if jellyfish = 40 and crab = 10, there's an
+    // 80% chance (40/50) to get a jellyfish and a 20% chance to get a crab.
+    "jellyfishWeight": 40,
+    "swimmingCrabWeight": 100,
+
     // Jellyfish
     "jellyfishVelocityPercent": 40,
     "jellyfishWaveAmplitude": 20,
     "jellyfishWaveFrequencyMultiplier": 3,
+
+    // Swimming crab
+    "swimmingCrabVxMin": -25, // move left
+    "swimmingCrabVxMax": -50,    
+    "swimmingCrabVyMin": -100, // Slightly up or down
+    "swimmingCrabVyMax": 100,
 
     // Food points!
     "foodPointsRequiredPerLevel": 20,

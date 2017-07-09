@@ -14,8 +14,9 @@ import helix.core.HelixState;
 import helix.data.Config;
 import helix.random.IntervalRandomTimer;
 
-import deengames.talhasmigration.entities.Jellyfish;
 import deengames.talhasmigration.entities.Player;
+import deengames.talhasmigration.entities.predators.SwimmingCrab;
+import deengames.talhasmigration.entities.prey.Jellyfish;
 
 class CoreGameState extends HelixState
 {
@@ -28,10 +29,11 @@ class CoreGameState extends HelixState
 	// it looks like the ground is infinitely scrolling
 	private var ground1:HelixSprite;
 	private var ground2:HelixSprite;
-	private var jellyfishSpawner:IntervalRandomTimer;
+	private var entitySpawner:IntervalRandomTimer;
 
-	// Collision groups
-	private var allJellyfish = new FlxGroup();
+	// Collision groups. Used to set collision handlers once.
+	private var preyGroup = new FlxGroup();
+	private var predatorGroup = new FlxGroup();
 
 	// UI elements
 	private var healthText:FlxText;
@@ -54,36 +56,82 @@ class CoreGameState extends HelixState
 		this.player.collideResolve(ground1);
 		this.player.collideResolve(ground2);
 
-		this.player.collide(this.allJellyfish, function(player:Player, jellyfish:Jellyfish)
+		this.player.collide(this.preyGroup, function(player:Player, prey:HelixSprite)
 		{
-			this.remove(jellyfish);
-			jellyfish.destroy();			
-			this.allJellyfish.remove(jellyfish);
+			this.remove(prey);
+			prey.destroy();			
+			this.preyGroup.remove(prey);
 
-			this.updateFoodPointsDisplay(Config.get("foodPointsJellyfish"));			
-			
-			// player.getHurt();
-			// if (player.dead)
-			// {
-			// 	this.remove(player);
-			// 	player.destroy();
+			var foodPoints:Int = 0;
+			// TODO: use reflection to decide config key OR, refactor points into a
+			// prey class (or something) and use that to do this without a big if-statement
+			if (Std.is(prey, Jellyfish))
+			{
+				foodPoints = Config.get("foodPointsJellyfish");
+			}
+			else
+			{
+				throw 'Did not implement food points cost yet for ${Type.getClassName(Type.getClass(prey))}';
+			}
 
-			// 	var gameOverText = this.addText(0, 0, "You Died!", 48);
-			// 	gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
-			// 	gameOverText.y = this.camera.scroll.y + (this.height - gameOverText.height) / 2;
-			// }
+			this.updateFoodPointsDisplay(foodPoints);
 		});
+
+		this.player.collide(this.predatorGroup, function(player:Player, predator:HelixSprite)
+		{
+			this.remove(predator);
+			predator.destroy();			
+			this.predatorGroup.remove(predator);
+
+			player.getHurt();
+			this.healthText.text = 'Health: ${player.currentHealth}/${player.totalHealth}';
+			
+			if (player.dead)
+			{
+				this.remove(player);
+				player.destroy();
+
+				var gameOverText = this.addText(0, 0, "You Died!", 48);
+				gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
+				gameOverText.y = this.camera.scroll.y + (this.height - gameOverText.height) / 2;
+			}
+		});	
 
 		var random:FlxRandom = new FlxRandom();
 
-		jellyfishSpawner = new IntervalRandomTimer(0.5, 1, function()
+		entitySpawner = new IntervalRandomTimer(0.5, 1, function()
 		{
-			var jellyfish:Jellyfish = new Jellyfish(this.player.velocity.x);
-			// position randomly off-screen (RHS).
-			 // 1.5x => spawn slightly off-screen
-			var targetX = this.camera.scroll.x + (this.width * 1.5);
-			jellyfish.move(targetX, random.float(0, ground1.y));
-			allJellyfish.add(jellyfish);		
+			if (!player.dead)
+			{
+				var weightArray:Array<Float> = [Config.get("jellyfishWeight"), Config.get("swimmingCrabWeight")];
+
+				// TODO: put constructors into an array, unify signatures, and turn the
+				// random interval timer into a REAL spawner like it used to be.
+				var nextEntityPick = random.weightedPick(weightArray);
+				var nextEntity:HelixSprite;
+
+				// position randomly off-screen (RHS).
+				// 1.5x => spawn slightly off-screen
+				var targetX = this.camera.scroll.x + (this.width * 1.5);
+				var targetY = random.float(0, ground1.y);
+
+				if (nextEntityPick == 0) // Jellyfish
+				{
+					nextEntity = new Jellyfish(this.player.velocity.x);
+					this.preyGroup.add(nextEntity);				
+				}
+				else if (nextEntityPick == 1) // Swimming crab
+				{
+					nextEntity = new SwimmingCrab();
+					this.predatorGroup.add(nextEntity);
+				}
+				else
+				{
+					throw 'Weighted entity array returned ${nextEntityPick} but there is no implementation for that yet.';
+				}
+
+				nextEntity.move(targetX, targetY);
+			}
 		});
 
 		this.healthText = this.addText(0, UI_PADDING, 'Health: ${player.currentHealth}/${player.totalHealth}', UI_FONT_SIZE);
@@ -94,7 +142,7 @@ class CoreGameState extends HelixState
 	override public function update(elapsedSeconds:Float):Void
 	{
 		super.update(elapsedSeconds);
-		jellyfishSpawner.update(elapsedSeconds);
+		entitySpawner.update(elapsedSeconds);
 
 		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;
 		var aheadGround:HelixSprite = previousGround == ground1 ? ground2 : ground1;
@@ -111,12 +159,14 @@ class CoreGameState extends HelixState
 		}
 
 		this.updateUi();
+
+		// TODO: kill things that fall off the LHS of the screen?
+		// http://forum.haxeflixel.com/topic/617/necessary-to-remove-off-screen-flxsprite-instances
 	}
 
 	// Done every tick
 	private function updateUi():Void
 	{
-		this.healthText.text = 'Health: ${player.currentHealth}/${player.totalHealth}';
 		this.healthText.x = this.camera.scroll.x + this.width - this.healthText.width - UI_PADDING;
 		this.healthText.y = this.camera.scroll.y + UI_PADDING;
 

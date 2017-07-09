@@ -1,4 +1,4 @@
-package deengames.talhasmigration.entities;
+package deengames.talhasmigration.entities.prey;
 
 import flixel.math.FlxRandom;
 
@@ -7,6 +7,7 @@ import helix.core.HelixSprite;
 import helix.core.HelixState;
 import helix.data.Config;
  
+ // Eaten only during migration, according to Wikipedia
 class Jellyfish extends HelixSprite
 {
     private var waveAmplitude:Float = Config.get("jellyfishWaveAmplitude");
@@ -16,7 +17,7 @@ class Jellyfish extends HelixSprite
 
     public function new(playerVx:Float)
     {
-        super("assets/images/jellyfish.png");
+        super("assets/images/entities/jellyfish.png");
         var velocityPercent:Float = Std.int(Config.get("jellyfishVelocityPercent")) / 100.0;
         var vx:Int = Math.round(playerVx * velocityPercent);
         this.setComponentVelocity("Escape", vx, 0);

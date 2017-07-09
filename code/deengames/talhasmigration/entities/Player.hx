@@ -13,7 +13,7 @@ class Player extends HelixSprite
     
     public function new()
     {
-        super("assets/images/turtle.png");
+        super("assets/images/entities/turtle.png");
         this
             .moveWithKeyboard(Config.get("playerKeyboardMoveVelocity"))
             .setComponentVelocity("AutoMove", Config.get("playerAutoMoveVelocity"), 0)

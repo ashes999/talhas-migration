@@ -9,11 +9,11 @@ import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 
-import helix.data.Config;
 import helix.core.HelixSprite;
 import helix.core.HelixState;
+import helix.data.Config;
+import helix.random.IntervalRandomTimer;
 
-import deengames.talhasmigration.entities.IntervalSpawner;
 import deengames.talhasmigration.entities.Jellyfish;
 import deengames.talhasmigration.entities.Player;
 
@@ -28,7 +28,7 @@ class CoreGameState extends HelixState
 	// it looks like the ground is infinitely scrolling
 	private var ground1:HelixSprite;
 	private var ground2:HelixSprite;
-	private var jellyfishSpawner:IntervalSpawner;
+	private var jellyfishSpawner:IntervalRandomTimer;
 
 	// Collision groups
 	private var allJellyfish = new FlxGroup();
@@ -76,7 +76,7 @@ class CoreGameState extends HelixState
 
 		var random:FlxRandom = new FlxRandom();
 
-		jellyfishSpawner = new IntervalSpawner(0.5, 1, function()
+		jellyfishSpawner = new IntervalRandomTimer(0.5, 1, function()
 		{
 			var jellyfish:Jellyfish = new Jellyfish(this.player.velocity.x);
 			// position randomly off-screen (RHS).

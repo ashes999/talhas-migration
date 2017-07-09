@@ -1,36 +1,35 @@
-package deengames.talhasmigration.entities;
+package helix.random;
 
 import flixel.math.FlxRandom;
 
 import helix.GameTime;
 
-// Spawns objects on a random interval, uniformly, between min and max time.
-class IntervalSpawner
+// Triggers a callback on a random interval, uniformly, between min and max time.
+class IntervalRandomTimer
 {
     private var minIntervalSeconds:Float = 0;
     private var maxIntervalSeconds:Float = 0;
     private var random = new FlxRandom();
-    private var onSpawn:Void->Void;
+    private var callback:Void->Void;
 
     private var createdOn:Float; // GameTime
-    private var nextSpawnOn:Float; // GameTime
+    private var nextCallbackTime:Float; // GameTime
 
-    public function new(minIntervalSeconds:Float, maxIntervalSeconds:Float, onSpawn:Void->Void)
+    public function new(minIntervalSeconds:Float, maxIntervalSeconds:Float, callback:Void->Void)
     {
         this.minIntervalSeconds = minIntervalSeconds;
         this.maxIntervalSeconds = maxIntervalSeconds;
-        this.onSpawn = onSpawn;
+        this.callback = callback;
         this.createdOn = GameTime.totalGameTimeSeconds;
-        this.nextSpawnOn = this.createdOn; // Don't spawn immediately
+        this.nextCallbackTime = this.createdOn; // Don't spawn immediately
         this.pickNextInterval();
     }
 
     public function update(elapsedSeconds:Float):Void
     {
-        if (GameTime.totalGameTimeSeconds >= this.nextSpawnOn)
+        if (GameTime.totalGameTimeSeconds >= this.nextCallbackTime)
         {
-            // SPAWN MORE OVERLORDS!            
-            this.onSpawn();
+            this.callback();
             this.pickNextInterval();
         }
     }
@@ -38,6 +37,6 @@ class IntervalSpawner
     private function pickNextInterval():Void
     {
         // Convert from seconds to milliseconds
-        this.nextSpawnOn += random.float(minIntervalSeconds, maxIntervalSeconds);
+        this.nextCallbackTime += random.float(minIntervalSeconds, maxIntervalSeconds);
     }
 }

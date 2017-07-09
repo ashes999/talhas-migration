@@ -2,5 +2,9 @@
     // All velocities/speeds are in pixels per second
     "playerKeyboardMoveVelocity": 150,
     "playerAutoMoveVelocity": 250,
-    "startingHealth": 3
+    "startingHealth": 3,
+
+    // Food points!
+    "foodPointsRequiredPerLevel": 20,
+    "foodPointsJellyfish": 3
 }

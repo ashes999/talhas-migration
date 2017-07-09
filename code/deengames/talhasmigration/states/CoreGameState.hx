@@ -9,6 +9,7 @@ import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 
+import helix.data.Config;
 import helix.core.HelixSprite;
 import helix.core.HelixState;
 
@@ -19,6 +20,7 @@ import deengames.talhasmigration.entities.Player;
 class CoreGameState extends HelixState
 {
 	private static inline var UI_PADDING:Int = 12;
+	private static inline var UI_FONT_SIZE:Int = 24;
 
 	// Entities
 	private var player:Player;
@@ -33,6 +35,7 @@ class CoreGameState extends HelixState
 
 	// UI elements
 	private var healthText:FlxText;
+	private var foodPointsText:FlxText;
 
 	override public function create():Void
 	{
@@ -51,21 +54,24 @@ class CoreGameState extends HelixState
 		this.player.collideResolve(ground1);
 		this.player.collideResolve(ground2);
 
-		this.player.collide(this.allJellyfish, function(player:Player, jellyfish:Jellyfish) {
+		this.player.collide(this.allJellyfish, function(player:Player, jellyfish:Jellyfish)
+		{
 			this.remove(jellyfish);
-			player.getHurt();
 			jellyfish.destroy();			
 			this.allJellyfish.remove(jellyfish);
 
-			if (player.dead)
-			{
-				this.remove(player);
-				player.destroy();
+			this.updateFoodPointsDisplay(Config.get("foodPointsJellyfish"));			
+			
+			// player.getHurt();
+			// if (player.dead)
+			// {
+			// 	this.remove(player);
+			// 	player.destroy();
 
-				var gameOverText = this.addText(0, 0, "You Died!", 48);
-				gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
-				gameOverText.y = this.camera.scroll.y + (this.height - gameOverText.height) / 2;
-			}
+			// 	var gameOverText = this.addText(0, 0, "You Died!", 48);
+			// 	gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
+			// 	gameOverText.y = this.camera.scroll.y + (this.height - gameOverText.height) / 2;
+			// }
 		});
 
 		var random:FlxRandom = new FlxRandom();
@@ -80,7 +86,9 @@ class CoreGameState extends HelixState
 			allJellyfish.add(jellyfish);		
 		});
 
-		this.healthText = this.addText(0, UI_PADDING, 'Health: ${player.currentHealth}/${player.totalHealth}', 24);
+		this.healthText = this.addText(0, UI_PADDING, 'Health: ${player.currentHealth}/${player.totalHealth}', UI_FONT_SIZE);
+		this.foodPointsText = this.addText(0, 0, '', UI_FONT_SIZE);		
+		this.updateFoodPointsDisplay(0); // set initial text
 	}
 
 	override public function update(elapsedSeconds:Float):Void
@@ -105,10 +113,22 @@ class CoreGameState extends HelixState
 		this.updateUi();
 	}
 
+	// Done every tick
 	private function updateUi():Void
 	{
 		this.healthText.text = 'Health: ${player.currentHealth}/${player.totalHealth}';
 		this.healthText.x = this.camera.scroll.x + this.width - this.healthText.width - UI_PADDING;
 		this.healthText.y = this.camera.scroll.y + UI_PADDING;
+
+		this.foodPointsText.x = this.camera.scroll.x + UI_PADDING;
+		this.foodPointsText.y = this.camera.scroll.y + UI_PADDING;
+	}
+
+	private function updateFoodPointsDisplay(pointsGained:Int):Void
+	{
+		player.foodPoints += pointsGained;
+		var pointsPerLevel:Int = Config.get("foodPointsRequiredPerLevel");
+		var foodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
+		this.foodPointsText.text = 'Food: ${player.foodPoints}/${(foodLevel + 1) * pointsPerLevel}';
 	}
 }

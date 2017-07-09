@@ -9,6 +9,7 @@ class Player extends HelixSprite
     public var currentHealth(default, null):Int = Config.get("startingHealth");
     public var totalHealth(default, null):Int = Config.get("startingHealth");
     public var dead(get, null):Bool;
+    public var foodPoints(default, default):Int = 0;
     
     public function new()
     {

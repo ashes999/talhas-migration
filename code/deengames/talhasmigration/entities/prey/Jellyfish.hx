@@ -6,6 +6,8 @@ import helix.GameTime;
 import helix.core.HelixSprite;
 import helix.core.HelixState;
 import helix.data.Config;
+
+import deengames.talhasmigration.entities.Player;
  
  // Eaten only during migration, according to Wikipedia
 class Jellyfish extends HelixSprite
@@ -15,11 +17,11 @@ class Jellyfish extends HelixSprite
     private var baseY:Float = -1;
     private var sineWaveOffset:Float = 0; // Jellyfish shouldn't sine-wave in synch ...
 
-    public function new(playerVx:Float)
+    public function new(player:Player)
     {
         super("assets/images/entities/jellyfish.png");
         var velocityPercent:Float = Std.int(Config.get("jellyfishVelocityPercent")) / 100.0;
-        var vx:Int = Math.round(playerVx * velocityPercent);
+        var vx:Int = Math.round(player.velocity.x * velocityPercent);
         this.setComponentVelocity("Escape", vx, 0);
         this.sineWaveOffset = new FlxRandom().int(0, 1000);
     }

@@ -15,6 +15,7 @@ import helix.data.Config;
 import helix.random.IntervalRandomTimer;
 
 import deengames.talhasmigration.entities.Player;
+import deengames.talhasmigration.entities.predators.MorayEel;
 import deengames.talhasmigration.entities.predators.SwimmingCrab;
 import deengames.talhasmigration.entities.prey.Jellyfish;
 
@@ -32,7 +33,7 @@ class CoreGameState extends HelixState
 	private var entitySpawner:IntervalRandomTimer;
 
 	// Collision groups. Used to set collision handlers once.
-	private var preyGroup = new FlxTypedGroup<HelixSprite>();
+	private var preyGroup = new FlxTypedGroup<HelixSprite>(); // FlxGroup<HelixSprite>
 	private var predatorGroup = new FlxTypedGroup<HelixSprite>();
 
 	// UI elements
@@ -99,7 +100,11 @@ class CoreGameState extends HelixState
 		{
 			if (!player.dead)
 			{
-				var weightArray:Array<Float> = [Config.get("jellyfishWeight"), Config.get("swimmingCrabWeight")];
+				var weightArray:Array<Float> = [
+					Config.get("jellyfishWeight"),
+					Config.get("swimmingCrabWeight"),
+					Config.get("morayEelWeight"),
+				];
 
 				// TODO: put constructors into an array, unify signatures, and turn the
 				// random interval timer into a REAL spawner like it used to be.
@@ -113,13 +118,19 @@ class CoreGameState extends HelixState
 
 				if (nextEntityPick == 0) // Jellyfish
 				{
-					nextEntity = new Jellyfish(this.player.velocity.x);
+					nextEntity = new Jellyfish(this.player);
 					this.preyGroup.add(nextEntity);				
 				}
 				else if (nextEntityPick == 1) // Swimming crab
 				{
 					nextEntity = new SwimmingCrab();
 					this.predatorGroup.add(nextEntity);
+				}
+				else if (nextEntityPick == 2) // Moral eel
+				{
+					nextEntity = new MorayEel(this.player);
+					this.predatorGroup.add(nextEntity);
+					targetY = ground1.y - (nextEntity.height / 2); // ground it
 				}
 				else
 				{

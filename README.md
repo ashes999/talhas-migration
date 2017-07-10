@@ -27,3 +27,7 @@ All of these are lifted from [this wikipedia page](https://en.wikipedia.org/wiki
 Generic turtle facts:
 * all newborn turtles are born without parents present or taking care of them
 * all newborn turtles must make it to the ocean before predators eat them
+
+Relevant YouTube videos:
+- [Swimming crab](https://www.youtube.com/watch?v=Vz6kKLcFDL8)
+- [Starfish](https://www.youtube.com/watch?v=cec4YPXBnXk)

@@ -18,6 +18,7 @@ import deengames.talhasmigration.entities.Player;
 import deengames.talhasmigration.entities.predators.MorayEel;
 import deengames.talhasmigration.entities.predators.SwimmingCrab;
 import deengames.talhasmigration.entities.prey.Jellyfish;
+import deengames.talhasmigration.entities.prey.Starfish;
 
 class CoreGameState extends HelixState
 {
@@ -68,6 +69,10 @@ class CoreGameState extends HelixState
 			{
 				foodPoints = Config.get("foodPointsJellyfish");
 			}
+			else if (Std.is(prey, Starfish))
+			{
+				foodPoints = Config.get("foodPointsStarfish");
+			}
 			else
 			{
 				throw 'Did not implement food points cost yet for ${Type.getClassName(Type.getClass(prey))}';
@@ -78,8 +83,6 @@ class CoreGameState extends HelixState
 
 		this.player.collide(this.predatorGroup, function(player:Player, predator:HelixSprite)
 		{
-			this.destroyIt(predator, predatorGroup);
-
 			player.getHurt();
 			this.healthText.text = 'Health: ${player.currentHealth}/${player.totalHealth}';
 			
@@ -104,6 +107,7 @@ class CoreGameState extends HelixState
 					Config.get("jellyfishWeight"),
 					Config.get("swimmingCrabWeight"),
 					Config.get("morayEelWeight"),
+					Config.get("starfishWeight")
 				];
 
 				// TODO: put constructors into an array, unify signatures, and turn the
@@ -131,6 +135,12 @@ class CoreGameState extends HelixState
 					nextEntity = new MorayEel(this.player);
 					this.predatorGroup.add(nextEntity);
 					targetY = ground1.y - (nextEntity.height / 2); // ground it
+				}
+				else if (nextEntityPick == 3) // Starfish
+				{
+					nextEntity = new Starfish();
+					this.preyGroup.add(nextEntity);
+					targetY = ground1.y - nextEntity.height; // ground it					
 				}
 				else
 				{

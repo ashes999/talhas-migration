@@ -1,5 +1,6 @@
 package deengames.talhasmigration.entities;
 
+import helix.GameTime;
 import helix.core.HelixSprite;
 import helix.data.Config;
  
@@ -10,6 +11,7 @@ class Player extends HelixSprite
     public var totalHealth(default, null):Int = Config.get("startingHealth");
     public var dead(get, null):Bool;
     public var foodPoints(default, null):Int = 0;
+    private var lastHurtTime:TotalGameTime = 0;
     
     public function new()
     {
@@ -22,7 +24,11 @@ class Player extends HelixSprite
 
     public function getHurt():Void
     {
-        this.currentHealth -= 1;
+        if (GameTime.totalGameTimeSeconds - lastHurtTime >= Std.int(Config.get("gotHurtInvincibleSeconds")))
+        {
+            lastHurtTime = GameTime.totalGameTimeSeconds;
+            this.currentHealth -= 1;
+        }
     }
 
     public function get_dead():Bool

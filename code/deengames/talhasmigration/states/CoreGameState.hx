@@ -165,7 +165,7 @@ class CoreGameState extends HelixState
 		var aheadGround:HelixSprite = previousGround == ground1 ? ground2 : ground1;
 
 		// Allow colliding with stuff outside of the screen
-		this.setCollisionBounds(0, 0, aheadGround.x + aheadGround.width, this.height);
+		this.setCollisionBounds(previousGround.x, camera.scroll.y, previousGround.width + aheadGround.width, camera.height);
 
 		// ONLY WORKS if ground width > viewport width
 		// this.width/2 and player.width/2 must be accounted for because of centering the camera
@@ -175,6 +175,7 @@ class CoreGameState extends HelixState
 			previousGround.move(aheadGround.x + aheadGround.width, previousGround.y);
 		}
 
+		// UI is affected by speed. How can we do this after HelixSprite.update?
 		this.updateUi();
 
 		// TODO: kill things that fall off the LHS of the screen. Stuff spawns on the RHS off-screen.

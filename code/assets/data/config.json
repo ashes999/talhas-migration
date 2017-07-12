@@ -6,6 +6,8 @@
     "autoMoveVelocityIncreasePerFoodPoint": 5,
     "startingHealth": 3,
     "gotHurtInvincibleSeconds": 1,
+    // juvenile turtles are "dinner plate" sized (25cm). 32px / 25cm => ~1px/cm.
+    "pixelsPerMeter": 100,
 
     // Probability of spawning stuff. NOT a percentage, and doesn't have
     // to add up to 100. Eg. if jellyfish = 40 and crab = 10, there's an

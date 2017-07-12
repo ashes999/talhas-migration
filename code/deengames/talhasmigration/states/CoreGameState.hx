@@ -40,6 +40,7 @@ class CoreGameState extends HelixState
 	// UI elements
 	private var healthText:FlxText;
 	private var foodPointsText:FlxText;
+	private var distanceText:FlxText;
 
 	override public function create():Void
 	{
@@ -152,7 +153,8 @@ class CoreGameState extends HelixState
 		});
 
 		this.healthText = this.addText(0, UI_PADDING, 'Health: ${player.currentHealth}/${player.totalHealth}', UI_FONT_SIZE);
-		this.foodPointsText = this.addText(0, 0, '', UI_FONT_SIZE);		
+		this.distanceText = this.addText(0, 0, "", UI_FONT_SIZE);
+		this.foodPointsText = this.addText(0, 2 * UI_PADDING, "", UI_FONT_SIZE);
 		this.updateFoodPointsDisplay(0); // set initial text
 	}
 
@@ -203,8 +205,12 @@ class CoreGameState extends HelixState
 		this.healthText.x = this.camera.scroll.x + this.width - this.healthText.width - UI_PADDING;
 		this.healthText.y = this.camera.scroll.y + UI_PADDING;
 
-		this.foodPointsText.x = this.camera.scroll.x + UI_PADDING;
-		this.foodPointsText.y = this.camera.scroll.y + UI_PADDING;
+		this.distanceText.x = this.camera.scroll.x + UI_PADDING;
+		this.distanceText.y = this.camera.scroll.y + UI_PADDING;
+		this.distanceText.text = '${Std.int(this.camera.scroll.x / Std.int(Config.get("pixelsPerMeter")))}m';
+
+		this.foodPointsText.x = this.distanceText.x;
+		this.foodPointsText.y = this.distanceText.y + this.distanceText.height;
 	}
 
 	private function updateFoodPointsDisplay(pointsGained:Int):Void

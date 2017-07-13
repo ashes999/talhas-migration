@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.input.FlxInput.FlxInputState;
 import flixel.input.keyboard.FlxKey;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxPoint;
 
 class HelixSprite extends FlxSprite
@@ -36,23 +37,23 @@ class HelixSprite extends FlxSprite
             var vy:Float = 0;
             var isMoving:Bool = false;
 
-            if (isPressed(FlxKey.LEFT) || isPressed(FlxKey.A))
+            if (isKeyPressed(FlxKey.LEFT) || isKeyPressed(FlxKey.A))
             {
                 vx = -this.keyboardMoveSpeed;
                 isMoving = true;
             }
-            else if (isPressed(FlxKey.RIGHT) || isPressed(FlxKey.D))
+            else if (isKeyPressed(FlxKey.RIGHT) || isKeyPressed(FlxKey.D))
             {
                 vx = this.keyboardMoveSpeed;
                 isMoving = true;
             }
                 
-            if (isPressed(FlxKey.UP) || isPressed(FlxKey.W))            
+            if (isKeyPressed(FlxKey.UP) || isKeyPressed(FlxKey.W))            
             {
                 vy = -this.keyboardMoveSpeed;
                 isMoving = true;
             }
-            else if (isPressed(FlxKey.DOWN) || isPressed(FlxKey.S))
+            else if (isKeyPressed(FlxKey.DOWN) || isKeyPressed(FlxKey.S))
             {
                 vy = this.keyboardMoveSpeed;
                 isMoving = true;
@@ -105,6 +106,15 @@ class HelixSprite extends FlxSprite
         return this;
     }
 
+    public function onClick(callback:Void->Void):HelixSprite
+    {
+        FlxMouseEventManager.add(this, function(me:HelixSprite):Void
+        {
+            callback();
+        });
+        return this;
+    }
+
     public function move(x:Float, y:Float):HelixSprite
     {
         this.x = x;
@@ -149,7 +159,7 @@ class HelixSprite extends FlxSprite
 
     /// End: fluent API
 
-    private function isPressed(keyCode:Int):Bool
+    private function isKeyPressed(keyCode:Int):Bool
     {
         return FlxG.keys.checkStatus(keyCode, FlxInputState.PRESSED);
     }

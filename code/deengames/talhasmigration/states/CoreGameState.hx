@@ -47,62 +47,20 @@ class CoreGameState extends HelixState
 		super.create();
 		this.bgColor = flixel.util.FlxColor.fromRGB(0, 0, 64);
 
-		ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
-		ground1.move(0, this.height - 32);
-
-		ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
-		ground2.move(ground1.x + ground1.width, ground1.y);
+		this.ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
+		this.ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		
-		this.player = new Player();
-		this.player.move(this.width / 2, (this.height - player.height) / 2);
+		this.healthText = this.addText(0, UI_PADDING, 'Health: 0/0', UI_FONT_SIZE);
+		this.distanceText = this.addText(0, 0, "", UI_FONT_SIZE);
+		this.foodPointsText = this.addText(0, 2 * UI_PADDING, "", UI_FONT_SIZE);
 
-		this.player.collideResolve(ground1);
-		this.player.collideResolve(ground2);
-
-		this.player.collide(this.preyGroup, function(player:Player, prey:HelixSprite)
-		{
-			this.destroyIt(prey, preyGroup);
-
-			var foodPoints:Int = 0;
-			// TODO: use reflection to decide config key OR, refactor points into a
-			// prey class (or something) and use that to do this without a big if-statement
-			if (Std.is(prey, Jellyfish))
-			{
-				foodPoints = Config.get("foodPointsJellyfish");
-			}
-			else if (Std.is(prey, Starfish))
-			{
-				foodPoints = Config.get("foodPointsStarfish");
-			}
-			else
-			{
-				throw 'Did not implement food points cost yet for ${Type.getClassName(Type.getClass(prey))}';
-			}
-
-			this.updateFoodPointsDisplay(foodPoints);
-		});
-
-		this.player.collide(this.predatorGroup, function(player:Player, predator:HelixSprite)
-		{
-			player.getHurt();
-			this.healthText.text = 'Health: ${player.currentHealth}/${player.totalHealth}';
-			
-			if (player.dead)
-			{
-				this.remove(player);
-				player.destroy();
-
-				var gameOverText = this.addText(0, 0, "You Died!", 48);
-				gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
-				gameOverText.y = this.camera.scroll.y + (this.height - gameOverText.height) / 2;
-			}
-		});	
-
+		this.restart(); // common setup to start/restart
+		
 		var random:FlxRandom = new FlxRandom();
 
-		entitySpawner = new IntervalRandomTimer(0.5, 1, function()
+		this.entitySpawner = new IntervalRandomTimer(0.5, 1, function()
 		{
-			if (!player.dead)
+			if (!this.player.dead)
 			{
 				var weightArray:Array<Float> = [
 					Config.get("jellyfishWeight"),
@@ -151,11 +109,6 @@ class CoreGameState extends HelixState
 				nextEntity.move(targetX, targetY);
 			}
 		});
-
-		this.healthText = this.addText(0, UI_PADDING, 'Health: ${player.currentHealth}/${player.totalHealth}', UI_FONT_SIZE);
-		this.distanceText = this.addText(0, 0, "", UI_FONT_SIZE);
-		this.foodPointsText = this.addText(0, 2 * UI_PADDING, "", UI_FONT_SIZE);
-		this.updateFoodPointsDisplay(0); // set initial text
 	}
 
 	override public function update(elapsedSeconds:Float):Void
@@ -205,7 +158,7 @@ class CoreGameState extends HelixState
 		this.healthText.x = this.camera.scroll.x + this.width - this.healthText.width - UI_PADDING;
 		this.healthText.y = this.camera.scroll.y + UI_PADDING;
 
-		this.distanceText.x = this.camera.scroll.x + UI_PADDING;
+		this.distanceText.x = this.camera.scroll.x + 2 * UI_PADDING;
 		this.distanceText.y = this.camera.scroll.y + UI_PADDING;
 		this.distanceText.text = '${Std.int(this.camera.scroll.x / Std.int(Config.get("pixelsPerMeter")))}m';
 
@@ -226,5 +179,99 @@ class CoreGameState extends HelixState
 		owningGroup.remove(sprite);
 		sprite.destroy();
 		this.remove(sprite);
+	}
+
+	private function restart(?gameOverText:FlxText, ?restartButton:HelixSprite):Void
+	{
+		if (gameOverText != null)
+		{
+			gameOverText.destroy();
+			remove(gameOverText);
+		}
+
+		if (restartButton != null)
+		{
+			restartButton.destroy();
+			remove(restartButton);
+		}
+
+		// Destroy. Everything.
+		for (predator in predatorGroup)
+		{
+			this.destroyIt(predator, predatorGroup);
+		}
+
+		for (prey in preyGroup)
+		{
+			this.destroyIt(prey, preyGroup);
+		}
+
+		ground1.move(0, this.height - 32);
+		ground2.move(ground1.x + ground1.width, ground1.y);
+		
+		this.player = new Player();
+		this.player.move(this.width / 2, (this.height - player.height) / 2);
+
+		this.player.collideResolve(ground1);
+		this.player.collideResolve(ground2);
+
+		this.player.collide(this.preyGroup, function(player:Player, prey:HelixSprite)
+		{
+			this.destroyIt(prey, preyGroup);
+
+			var foodPoints:Int = 0;
+			// TODO: use reflection to decide config key OR, refactor points into a
+			// prey class (or something) and use that to do this without a big if-statement
+			if (Std.is(prey, Jellyfish))
+			{
+				foodPoints = Config.get("foodPointsJellyfish");
+			}
+			else if (Std.is(prey, Starfish))
+			{
+				foodPoints = Config.get("foodPointsStarfish");
+			}
+			else
+			{
+				throw 'Did not implement food points cost yet for ${Type.getClassName(Type.getClass(prey))}';
+			}
+
+			this.updateFoodPointsDisplay(foodPoints);
+		});
+
+		this.player.collide(this.predatorGroup, function(player:Player, predator:HelixSprite)
+		{
+			player.getHurt();
+			this.updateHealthText();
+
+			if (player.dead)
+			{
+				this.remove(player);
+				player.destroy();
+
+				var restartButton = new HelixSprite("assets/images/ui/restart.png");				
+
+				restartButton.move(this.camera.scroll.x + (this.width - restartButton.width) / 2,
+					this.camera.scroll.y + (this.height - restartButton.height) / 2);
+
+				this.add(restartButton);
+
+				var gameOverText = this.addText(0, 0, "You Died!", 48);
+				gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
+				gameOverText.y = restartButton.y + restartButton.height + UI_PADDING;
+
+				restartButton.onClick(function() { 
+					this.restart(gameOverText, restartButton);
+				});
+			}
+		});
+
+		// set initial text
+		this.updateFoodPointsDisplay(0);
+		this.updateHealthText();
+	}
+
+	private function updateHealthText():Void
+	{
+		this.healthText.text = 'Health: ${this.player.currentHealth}/${this.player.totalHealth}';		
 	}
 }

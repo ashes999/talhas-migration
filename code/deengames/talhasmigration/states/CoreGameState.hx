@@ -11,6 +11,7 @@ import flixel.ui.FlxButton;
 
 import helix.core.HelixSprite;
 import helix.core.HelixState;
+import helix.core.HelixText;
 import helix.data.Config;
 import helix.random.IntervalRandomTimer;
 
@@ -31,6 +32,7 @@ class CoreGameState extends HelixState
 	// it looks like the ground is infinitely scrolling
 	private var ground1:HelixSprite;
 	private var ground2:HelixSprite;
+	private var ceiling:HelixSprite;
 	private var entitySpawner:IntervalRandomTimer;
 
 	// Collision groups. Used to set collision handlers once.
@@ -49,13 +51,17 @@ class CoreGameState extends HelixState
 
 		this.ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
-		
-		this.healthText = this.addText(0, UI_PADDING, 'Health: 0/0', UI_FONT_SIZE);
-		this.distanceText = this.addText(0, 0, "", UI_FONT_SIZE);
-		this.foodPointsText = this.addText(0, 2 * UI_PADDING, "", UI_FONT_SIZE);
+		this.ceiling = new HelixSprite("assets/images/ceiling.png").collisionImmovable();
+
+		this.healthText = new HelixText(0, UI_PADDING, 'Health: 0/0', UI_FONT_SIZE);
+		this.distanceText = new HelixText(0, 0, "", UI_FONT_SIZE);
+		this.foodPointsText = new HelixText(0, 2 * UI_PADDING, "", UI_FONT_SIZE);
 
 		this.restart(); // common setup to start/restart
-		
+
+		// Restrict camera so that player can tell they're at the ceiling
+		this.camera.minScrollY = this.ceiling.y;
+
 		var random:FlxRandom = new FlxRandom();
 
 		this.entitySpawner = new IntervalRandomTimer(0.5, 1, function()
@@ -116,6 +122,7 @@ class CoreGameState extends HelixState
 		super.update(elapsedSeconds);
 		entitySpawner.update(elapsedSeconds);
 
+		this.ceiling.move(camera.scroll.x, Config.get("ceilingY"));
 		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;
 		var aheadGround:HelixSprite = previousGround == ground1 ? ground2 : ground1;
 
@@ -212,8 +219,9 @@ class CoreGameState extends HelixState
 		this.player = new Player();
 		this.player.move(this.width / 2, (this.height - player.height) / 2);
 
-		this.player.collideResolve(ground1);
-		this.player.collideResolve(ground2);
+		this.player.collideResolve(this.ground1);
+		this.player.collideResolve(this.ground2);
+		this.player.collideResolve(this.ceiling);
 
 		this.player.collide(this.preyGroup, function(player:Player, prey:HelixSprite)
 		{
@@ -255,7 +263,7 @@ class CoreGameState extends HelixState
 
 				this.add(restartButton);
 
-				var gameOverText = this.addText(0, 0, "You Died!", 48);
+				var gameOverText = new HelixText(0, 0, "You Died!", 48);
 				gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
 				gameOverText.y = restartButton.y + restartButton.height + UI_PADDING;
 

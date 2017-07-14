@@ -24,10 +24,12 @@ class Player extends HelixSprite
 
     public function getHurt():Void
     {
-        if (GameTime.totalGameTimeSeconds - lastHurtTime >= Std.int(Config.get("gotHurtInvincibleSeconds")))
+        var invincibleDuration:Int = Config.get("gotHurtInvincibleSeconds");
+        if (GameTime.totalGameTimeSeconds - lastHurtTime >= invincibleDuration)
         {
             lastHurtTime = GameTime.totalGameTimeSeconds;
             this.currentHealth -= 1;
+            this.flicker(invincibleDuration);
         }
     }
 

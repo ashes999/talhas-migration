@@ -53,7 +53,7 @@ class CoreGameState extends HelixState
 		this.ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ceiling = new HelixSprite("assets/images/ceiling.png").collisionImmovable();
 
-		this.healthText = new HelixText(0, UI_PADDING, 'Health: 0/0', UI_FONT_SIZE);
+		this.healthText = new HelixText(0, UI_PADDING, "Health: 0/0", UI_FONT_SIZE);
 		this.distanceText = new HelixText(0, 0, "", UI_FONT_SIZE);
 		this.foodPointsText = new HelixText(0, 2 * UI_PADDING, "", UI_FONT_SIZE);
 

@@ -87,24 +87,20 @@ class CoreGameState extends HelixState
 
 				if (nextEntityPick == 0) // Jellyfish
 				{
-					nextEntity = new Jellyfish(this.player);
-					this.preyGroup.add(nextEntity);				
+					nextEntity = this.preyGroup.recycle(Jellyfish);		
 				}
 				else if (nextEntityPick == 1) // Swimming crab
 				{
-					nextEntity = new SwimmingCrab();
-					this.predatorGroup.add(nextEntity);
+					nextEntity = this.predatorGroup.recycle(SwimmingCrab);
 				}
 				else if (nextEntityPick == 2) // Moral eel
 				{
-					nextEntity = new MorayEel(this.player);
-					this.predatorGroup.add(nextEntity);
+					nextEntity = this.predatorGroup.recycle(MorayEel);
 					targetY = ground1.y - (nextEntity.height / 2); // ground it
 				}
 				else if (nextEntityPick == 3) // Starfish
 				{
-					nextEntity = new Starfish();
-					this.preyGroup.add(nextEntity);
+					nextEntity = this.preyGroup.recycle(Starfish);
 					targetY = ground1.y - nextEntity.height; // ground it					
 				}
 				else
@@ -112,7 +108,9 @@ class CoreGameState extends HelixState
 					throw 'Weighted entity array returned ${nextEntityPick} but there is no implementation for that yet.';
 				}
 
-				nextEntity.move(targetX, targetY);
+				// If null, recycle failed in some horrible way ...
+				// HaxeFlixel doesn't call reset for some reason.
+				nextEntity.reset(targetX, targetY);
 			}
 		});
 	}
@@ -144,17 +142,17 @@ class CoreGameState extends HelixState
 		// http://forum.haxeflixel.com/topic/617/necessary-to-remove-off-screen-flxsprite-instances
 		for (prey in this.preyGroup)
 		{
-			if (prey.x < this.camera.scroll.x - prey.width)
+			if (prey.exists && prey.x < this.camera.scroll.x - prey.width)
 			{
-				this.destroyIt(prey, preyGroup);
+				prey.exists = false;
 			}
 		}
 
 		for (predator in this.predatorGroup)
 		{
-			if (predator.x < this.camera.scroll.x - predator.width)
+			if (predator.exists && predator.x < this.camera.scroll.x - predator.width)
 			{
-				this.destroyIt(predator, predatorGroup);
+				predator.exists = false;
 			}
 		}
 	}
@@ -181,13 +179,6 @@ class CoreGameState extends HelixState
 		this.foodPointsText.text = 'Food: ${player.foodPoints}/${(foodLevel + 1) * pointsPerLevel}';
 	}
 
-	private function destroyIt(sprite:HelixSprite, owningGroup:FlxTypedGroup<HelixSprite>):Void
-	{
-		owningGroup.remove(sprite);
-		sprite.destroy();
-		this.remove(sprite);
-	}
-
 	private function restart(?gameOverText:FlxText, ?restartButton:HelixSprite):Void
 	{
 		if (gameOverText != null)
@@ -205,12 +196,12 @@ class CoreGameState extends HelixState
 		// Destroy. Everything.
 		for (predator in predatorGroup)
 		{
-			this.destroyIt(predator, predatorGroup);
+			predator.exists = false;
 		}
 
 		for (prey in preyGroup)
 		{
-			this.destroyIt(prey, preyGroup);
+			prey.exists = false;
 		}
 
 		ground1.move(0, this.height - 32);
@@ -225,7 +216,7 @@ class CoreGameState extends HelixState
 
 		this.player.collide(this.preyGroup, function(player:Player, prey:HelixSprite)
 		{
-			this.destroyIt(prey, preyGroup);
+			prey.exists = false;
 
 			var foodPoints:Int = 0;
 			// TODO: use reflection to decide config key OR, refactor points into a

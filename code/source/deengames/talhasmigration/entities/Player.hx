@@ -7,6 +7,10 @@ import helix.data.Config;
 // The player
 class Player extends HelixSprite
 {
+    // Required because prey/predators require this as a constructor parameter,
+    // except that we use FlxGroup.recycle, which demands parameterless constructors.
+    public static var instance(default, null):Player;
+
     public var currentHealth(default, null):Int = Config.get("startingHealth");
     public var totalHealth(default, null):Int = Config.get("startingHealth");
     public var dead(get, null):Bool;
@@ -16,6 +20,7 @@ class Player extends HelixSprite
     public function new()
     {
         super("assets/images/entities/turtle.png");
+        Player.instance = this;
         this
             .moveWithKeyboard(Config.get("playerKeyboardMoveVelocity"))
             .setComponentVelocity("AutoMove", Config.get("playerAutoMoveVelocity"), 0)

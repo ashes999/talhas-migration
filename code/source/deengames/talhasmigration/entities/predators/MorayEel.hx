@@ -1,7 +1,5 @@
 package deengames.talhasmigration.entities.predators;
 
-import flixel.math.FlxRandom;
-
 import helix.core.HelixSprite;
 import helix.data.Config;
 
@@ -9,28 +7,29 @@ import deengames.talhasmigration.entities.Player;
 
 class MorayEel extends HelixSprite
 {
-    private var hasLaunched:Bool = false;
-    private var baseY:Float = -1;
-    private var player:Player;
+    private var hasLaunched:Bool;
+    private var baseY:Float;
 
-    private var targetDistanceSquared:Float = Math.pow(Config.get("morayEelDetectionRange"), 2);
-    private var travelHeight:Int = Config.get("morayEelTravelHeight");
+    private var targetDistanceSquared:Float;
+    private var travelHeight:Int;
 
-    public function new(player:Player)
+    public function new()
     {
         super("assets/images/entities/eel.png");
-        this.player = player;
+        this.reset(0, 0);
     }
 
     override public function update(elapsedSeconds:Float):Void
     {
+        super.update(elapsedSeconds);
+        var player = Player.instance;
+
         if (this.baseY == -1)
         {
             // this isn't moved to its position in the constructor            
             this.baseY = this.y;
         }
 
-        super.update(elapsedSeconds);
         if (this.hasLaunched == false && this.velocity.y == 0)
         {
             var dSquared = Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2);
@@ -54,5 +53,14 @@ class MorayEel extends HelixSprite
                 this.hasLaunched = true;                
             }
         }
+    }
+
+    override public function reset(x:Float, y:Float):Void
+    {
+        super.reset(x, y);
+        this.hasLaunched = false;
+        this.baseY = -1;
+        this.targetDistanceSquared = Math.pow(Config.get("morayEelDetectionRange"), 2);
+        this.travelHeight = Config.get("morayEelTravelHeight");
     }
 }

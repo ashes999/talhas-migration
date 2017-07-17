@@ -19,10 +19,10 @@ class SwimmingCrab extends HelixSprite
         super.reset(x, y);
         
         var random = new FlxRandom();
-        var minVx:Int = Config.get("swimmingCrabVxMin");
-        var maxVx:Int = Config.get("swimmingCrabVxMax");
-        var minVy:Int = Config.get("swimmingCrabVyMin");
-        var maxVy:Int = Config.get("swimmingCrabVyMax");
+        var minVx:Int = Config.getInt("swimmingCrabVxMin");
+        var maxVx:Int = Config.getInt("swimmingCrabVxMax");
+        var minVy:Int = Config.getInt("swimmingCrabVyMin");
+        var maxVy:Int = Config.getInt("swimmingCrabVyMax");
 
         var vx = random.int(minVx, maxVx);
         var vy = random.int(minVy, maxVy);

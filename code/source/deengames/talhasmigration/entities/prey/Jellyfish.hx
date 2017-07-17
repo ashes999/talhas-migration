@@ -40,11 +40,11 @@ class Jellyfish extends HelixSprite
     override function reset(x:Float, y:Float):Void
     {
         super.reset(x, y);
-        this.waveAmplitude = Config.get("jellyfishWaveAmplitude");
-        this.frequencyMultiplier = Config.get("jellyfishWaveFrequencyMultiplier");
+        this.waveAmplitude = Config.getInt("jellyfishWaveAmplitude");
+        this.frequencyMultiplier = Config.getInt("jellyfishWaveFrequencyMultiplier");
         this.baseY = -1;
 
-        var velocityPercent:Float = Std.int(Config.get("jellyfishVelocityPercent")) / 100.0;
+        var velocityPercent:Float = Std.int(Config.getInt("jellyfishVelocityPercent")) / 100.0;
         var vx:Int = Math.round(Player.instance.velocity.x * velocityPercent);
         this.setComponentVelocity("Escape", vx, 0);
         

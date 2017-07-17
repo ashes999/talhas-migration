@@ -6,7 +6,8 @@
     // Player
     "playerKeyboardMoveVelocity": 150,
     "playerAutoMoveVelocity": 250,
-    "autoMoveVelocityIncreasePerFoodPoint": 5,
+    "autoMoveVelocityIncreasePerSecond": 5,
+    "maxVelocity": 400,
     "startingHealth": 3,
     "gotHurtInvincibleSeconds": 1,
     // juvenile turtles are "dinner plate" sized (25cm). 32px / 25cm => ~1px/cm.

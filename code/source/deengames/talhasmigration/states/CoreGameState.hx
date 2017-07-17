@@ -69,10 +69,10 @@ class CoreGameState extends HelixState
 			if (!this.player.dead)
 			{
 				var weightArray:Array<Float> = [
-					Config.get("jellyfishWeight"),
-					Config.get("swimmingCrabWeight"),
-					Config.get("morayEelWeight"),
-					Config.get("starfishWeight")
+					Config.getInt("jellyfishWeight"),
+					Config.getInt("swimmingCrabWeight"),
+					Config.getInt("morayEelWeight"),
+					Config.getInt("starfishWeight")
 				];
 
 				// TODO: put constructors into an array, unify signatures, and turn the
@@ -120,7 +120,7 @@ class CoreGameState extends HelixState
 		super.update(elapsedSeconds);
 		entitySpawner.update(elapsedSeconds);
 
-		this.ceiling.move(camera.scroll.x, Config.get("ceilingY"));
+		this.ceiling.move(camera.scroll.x, Config.getInt("ceilingY"));
 		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;
 		var aheadGround:HelixSprite = previousGround == ground1 ? ground2 : ground1;
 
@@ -165,7 +165,7 @@ class CoreGameState extends HelixState
 
 		this.distanceText.x = this.camera.scroll.x + 2 * UI_PADDING;
 		this.distanceText.y = this.camera.scroll.y + UI_PADDING;
-		this.distanceText.text = '${Std.int(this.camera.scroll.x / Std.int(Config.get("pixelsPerMeter")))}m';
+		this.distanceText.text = '${Std.int(this.camera.scroll.x / Std.int(Config.getInt("pixelsPerMeter")))}m';
 
 		this.foodPointsText.x = this.distanceText.x;
 		this.foodPointsText.y = this.distanceText.y + this.distanceText.height;
@@ -174,7 +174,7 @@ class CoreGameState extends HelixState
 	private function updateFoodPointsDisplay(pointsGained:Int):Void
 	{
 		player.foodPoints += pointsGained;
-		var pointsPerLevel:Int = Config.get("foodPointsRequiredPerLevel");
+		var pointsPerLevel:Int = Config.getInt("foodPointsRequiredPerLevel");
 		var foodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
 		this.foodPointsText.text = 'Food: ${player.foodPoints}/${(foodLevel + 1) * pointsPerLevel}';
 	}
@@ -223,11 +223,11 @@ class CoreGameState extends HelixState
 			// prey class (or something) and use that to do this without a big if-statement
 			if (Std.is(prey, Jellyfish))
 			{
-				foodPoints = Config.get("foodPointsJellyfish");
+				foodPoints = Config.getInt("foodPointsJellyfish");
 			}
 			else if (Std.is(prey, Starfish))
 			{
-				foodPoints = Config.get("foodPointsStarfish");
+				foodPoints = Config.getInt("foodPointsStarfish");
 			}
 			else
 			{

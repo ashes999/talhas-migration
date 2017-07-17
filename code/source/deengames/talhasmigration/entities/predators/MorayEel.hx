@@ -35,7 +35,7 @@ class MorayEel extends HelixSprite
             var dSquared = Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2);
             if (dSquared <= targetDistanceSquared)
             {
-                this.setComponentVelocity("Launch", 0, Config.get("morayEelAttackVelocity"));
+                this.setComponentVelocity("Launch", 0, Config.getInt("morayEelAttackVelocity"));
             }
         } 
         else if (this.hasLaunched == false && this.velocity.y != 0)
@@ -60,7 +60,7 @@ class MorayEel extends HelixSprite
         super.reset(x, y);
         this.hasLaunched = false;
         this.baseY = -1;
-        this.targetDistanceSquared = Math.pow(Config.get("morayEelDetectionRange"), 2);
-        this.travelHeight = Config.get("morayEelTravelHeight");
+        this.targetDistanceSquared = Math.pow(Config.getInt("morayEelDetectionRange"), 2);
+        this.travelHeight = Config.getInt("morayEelTravelHeight");
     }
 }

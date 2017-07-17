@@ -256,6 +256,9 @@ class CoreGameState extends HelixState
 
 				var shopButton = new HelixSprite("assets/images/shop.png");
 				shopButton.y = restartButton.y;
+				shopButton.onClick(function() {
+					FlxG.switchState(new UpgradesShopState(player.foodPoints));
+				});
 
 				restartButton.x = this.camera.scroll.x + (this.width - restartButton.width - UI_PADDING - shopButton.width) / 2;
 				shopButton.x = restartButton.x + restartButton.width + UI_PADDING;

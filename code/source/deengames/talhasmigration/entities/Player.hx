@@ -31,10 +31,15 @@ class Player extends HelixSprite
     {
         var invincibleDuration:Int = Config.getInt("gotHurtInvincibleSeconds");
         if (GameTime.totalGameTimeSeconds - lastHurtTime >= invincibleDuration)
-        {
+        {            
             lastHurtTime = GameTime.totalGameTimeSeconds;
             this.currentHealth -= 1;
             this.flicker(invincibleDuration);
+
+            if (this.currentHealth <= 0)
+            {
+                this.setComponentVelocity("AutoMove", 0, 0);
+            }
         }
     }
 
@@ -47,11 +52,14 @@ class Player extends HelixSprite
     {
         super.update(elapsedSeconds);
 
-        var baseVelocity:Int = Config.getInt("playerAutoMoveVelocity");
-        var elapsedTimeVelocity = GameTime.totalGameTimeSeconds * Config.getInt("autoMoveVelocityIncreasePerSecond");
-        var totalVelocity = Math.min(baseVelocity + elapsedTimeVelocity, Config.getInt("maxVelocity"));
-        
-        totalVelocity = Std.int(Math.floor(totalVelocity));
-        this.setComponentVelocity("AutoMove", totalVelocity, 0);
+        if (this.currentHealth > 0)
+        {
+            var baseVelocity:Int = Config.getInt("playerAutoMoveVelocity");
+            var elapsedTimeVelocity = GameTime.totalGameTimeSeconds * Config.getInt("autoMoveVelocityIncreasePerSecond");
+            var totalVelocity = Math.min(baseVelocity + elapsedTimeVelocity, Config.getInt("maxVelocity"));
+            
+            totalVelocity = Std.int(Math.floor(totalVelocity));
+            this.setComponentVelocity("AutoMove", totalVelocity, 0);
+        }
     }
 }

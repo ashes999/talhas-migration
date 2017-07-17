@@ -248,15 +248,17 @@ class CoreGameState extends HelixState
 				player.destroy();
 
 				var restartButton = new HelixSprite("assets/images/ui/restart.png");				
-
-				restartButton.move(this.camera.scroll.x + (this.width - restartButton.width) / 2,
-					this.camera.scroll.y + (this.height - restartButton.height) / 2);
-
-				this.add(restartButton);
+				restartButton.y = this.camera.scroll.y + (this.height - restartButton.height) / 2;
 
 				var gameOverText = new HelixText(0, 0, "You Died!", 48);
 				gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
 				gameOverText.y = restartButton.y + restartButton.height + UI_PADDING;
+
+				var shopButton = new HelixSprite("assets/images/shop.png");
+				shopButton.y = restartButton.y;
+
+				restartButton.x = this.camera.scroll.x + (this.width - restartButton.width - UI_PADDING - shopButton.width) / 2;
+				shopButton.x = restartButton.x + restartButton.width + UI_PADDING;
 
 				restartButton.onClick(function() { 
 					this.restart(gameOverText, restartButton);

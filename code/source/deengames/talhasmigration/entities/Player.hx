@@ -25,7 +25,6 @@ class Player extends HelixSprite
 
         Player.instance = this;
 
-        trace("assinging health: " + playerData.startingHealth);
         this.currentHealth = this.totalHealth = playerData.startingHealth;
 
         this

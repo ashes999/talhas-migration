@@ -18,6 +18,9 @@ class PlayerData
     public function new()
     {
         save.bind("PlayerData");
+        // uncomment to erase all saved data
+        // save.erase();
+        // save.bind("PlayerData");
 
         // New set of data
         if (save.data.foodCurrency == null)
@@ -48,6 +51,29 @@ class PlayerData
         return save.data.startingHealth;
     }
 
-    // buyUpgrade(upgradeName):Void
-    // Decrements currency, notes permanent upgrade.
+    public function getNextHealthUpgradeCost():Int
+    {
+        if (this.startingHealth < Config.getInt("maxHealth"))
+        {
+            var baseCost = Config.getInt("healthUpgradeBaseCost");
+            var costExponent = Config.getFloat("healthUpgradeCostExponent");
+            var numPurchased = this.startingHealth - Config.getInt("startingHealth");
+            // +1 because O^n = 0
+            return Std.int(Math.floor(baseCost * Math.pow(numPurchased + 1, costExponent)));
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+    public function buyHealthUpgrade():Void
+    {
+        if (this.startingHealth < Config.getInt("maxHealth") && this.foodCurrency >= this.getNextHealthUpgradeCost())
+        {
+            save.data.foodCurrency -= this.getNextHealthUpgradeCost();
+            save.data.startingHealth += 1;
+            save.flush();
+        }
+    }
 }

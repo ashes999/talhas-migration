@@ -1,5 +1,6 @@
 package deengames.talhasmigration.states;
 
+import deengames.talhasmigration.data.PlayerData;
 import flixel.FlxG;
 import helix.core.HelixSprite;
 import helix.core.HelixState;
@@ -8,20 +9,19 @@ class UpgradesShopState extends HelixState
 {
     private static inline var UI_PADDING:Int = 16;
     private static inline var UI_FONT_SIZE:Int = 32;
+    private var playerData:PlayerData;
 
-    private var totalPoints:Int = 0;
-
-    public function new(totalPoints:Int)
+    public function new(playerData:PlayerData)
     {
         super();
-        this.totalPoints = totalPoints;
+        this.playerData = playerData;
     }
 
     override public function create()
     {
         super.create();
 
-        this.addText(UI_PADDING, UI_PADDING, 'Total Food: ${this.totalPoints}', UI_FONT_SIZE);
+        this.addText(UI_PADDING, UI_PADDING, 'Total Food: ${playerData.foodCurrency}', UI_FONT_SIZE);
 
         var goButton = new HelixSprite("assets/images/ui/play.png").onClick(function()
         {

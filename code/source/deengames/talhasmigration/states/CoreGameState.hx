@@ -1,5 +1,12 @@
 package deengames.talhasmigration.states;
 
+import deengames.talhasmigration.data.PlayerData;
+import deengames.talhasmigration.entities.Player;
+import deengames.talhasmigration.entities.predators.MorayEel;
+import deengames.talhasmigration.entities.predators.SwimmingCrab;
+import deengames.talhasmigration.entities.prey.Jellyfish;
+import deengames.talhasmigration.entities.prey.Starfish;
+
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -14,12 +21,6 @@ import helix.core.HelixState;
 import helix.core.HelixText;
 import helix.data.Config;
 import helix.random.IntervalRandomTimer;
-
-import deengames.talhasmigration.entities.Player;
-import deengames.talhasmigration.entities.predators.MorayEel;
-import deengames.talhasmigration.entities.predators.SwimmingCrab;
-import deengames.talhasmigration.entities.prey.Jellyfish;
-import deengames.talhasmigration.entities.prey.Starfish;
 
 class CoreGameState extends HelixState
 {
@@ -244,6 +245,9 @@ class CoreGameState extends HelixState
 
 			if (player.dead)
 			{
+				var playerData = new PlayerData();
+				playerData.addFoodCurrency(player.foodPoints);
+
 				this.remove(player);
 				player.destroy();
 
@@ -257,7 +261,7 @@ class CoreGameState extends HelixState
 				var shopButton = new HelixSprite("assets/images/shop.png");
 				shopButton.y = restartButton.y;
 				shopButton.onClick(function() {
-					FlxG.switchState(new UpgradesShopState(player.foodPoints));
+					FlxG.switchState(new UpgradesShopState(playerData));
 				});
 
 				restartButton.x = this.camera.scroll.x + (this.width - restartButton.width - UI_PADDING - shopButton.width) / 2;

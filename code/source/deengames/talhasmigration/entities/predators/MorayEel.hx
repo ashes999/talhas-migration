@@ -16,7 +16,7 @@ class MorayEel extends HelixSprite
     public function new()
     {
         super("assets/images/entities/eel.png");
-        this.reset(0, 0);
+        this.revive();
     }
 
     override public function update(elapsedSeconds:Float):Void
@@ -55,9 +55,10 @@ class MorayEel extends HelixSprite
         }
     }
 
-    override public function reset(x:Float, y:Float):Void
+    override public function revive():Void
     {
-        super.reset(x, y);
+        super.revive();
+        
         this.hasLaunched = false;
         this.baseY = -1;
         this.targetDistanceSquared = Math.pow(Config.getInt("morayEelDetectionRange"), 2);

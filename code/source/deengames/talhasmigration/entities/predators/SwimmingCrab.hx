@@ -11,12 +11,12 @@ class SwimmingCrab extends HelixSprite
     public function new()
     {
         super("assets/images/entities/swimmingCrab.png");
-        this.reset(0, 0);
+        this.revive();
     }
 
-    override public function reset(x:Float, y:Float):Void
+    override public function revive():Void
     {
-        super.reset(x, y);
+        super.revive();
         
         var random = new FlxRandom();
         var minVx:Int = Config.getInt("swimmingCrabVxMin");

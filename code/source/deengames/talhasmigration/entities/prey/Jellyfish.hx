@@ -19,7 +19,7 @@ class Jellyfish extends HelixSprite
     public function new()
     {
         super("assets/images/entities/jellyfish.png");
-        this.reset(0, 0); // construct
+        this.revive(); // construct
     }
 
     override public function update(elapsedSeconds:Float):Void
@@ -37,9 +37,10 @@ class Jellyfish extends HelixSprite
     }
 
     // Common code shared between constructor and recycle
-    override function reset(x:Float, y:Float):Void
+    override function revive():Void
     {
-        super.reset(x, y);
+        super.revive();
+        
         this.waveAmplitude = Config.getInt("jellyfishWaveAmplitude");
         this.frequencyMultiplier = Config.getInt("jellyfishWaveFrequencyMultiplier");
         this.baseY = -1;

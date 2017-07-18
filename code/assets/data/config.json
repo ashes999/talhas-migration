@@ -10,6 +10,9 @@
     "maxVelocity": 400,
     "startingHealth": 3,
     "gotHurtInvincibleSeconds": 1,
+    "healthUpgradeBaseCost": 100,
+    "maxHealth": 6,
+    "healthUpgradeCostExponent": 1.5,
     // juvenile turtles are "dinner plate" sized (25cm). 32px / 25cm => ~1px/cm.
     "pixelsPerMeter": 100,
 

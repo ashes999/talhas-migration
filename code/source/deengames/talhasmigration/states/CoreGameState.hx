@@ -214,7 +214,9 @@ class CoreGameState extends HelixState
 		ground1.move(0, this.height - 32);
 		ground2.move(ground1.x + ground1.width, ground1.y);
 		
-		this.player = new Player();
+		var playerData = new PlayerData();
+		
+		this.player = new Player(playerData);
 		this.player.move(this.width / 2, (this.height - player.height) / 2);
 
 		this.player.collideResolve(this.ground1);
@@ -251,7 +253,6 @@ class CoreGameState extends HelixState
 
 			if (player.dead)
 			{
-				var playerData = new PlayerData();
 				playerData.addFoodCurrency(player.foodPoints);
 
 				this.remove(player);

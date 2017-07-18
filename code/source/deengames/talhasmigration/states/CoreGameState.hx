@@ -180,7 +180,7 @@ class CoreGameState extends HelixState
 		this.foodPointsText.text = 'Food: ${player.foodPoints}/${(foodLevel + 1) * pointsPerLevel}';
 	}
 
-	private function restart(?gameOverText:FlxText, ?restartButton:HelixSprite):Void
+	private function restart(?gameOverText:FlxText, ?restartButton:HelixSprite, ?shopButton:HelixSprite):Void
 	{
 		if (gameOverText != null)
 		{
@@ -192,6 +192,12 @@ class CoreGameState extends HelixState
 		{
 			restartButton.destroy();
 			remove(restartButton);
+		}
+
+		if (shopButton != null)
+		{
+			shopButton.destroy();
+			remove(shopButton);
 		}
 
 		// Destroy. Everything.
@@ -268,7 +274,7 @@ class CoreGameState extends HelixState
 				shopButton.x = restartButton.x + restartButton.width + UI_PADDING;
 
 				restartButton.onClick(function() { 
-					this.restart(gameOverText, restartButton);
+					this.restart(gameOverText, restartButton, shopButton);
 				});
 			}
 		});

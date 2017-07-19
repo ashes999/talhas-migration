@@ -3,6 +3,8 @@
 
     // All velocities/speeds are in pixels per second
     "ceilingY": 32,
+    "deletePersistentData": true,
+
     // Player
     "playerKeyboardMoveVelocity": 150,
     "playerAutoMoveVelocity": 250,

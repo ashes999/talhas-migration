@@ -18,9 +18,12 @@ class PlayerData
     public function new()
     {
         save.bind("PlayerData");
-        // uncomment to erase all saved data
-        // save.erase();
-        // save.bind("PlayerData");
+
+        if (Config.getBool("deletePersistentData") == true)
+        {
+            save.erase();
+            save.bind("PlayerData");
+        }
 
         // New set of data
         if (save.data.foodCurrency == null)

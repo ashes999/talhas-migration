@@ -22,6 +22,8 @@ import helix.core.HelixText;
 import helix.data.Config;
 import helix.random.IntervalRandomTimer;
 
+import polyglot.Translater;
+
 class CoreGameState extends HelixState
 {
 	private static inline var UI_PADDING:Int = 12;
@@ -45,6 +47,8 @@ class CoreGameState extends HelixState
 	private var foodPointsText:FlxText;
 	private var distanceText:FlxText;
 
+	private var translater = new Translater();
+
 	override public function create():Void
 	{
 		super.create();
@@ -54,7 +58,7 @@ class CoreGameState extends HelixState
 		this.ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ceiling = new HelixSprite("assets/images/ceiling.png").collisionImmovable();
 
-		this.healthText = new HelixText(0, UI_PADDING, "Health: 0/0", UI_FONT_SIZE);
+		this.healthText = new HelixText(0, UI_PADDING, "", UI_FONT_SIZE);
 		this.distanceText = new HelixText(0, 0, "", UI_FONT_SIZE);
 		this.foodPointsText = new HelixText(0, 2 * UI_PADDING, "", UI_FONT_SIZE);
 
@@ -166,7 +170,7 @@ class CoreGameState extends HelixState
 
 		this.distanceText.x = this.camera.scroll.x + 2 * UI_PADDING;
 		this.distanceText.y = this.camera.scroll.y + UI_PADDING;
-		this.distanceText.text = '${Std.int(this.camera.scroll.x / Std.int(Config.getInt("pixelsPerMeter")))}m';
+		this.distanceText.text = translater.get("DISTANCE_UI", [Std.int(this.camera.scroll.x / Std.int(Config.getInt("pixelsPerMeter")))]);
 
 		this.foodPointsText.x = this.distanceText.x;
 		this.foodPointsText.y = this.distanceText.y + this.distanceText.height;
@@ -177,7 +181,7 @@ class CoreGameState extends HelixState
 		player.foodPoints += pointsGained;
 		var pointsPerLevel:Int = Config.getInt("foodPointsRequiredPerLevel");
 		var foodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
-		this.foodPointsText.text = 'Food: ${player.foodPoints}/${(foodLevel + 1) * pointsPerLevel}';
+		this.foodPointsText.text = translater.get("FOOD_POINTS_UI", [player.foodPoints, (foodLevel + 1) * pointsPerLevel]);
 	}
 
 	private function restart(?gameOverText:FlxText, ?restartButton:HelixSprite, ?shopButton:HelixSprite):Void
@@ -261,7 +265,7 @@ class CoreGameState extends HelixState
 				var restartButton = new HelixSprite("assets/images/ui/restart.png");				
 				restartButton.y = this.camera.scroll.y + (this.height - restartButton.height) / 2;
 
-				var gameOverText = new HelixText(0, 0, "You Died!", 48);
+				var gameOverText = new HelixText(0, 0, translater.get("GAME_OVER"), 48);
 				gameOverText.x = this.camera.scroll.x + (this.width - gameOverText.width) / 2;
 				gameOverText.y = restartButton.y + restartButton.height + UI_PADDING;
 
@@ -287,6 +291,6 @@ class CoreGameState extends HelixState
 
 	private function updateHealthText():Void
 	{
-		this.healthText.text = 'Health: ${this.player.currentHealth}/${this.player.totalHealth}';		
+		this.healthText.text = translater.get("HEALTH_UI", [this.player.currentHealth, this.player.totalHealth]);
 	}
 }

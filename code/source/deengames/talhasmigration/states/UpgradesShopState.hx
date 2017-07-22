@@ -17,7 +17,6 @@ class UpgradesShopState extends HelixState
     private var totalFoodLabel:HelixText;
     private var healthIndicator:HelixText;
     private var buyHealthButton:HelixText;
-    private var translater = new Translater();
 
     public function new(playerData:PlayerData)
     {
@@ -55,18 +54,18 @@ class UpgradesShopState extends HelixState
 
     private function updateUi():Void
     {
-        this.totalFoodLabel.text = translater.get("UPGRADES_TOTAL_FOOD", [playerData.foodCurrency]);
-        this.healthIndicator.text = translater.get("UPGRADES_STARTING_HEALTH", [playerData.startingHealth]);
+        this.totalFoodLabel.text = Translater.get("UPGRADES_TOTAL_FOOD", [playerData.foodCurrency]);
+        this.healthIndicator.text = Translater.get("UPGRADES_STARTING_HEALTH", [playerData.startingHealth]);
         this.buyHealthButton.x = healthIndicator.x  + healthIndicator.width + UI_PADDING;
 
         var cost = playerData.getNextHealthUpgradeCost();        
         if (cost > 0) // not maxed out
         {
-            this.buyHealthButton.text = translater.get("UPGRADES_BUY_HEALTH", [cost]);
+            this.buyHealthButton.text = Translater.get("UPGRADES_BUY_HEALTH", [cost]);
         }
         else
         {
-            this.buyHealthButton.text = translater.get("UPGRADES_MAX_HEALTH");
+            this.buyHealthButton.text = Translater.get("UPGRADES_MAX_HEALTH");
         }
     }
 }

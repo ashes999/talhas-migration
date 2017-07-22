@@ -1,9 +1,0 @@
-HEALTH_UI: صحت: {0} / {1}
-DISTANCE_UI: {0} میٹر
-FOOD_POINTS_UI: فوڈ: {0} / {1}
-GAME_OVER: تم نے جھوٹ بولا!
-
-UPGRADES_TOTAL_FOOD: کل خوراک: {0}
-UPGRADES_STARTING_HEALTH: صحت شروع کرنا: {0}
-UPGRADES_BUY_HEALTH: (+1 قیمت {0})
-UPGRADES_MAX_HEALTH: (زیادہ سے زیادہ)

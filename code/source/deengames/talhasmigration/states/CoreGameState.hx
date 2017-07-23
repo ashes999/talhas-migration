@@ -16,6 +16,7 @@ import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 
+import helix.GameTime;
 import helix.core.HelixSprite;
 import helix.core.HelixState;
 import helix.core.HelixText;
@@ -47,6 +48,10 @@ class CoreGameState extends HelixState
 	private var foodPointsText:FlxText;
 	private var distanceText:FlxText;
 
+	private var minIntervalSeconds:Float = Config.getFloat("minIntervalSeconds");
+	private var maxIntervalSeconds:Float = Config.getFloat("maxIntervalSeconds");
+	private var sessionStartTime:Float;
+
 	override public function create():Void
 	{
 		super.create();
@@ -67,7 +72,7 @@ class CoreGameState extends HelixState
 
 		var random:FlxRandom = new FlxRandom();
 
-		this.entitySpawner = new IntervalRandomTimer(0.5, 1, function()
+		this.entitySpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
 		{
 			if (!this.player.dead)
 			{
@@ -122,6 +127,12 @@ class CoreGameState extends HelixState
 	{
 		super.update(elapsedSeconds);
 		entitySpawner.update(elapsedSeconds);
+
+		// Difficulty scales by increasing speed in Player.update
+		// We also shrink the interval ever so slightly; in 30s, it reduces by ~0.1
+		var intervalDiff:Float = elapsedSeconds * Config.getFloat("shrinkIntervalPerSecondBy");
+		this.minIntervalSeconds -= intervalDiff;
+		this.maxIntervalSeconds -= intervalDiff;
 
 		this.ceiling.move(camera.scroll.x, Config.getInt("ceilingY"));
 		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;
@@ -184,6 +195,10 @@ class CoreGameState extends HelixState
 
 	private function restart(?gameOverText:FlxText, ?restartButton:HelixSprite, ?shopButton:HelixSprite):Void
 	{
+		this.sessionStartTime = GameTime.totalGameTimeSeconds;
+		this.minIntervalSeconds = Config.getFloat("minIntervalSeconds");
+		this.maxIntervalSeconds = Config.getFloat("maxIntervalSeconds");
+
 		if (gameOverText != null)
 		{
 			gameOverText.destroy();
@@ -279,6 +294,9 @@ class CoreGameState extends HelixState
 				restartButton.onClick(function() { 
 					this.restart(gameOverText, restartButton, shopButton);
 				});
+
+				var elapsed = GameTime.totalGameTimeSeconds - this.sessionStartTime;
+				trace('Completed in ${elapsed} seconds; interval is [${this.minIntervalSeconds} ... ${this.maxIntervalSeconds}');
 			}
 		});
 

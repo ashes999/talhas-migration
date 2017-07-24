@@ -1,0 +1,9 @@
+HEALTH_UI: الصحة: {0} / {1}
+DISTANCE_UI: {0} م
+FOOD_POINTS_UI: الطعام: {0} / {1}
+GAME_OVER: لقد توفيت!
+
+UPGRADES_TOTAL_FOOD: إجمالي الغذاء: {0}
+UPGRADES_STARTING_HEALTH: بدء الصحة: {0}
+UPGRADES_BUY_HEALTH: (تكاليف 1+ {0})
+UPGRADES_MAX_HEALTH: (ماكس)

@@ -30,6 +30,7 @@ class Player extends HelixSprite
         this
             .moveWithKeyboard(Config.getInt("playerKeyboardMoveVelocity"))
             .setComponentVelocity("AutoMove", Config.getInt("playerAutoMoveVelocity"), 0)
+            // Buoyancy is set in update
             .trackWithCamera();
     }
 
@@ -66,6 +67,15 @@ class Player extends HelixSprite
             
             totalVelocity = Std.int(Math.floor(totalVelocity));
             this.setComponentVelocity("AutoMove", totalVelocity, 0);
+
+            if (this.hasComponentVelocity("Movement"))
+            {
+                this.setComponentVelocity("Buoyancy", 0, 0);
+            }
+            else
+            {
+                this.setComponentVelocity("Buoyancy", 0, Config.get("buoyancy").velocity);
+            }
         }
     }
 }

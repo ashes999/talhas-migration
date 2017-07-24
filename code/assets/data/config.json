@@ -4,6 +4,11 @@
     // All velocities/speeds are in pixels per second
     "ceilingY": 8,
     "deletePersistentData": true,
+    
+    "buoyancy": {
+        "enabled": true,
+        "velocity": -100
+    },
 
     // Interval when things appear
     "minIntervalSeconds": 0.5,

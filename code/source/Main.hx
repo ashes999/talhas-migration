@@ -13,7 +13,7 @@ import polyglot.Translater;
 
 class Main extends Sprite
 {
-	public static var seededRandom;
+	public static var seededRandom:FlxRandom;
 
 	public function new()
 	{

@@ -1,7 +1,5 @@
 package deengames.talhasmigration.entities.prey;
 
-import flixel.math.FlxRandom;
-
 import helix.GameTime;
 import helix.core.HelixSprite;
 import helix.data.Config;
@@ -49,6 +47,6 @@ class Jellyfish extends HelixSprite
         var vx:Int = Math.round(Player.instance.velocity.x * velocityPercent);
         this.setComponentVelocity("Escape", vx, 0);
         
-        this.sineWaveOffset = new FlxRandom().int(0, 1000);
+        this.sineWaveOffset = Main.seededRandom.int(0, 1000);
     }
 }

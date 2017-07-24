@@ -12,7 +12,6 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
-import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 
@@ -70,7 +69,7 @@ class CoreGameState extends HelixState
 		// Restrict camera so that player can tell they're at the ceiling
 		this.camera.minScrollY = this.ceiling.y;
 
-		var random:FlxRandom = new FlxRandom();
+		var random = Main.seededRandom;
 
 		this.entitySpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
 		{

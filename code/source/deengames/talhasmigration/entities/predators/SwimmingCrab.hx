@@ -1,7 +1,5 @@
 package deengames.talhasmigration.entities.predators;
 
-import flixel.math.FlxRandom;
-
 import helix.core.HelixSprite;
 import helix.data.Config;
 
@@ -18,7 +16,7 @@ class SwimmingCrab extends HelixSprite
     {
         super.revive();
         
-        var random = new FlxRandom();
+        var random = Main.seededRandom;
         var minVx:Int = Config.getInt("swimmingCrabVxMin");
         var maxVx:Int = Config.getInt("swimmingCrabVxMax");
         var minVy:Int = Config.getInt("swimmingCrabVyMin");

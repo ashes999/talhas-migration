@@ -4,6 +4,7 @@
     // All velocities/speeds are in pixels per second
     "ceilingY": 8,
     "deletePersistentData": true,
+    //"randomSeed": 1234567,
     
     "buoyancy": {
         "enabled": true,

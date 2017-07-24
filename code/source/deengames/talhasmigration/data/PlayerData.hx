@@ -4,7 +4,7 @@ import flixel.util.FlxSave;
 import helix.data.Config;
 
 /**
- *  The actual player persistent data, like food eaten across games.
+ *  The actual player persistent data, like food eaten, across games.
  *  This auto loads from persistent data, so you just instantiate it as needed
  *  or pass it around from state to state.
  */

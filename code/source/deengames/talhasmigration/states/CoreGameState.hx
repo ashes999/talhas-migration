@@ -76,11 +76,14 @@ class CoreGameState extends HelixState
 		{
 			if (!this.player.dead)
 			{
+				var currentLevel = this.getCurrentLevel();
+				var stage = Config.get("stages")[currentLevel];
+
 				var weightArray:Array<Float> = [
-					Config.getInt("jellyfishWeight"),
-					Config.getInt("swimmingCrabWeight"),
-					Config.getInt("morayEelWeight"),
-					Config.getInt("starfishWeight")
+					stage.jellyfishWeight,
+					stage.swimmingCrabWeight,
+					stage.morayEelWeight,
+					stage.starfishWeight
 				];
 
 				// TODO: put constructors into an array, unify signatures, and turn the
@@ -188,16 +191,19 @@ class CoreGameState extends HelixState
 	/**
 	 *  Updates the display. Returns new food level (if levelled up); else, zero.
 	 */
-	private function updateFoodPointsDisplay(pointsGained:Int):Int
+	private function updateFoodPointsDisplay(pointsGained:Int):Void
 	{
 		var pointsPerLevel:Int = Config.getInt("foodPointsRequiredPerLevel");
-		var previousFoodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
-
 		player.foodPoints += pointsGained;		
 		var currentFoodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
 		this.foodPointsText.text = Translater.get("FOOD_POINTS_UI", [player.foodPoints, (currentFoodLevel + 1) * pointsPerLevel]);
+	}
 
-		return currentFoodLevel > previousFoodLevel ? currentFoodLevel : 0;
+	private function getCurrentLevel():Int
+	{
+		var pointsPerLevel:Int = Config.getInt("foodPointsRequiredPerLevel");
+		var currentFoodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
+		return currentFoodLevel;
 	}
 
 	private function restart(?gameOverText:FlxText, ?restartButton:HelixSprite, ?shopButton:HelixSprite):Void
@@ -267,10 +273,12 @@ class CoreGameState extends HelixState
 				throw 'Did not implement food points cost yet for ${Type.getClassName(Type.getClass(prey))}';
 			}
 
-			var foodLevel:Int = this.updateFoodPointsDisplay(foodPoints);
-			if (foodLevel > 0)
+			var previousLevel = this.getCurrentLevel();
+			this.updateFoodPointsDisplay(foodPoints);
+			var currentLevel = this.getCurrentLevel();			
+			if (currentLevel > previousLevel)
 			{
-				var bgRgb = Config.get("stages")[foodLevel].background;
+				var bgRgb = Config.get("stages")[currentLevel].background;
 				this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 			}
 		});

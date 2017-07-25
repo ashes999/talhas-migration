@@ -54,7 +54,8 @@ class CoreGameState extends HelixState
 	override public function create():Void
 	{
 		super.create();
-		this.bgColor = flixel.util.FlxColor.fromRGB(0, 0, 64);
+		var bgRgb = Config.get("stages")[0].background;
+		this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 
 		this.ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
@@ -184,12 +185,19 @@ class CoreGameState extends HelixState
 		this.foodPointsText.y = this.distanceText.y + this.distanceText.height;
 	}
 
-	private function updateFoodPointsDisplay(pointsGained:Int):Void
+	/**
+	 *  Updates the display. Returns new food level (if levelled up); else, zero.
+	 */
+	private function updateFoodPointsDisplay(pointsGained:Int):Int
 	{
-		player.foodPoints += pointsGained;
 		var pointsPerLevel:Int = Config.getInt("foodPointsRequiredPerLevel");
-		var foodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
-		this.foodPointsText.text = Translater.get("FOOD_POINTS_UI", [player.foodPoints, (foodLevel + 1) * pointsPerLevel]);
+		var previousFoodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
+
+		player.foodPoints += pointsGained;		
+		var currentFoodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
+		this.foodPointsText.text = Translater.get("FOOD_POINTS_UI", [player.foodPoints, (currentFoodLevel + 1) * pointsPerLevel]);
+
+		return currentFoodLevel > previousFoodLevel ? currentFoodLevel : 0;
 	}
 
 	private function restart(?gameOverText:FlxText, ?restartButton:HelixSprite, ?shopButton:HelixSprite):Void
@@ -259,7 +267,12 @@ class CoreGameState extends HelixState
 				throw 'Did not implement food points cost yet for ${Type.getClassName(Type.getClass(prey))}';
 			}
 
-			this.updateFoodPointsDisplay(foodPoints);
+			var foodLevel:Int = this.updateFoodPointsDisplay(foodPoints);
+			if (foodLevel > 0)
+			{
+				var bgRgb = Config.get("stages")[foodLevel].background;
+				this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
+			}
 		});
 
 		this.player.collide(this.predatorGroup, function(player:Player, predator:HelixSprite)

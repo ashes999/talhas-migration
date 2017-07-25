@@ -11,6 +11,18 @@
         "velocity": -100
     },
 
+    "stages": [
+        {
+            "background": [0, 0, 64]
+        },
+        {
+            "background": [32, 128, 96]
+        },
+        {
+            "background": [0, 96, 192]
+        }
+    ],
+
     // Interval when things appear
     "minIntervalSeconds": 0.5,
     "maxIntervalSeconds": 1,

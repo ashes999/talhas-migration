@@ -5,6 +5,7 @@
     "ceilingY": 8,
     "deletePersistentData": true,
     //"randomSeed": 1234567,
+    "debugMode": true, // enables freezing, screenshoting, etc.
     
     "buoyancy": {
         "enabled": true,

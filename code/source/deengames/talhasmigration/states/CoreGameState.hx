@@ -11,6 +11,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
+import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
@@ -50,6 +51,10 @@ class CoreGameState extends HelixState
 	private var minIntervalSeconds:Float = Config.getFloat("minIntervalSeconds");
 	private var maxIntervalSeconds:Float = Config.getFloat("maxIntervalSeconds");
 	private var sessionStartTime:Float;
+
+	// Stuff used in debugging
+	private var isSilentPaused:Bool = false;
+	private var watermark:HelixSprite;
 
 	override public function create():Void
 	{
@@ -124,10 +129,26 @@ class CoreGameState extends HelixState
 				nextEntity.reset(targetX, targetY);
 			}
 		});
+
+		if (Config.getBool("debugMode") == true)
+		{
+			watermark = new HelixSprite("assets/images/watermark.png");
+			watermark.alpha = 0.5;
+		}
 	}
 
 	override public function update(elapsedSeconds:Float):Void
 	{
+		if (Config.getBool("debugMode") == true && this.wasJustPressed(FlxKey.P))
+		{
+			this.isSilentPaused = !this.isSilentPaused;
+		}
+		
+		if (Config.getBool("debugMode") == true && this.isSilentPaused)
+		{
+			return;
+		}
+
 		super.update(elapsedSeconds);
 		entitySpawner.update(elapsedSeconds);
 
@@ -186,6 +207,8 @@ class CoreGameState extends HelixState
 
 		this.foodPointsText.x = this.distanceText.x;
 		this.foodPointsText.y = this.distanceText.y + this.distanceText.height;
+
+		watermark.move(this.camera.scroll.x + this.width - watermark.width, this.camera.scroll.y + this.height - watermark.height);		
 	}
 
 	/**

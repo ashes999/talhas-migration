@@ -32,6 +32,6 @@ class Main extends Sprite
 		}
 		Translater.selectLanguage(localizations[0]);
 
-		addChild(new FlxGame(0, 0, deengames.talhasmigration.states.CoreGameState, 1, 60, 60, true));
+		addChild(new FlxGame(0, 0, deengames.loggerheadrush.states.CoreGameState, 1, 60, 60, true));
 	}
 }

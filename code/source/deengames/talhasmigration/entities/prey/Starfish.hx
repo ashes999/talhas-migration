@@ -1,4 +1,4 @@
-package deengames.talhasmigration.entities.prey;
+package deengames.loggerheadrush.entities.prey;
 
 import helix.core.HelixSprite;
 

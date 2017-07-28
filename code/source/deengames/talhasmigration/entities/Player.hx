@@ -1,6 +1,6 @@
-package deengames.talhasmigration.entities;
+package deengames.loggerheadrush.entities;
 
-import deengames.talhasmigration.data.PlayerData;
+import deengames.loggerheadrush.data.PlayerData;
 
 import helix.GameTime;
 import helix.core.HelixSprite;

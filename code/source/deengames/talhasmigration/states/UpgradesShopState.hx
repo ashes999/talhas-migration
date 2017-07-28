@@ -1,6 +1,6 @@
-package deengames.talhasmigration.states;
+package deengames.loggerheadrush.states;
 
-import deengames.talhasmigration.data.PlayerData;
+import deengames.loggerheadrush.data.PlayerData;
 import flixel.FlxG;
 import helix.core.HelixSprite;
 import helix.core.HelixState;

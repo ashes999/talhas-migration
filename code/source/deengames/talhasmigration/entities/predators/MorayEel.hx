@@ -1,9 +1,9 @@
-package deengames.talhasmigration.entities.predators;
+package deengames.loggerheadrush.entities.predators;
 
 import helix.core.HelixSprite;
 import helix.data.Config;
 
-import deengames.talhasmigration.entities.Player;
+import deengames.loggerheadrush.entities.Player;
 
 class MorayEel extends HelixSprite
 {

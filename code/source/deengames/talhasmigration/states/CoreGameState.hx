@@ -1,11 +1,11 @@
-package deengames.talhasmigration.states;
+package deengames.loggerheadrush.states;
 
-import deengames.talhasmigration.data.PlayerData;
-import deengames.talhasmigration.entities.Player;
-import deengames.talhasmigration.entities.predators.MorayEel;
-import deengames.talhasmigration.entities.predators.SwimmingCrab;
-import deengames.talhasmigration.entities.prey.Jellyfish;
-import deengames.talhasmigration.entities.prey.Starfish;
+import deengames.loggerheadrush.data.PlayerData;
+import deengames.loggerheadrush.entities.Player;
+import deengames.loggerheadrush.entities.predators.MorayEel;
+import deengames.loggerheadrush.entities.predators.SwimmingCrab;
+import deengames.loggerheadrush.entities.prey.Jellyfish;
+import deengames.loggerheadrush.entities.prey.Starfish;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

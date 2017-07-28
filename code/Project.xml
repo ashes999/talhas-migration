@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Talha's Migration" file="TalhasMigration" main="Main" version="1.0.0" company="Deen Games" />
+	<app title="Loggerhead Rush" file="LoggerheadRush" main="Main" version="1.0.0" company="Deen Games" package="com.deengames.loggerheadrush"  />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->

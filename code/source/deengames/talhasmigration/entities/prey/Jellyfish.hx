@@ -1,10 +1,10 @@
-package deengames.talhasmigration.entities.prey;
+package deengames.loggerheadrush.entities.prey;
 
 import helix.GameTime;
 import helix.core.HelixSprite;
 import helix.data.Config;
 
-import deengames.talhasmigration.entities.Player;
+import deengames.loggerheadrush.entities.Player;
  
  // Eaten only during migration, according to Wikipedia
 class Jellyfish extends HelixSprite

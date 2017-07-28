@@ -208,7 +208,7 @@ class CoreGameState extends HelixState
 		this.foodPointsText.x = this.distanceText.x;
 		this.foodPointsText.y = this.distanceText.y + this.distanceText.height;
 
-		watermark.move(this.camera.scroll.x + this.width - watermark.width, this.camera.scroll.y + this.height - watermark.height);		
+		watermark.move(this.camera.scroll.x + this.width - watermark.width - UI_PADDING, this.camera.scroll.y + this.height - watermark.height - UI_PADDING);
 	}
 
 	/**

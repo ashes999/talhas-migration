@@ -24,10 +24,18 @@
             "starfishWeight": 25
         },
         {
-            "background": [32, 128, 96]
+            "background": [32, 128, 96],
+            "jellyfishWeight": 65,
+            "swimmingCrabWeight": 35,
+            "morayEelWeight": 10,
+            "starfishWeight": 25
         },
         {
-            "background": [0, 96, 192]
+            "background": [0, 96, 192],
+            "jellyfishWeight": 65,
+            "swimmingCrabWeight": 35,
+            "morayEelWeight": 10,
+            "starfishWeight": 25
         }
     ],
 

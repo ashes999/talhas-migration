@@ -59,25 +59,25 @@
 
     // Jellyfish
     "jellyfishVelocityPercent": 40,
-    "jellyfishWaveAmplitude": 20,
+    "jellyfishWaveAmplitude": 40,
     "jellyfishWaveFrequencyMultiplier": 3,
 
     // Swimming crab
-    "swimmingCrabVxMin": -25, // move left
-    "swimmingCrabVxMax": -50,    
-    "swimmingCrabVyMin": -100, // Slightly up or down
-    "swimmingCrabVyMax": 100,
+    "swimmingCrabVxMin": -50, // move left
+    "swimmingCrabVxMax": -100,    
+    "swimmingCrabVyMin": -200, // Slightly up or down
+    "swimmingCrabVyMax": 200,
 
     // Eel
-    "morayEelDetectionRange": 150,
+    "morayEelDetectionRange": 250,
     "morayEelAttackVelocity": -375,
-    "morayEelTravelHeight": 250,
+    "morayEelTravelHeight": 450,
 
     // Starfish
     "starfishVelocity": 10, // they're very slow
 
     // Food points!
-    "foodPointsRequiredPerLevel": 20,
+    "foodPointsRequiredPerLevel": 30,
     "foodPointsJellyfish": 3,
     "foodPointsStarfish": 5
 }

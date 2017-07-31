@@ -34,6 +34,11 @@ class Player extends HelixSprite
             .trackWithCamera();
     }
 
+    public function transform(stage:Int):Void
+    {
+        this.loadGraphic('assets/images/entities/turtle-stage${stage + 1}.png');        
+    }
+
     public function getHurt():Void
     {
         var invincibleDuration:Int = Config.getInt("gotHurtInvincibleSeconds");

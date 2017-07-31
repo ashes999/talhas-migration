@@ -81,7 +81,8 @@ class CoreGameState extends HelixState
 		{
 			if (!this.player.dead)
 			{
-				var currentLevel = this.getCurrentLevel();
+				var currentLevel:Int = this.getCurrentLevel();
+				currentLevel = Std.int(Math.min(currentLevel, Config.getInt("maxLevel") - 1));
 				var stage = Config.get("stages")[currentLevel];
 
 				var weightArray:Array<Float> = [
@@ -299,10 +300,11 @@ class CoreGameState extends HelixState
 			var previousLevel = this.getCurrentLevel();
 			this.updateFoodPointsDisplay(foodPoints);
 			var currentLevel = this.getCurrentLevel();			
-			if (currentLevel > previousLevel)
+			if (currentLevel > previousLevel && currentLevel < Config.getInt("maxLevel"))
 			{
 				var bgRgb = Config.get("stages")[currentLevel].background;
 				this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
+				player.transform(currentLevel);
 			}
 		});
 

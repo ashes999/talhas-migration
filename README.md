@@ -31,3 +31,7 @@ Generic turtle facts:
 Relevant YouTube videos:
 - [Swimming crab](https://www.youtube.com/watch?v=Vz6kKLcFDL8)
 - [Starfish](https://www.youtube.com/watch?v=cec4YPXBnXk)
+- [Turtle eats jellyfish](https://www.youtube.com/watch?v=L4x4bJI5mdo)
+- [Shark tries to eat turtle](https://www.youtube.com/watch?v=7Ff-AjK9Eus)
+- [Turtle eats squid or octopus](https://www.youtube.com/watch?v=1AqvWDyTNm0)
+- [Seal attacks turtle](https://www.youtube.com/watch?v=JRl-85VN4cE)

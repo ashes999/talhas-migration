@@ -3,6 +3,7 @@ package deengames.loggerheadrush.states;
 import deengames.loggerheadrush.data.PlayerData;
 import deengames.loggerheadrush.entities.Player;
 import deengames.loggerheadrush.entities.predators.MorayEel;
+import deengames.loggerheadrush.entities.predators.Seal;
 import deengames.loggerheadrush.entities.predators.SwimmingCrab;
 import deengames.loggerheadrush.entities.prey.Jellyfish;
 import deengames.loggerheadrush.entities.prey.Starfish;
@@ -89,7 +90,8 @@ class CoreGameState extends HelixState
 					stage.jellyfishWeight,
 					stage.swimmingCrabWeight,
 					stage.morayEelWeight,
-					stage.starfishWeight
+					stage.starfishWeight,
+					stage.sealWeight
 				];
 
 				// TODO: put constructors into an array, unify signatures, and turn the
@@ -118,7 +120,11 @@ class CoreGameState extends HelixState
 				else if (nextEntityPick == 3) // Starfish
 				{
 					nextEntity = this.preyGroup.recycle(Starfish);
-					targetY = ground1.y - nextEntity.height; // ground it					
+					targetY = ground1.y - nextEntity.height; // ground it
+				}
+				else if (nextEntityPick == 4) // Seal
+				{
+					nextEntity = this.predatorGroup.recycle(Seal);					
 				}
 				else
 				{
@@ -341,7 +347,6 @@ class CoreGameState extends HelixState
 				});
 
 				var elapsed = GameTime.totalGameTimeSeconds - this.sessionStartTime;
-				trace('Completed in ${elapsed} seconds; interval is [${this.minIntervalSeconds} ... ${this.maxIntervalSeconds}');
 			}
 		});
 

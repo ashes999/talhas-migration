@@ -4,6 +4,7 @@ import deengames.loggerheadrush.data.PlayerData;
 import deengames.loggerheadrush.entities.Player;
 import deengames.loggerheadrush.entities.predators.MorayEel;
 import deengames.loggerheadrush.entities.predators.Seal;
+import deengames.loggerheadrush.entities.predators.Shark;
 import deengames.loggerheadrush.entities.predators.SwimmingCrab;
 import deengames.loggerheadrush.entities.prey.Jellyfish;
 import deengames.loggerheadrush.entities.prey.Starfish;
@@ -91,7 +92,8 @@ class CoreGameState extends HelixState
 					stage.swimmingCrabWeight,
 					stage.morayEelWeight,
 					stage.starfishWeight,
-					stage.sealWeight
+					stage.sealWeight,
+					stage.sharkWeight
 				];
 
 				// TODO: put constructors into an array, unify signatures, and turn the
@@ -126,13 +128,16 @@ class CoreGameState extends HelixState
 				{
 					nextEntity = this.predatorGroup.recycle(Seal);					
 				}
+				else if (nextEntityPick == 5) // Shark
+				{
+					nextEntity = this.predatorGroup.recycle(Shark);
+				}
 				else
 				{
 					throw 'Weighted entity array returned ${nextEntityPick} but there is no implementation for that yet.';
 				}
 
 				// If null, recycle failed in some horrible way ...
-				// HaxeFlixel doesn't call reset for some reason.
 				nextEntity.reset(targetX, targetY);
 			}
 		});

@@ -37,7 +37,6 @@ class Seal extends HelixSprite
                 // 180 - 90 - theta => pi/2 - pi/4 - theta => pi/4 - theta
                 var vx = velocity * Math.sin(Math.PI / 4 - theta);
                 var vy = velocity * Math.sin(theta);
-                trace('Theta=${theta}; vx=${vx} and vy=${vy}. If it helps, dx=${dx} and dy=${dy}');
                 this.setComponentVelocity("Launch", vx, vy);
             }
         }

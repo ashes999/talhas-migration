@@ -15,7 +15,7 @@
 
     "stages": [
         {
-            "background": [0, 0, 64],
+            "background": [193, 234, 244],
             // Probability of spawning stuff. NOT a percentage, and doesn't have
             // to add up to 100. Eg. if jellyfish = 40 and crab = 10, there's an
             // 80% chance (40/50) to get a jellyfish and a 20% chance to get a crab.
@@ -27,7 +27,7 @@
             "sharkWeight": 0
         },
         {
-            "background": [32, 128, 96],
+            "background": [87, 191, 217],
             "jellyfishWeight": 40,
             "swimmingCrabWeight": 20,
             "morayEelWeight": 10,
@@ -36,7 +36,7 @@
             "sharkWeight": 5
         },
         {
-            "background": [0, 96, 192],
+            "background": [64, 115, 128],
             "jellyfishWeight": 10,
             "swimmingCrabWeight": 20,
             "morayEelWeight": 10,

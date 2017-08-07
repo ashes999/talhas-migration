@@ -8,6 +8,7 @@ import deengames.loggerheadrush.entities.predators.Shark;
 import deengames.loggerheadrush.entities.predators.SwimmingCrab;
 import deengames.loggerheadrush.entities.prey.Jellyfish;
 import deengames.loggerheadrush.entities.prey.Starfish;
+import deengames.loggerheadrush.entities.prey.Squid;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -93,7 +94,8 @@ class CoreGameState extends HelixState
 					stage.morayEelWeight,
 					stage.starfishWeight,
 					stage.sealWeight,
-					stage.sharkWeight
+					stage.sharkWeight,
+					stage.squidWeight
 				];
 
 				// TODO: put constructors into an array, unify signatures, and turn the
@@ -131,6 +133,10 @@ class CoreGameState extends HelixState
 				else if (nextEntityPick == 5) // Shark
 				{
 					nextEntity = this.predatorGroup.recycle(Shark);
+				}
+				else if (nextEntityPick == 6) // Squid
+				{
+					nextEntity = this.preyGroup.recycle(Squid);
 				}
 				else
 				{
@@ -302,6 +308,10 @@ class CoreGameState extends HelixState
 			else if (Std.is(prey, Starfish))
 			{
 				foodPoints = Config.getInt("foodPointsStarfish");
+			}
+			else if (Std.is(prey, Squid))
+			{
+				foodPoints = Config.getInt("foodPointsSquid");
 			}
 			else
 			{

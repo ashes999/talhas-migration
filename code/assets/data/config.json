@@ -19,30 +19,36 @@
             // Probability of spawning stuff. NOT a percentage, and doesn't have
             // to add up to 100. Eg. if jellyfish = 40 and crab = 10, there's an
             // 80% chance (40/50) to get a jellyfish and a 20% chance to get a crab.
-            "jellyfishWeight": 40,
-            "swimmingCrabWeight": 25,
-            "morayEelWeight": 20,
+            "jellyfishWeight": 35,
             "starfishWeight": 15,
+            "squidWeight": 0,
+
+            "swimmingCrabWeight": 30,
+            "morayEelWeight": 20,
             "sealWeight": 0,
             "sharkWeight": 0
         },
         {
             "background": [87, 191, 217],
-            "jellyfishWeight": 40,
-            "swimmingCrabWeight": 20,
-            "morayEelWeight": 10,
-            "starfishWeight": 10,
-            "sealWeight": 15,
-            "sharkWeight": 5
+            "jellyfishWeight": 20,
+            "starfishWeight": 5,
+            "squidWeight": 10,
+
+            "swimmingCrabWeight": 35,
+            "morayEelWeight": 20,
+            "sealWeight": 10,
+            "sharkWeight": 0
         },
         {
             "background": [64, 115, 128],
-            "jellyfishWeight": 10,
-            "swimmingCrabWeight": 20,
-            "morayEelWeight": 10,
+            "jellyfishWeight": 0,
             "starfishWeight": 0,
-            "sealWeight": 35,
-            "sharkWeight": 25
+            "squidWeight": 20,
+
+            "swimmingCrabWeight": 20,
+            "morayEelWeight": 20,
+            "sealWeight": 20,
+            "sharkWeight": 20
         }
     ],
 
@@ -95,8 +101,13 @@
         }
     },
 
+    "squid": {
+        "velocityDifference": 15
+    },
+
     // Food points!
-    "foodPointsRequiredPerLevel": 100,
+    "foodPointsRequiredPerLevel": 20,
     "foodPointsJellyfish": 3,
-    "foodPointsStarfish": 5
+    "foodPointsStarfish": 5,
+    "foodPointsSquid": 9
 }

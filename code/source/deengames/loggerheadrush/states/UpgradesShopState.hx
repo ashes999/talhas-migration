@@ -17,6 +17,8 @@ class UpgradesShopState extends HelixState
     private var totalFoodLabel:HelixText;
     private var healthIndicator:HelixText;
     private var buyHealthButton:HelixText;
+    private var smellIndicator:HelixText;    
+    private var buySmellButton:HelixText;
 
     public function new(playerData:PlayerData)
     {
@@ -29,6 +31,7 @@ class UpgradesShopState extends HelixState
         super.create();
 
         this.totalFoodLabel = new HelixText(UI_PADDING, UI_PADDING, "", UI_FONT_SIZE);
+
         this.healthIndicator = new HelixText(UI_PADDING, 3 * UI_PADDING, "", UI_FONT_SIZE);
         this.buyHealthButton = new HelixText(0, Std.int(healthIndicator.y), "", UI_FONT_SIZE);
         var cost = playerData.getNextHealthUpgradeCost();
@@ -39,7 +42,19 @@ class UpgradesShopState extends HelixState
                 playerData.buyHealthUpgrade();
                 this.updateUi();
             }
-        });        
+        });
+
+        this.smellIndicator = new HelixText(UI_PADDING, 5 * UI_PADDING, "", UI_FONT_SIZE);
+        this.buySmellButton = new HelixText(0, Std.int(smellIndicator.y), "", UI_FONT_SIZE);
+        var cost = playerData.getNextSmellUpgradeCost();
+        this.buySmellButton.onClick(function()
+        {
+            if (cost > 0 && playerData.foodCurrency >= cost)
+            {
+                playerData.buySmellUpgrade();
+                this.updateUi();
+            }
+        }); 
 
         var goButton = new HelixSprite("assets/images/ui/play.png").onClick(function()
         {
@@ -55,17 +70,29 @@ class UpgradesShopState extends HelixState
     private function updateUi():Void
     {
         this.totalFoodLabel.text = Translater.get("UPGRADES_TOTAL_FOOD", [playerData.foodCurrency]);
+
         this.healthIndicator.text = Translater.get("UPGRADES_STARTING_HEALTH", [playerData.startingHealth]);
         this.buyHealthButton.x = healthIndicator.x  + healthIndicator.width + UI_PADDING;
-
         var cost = playerData.getNextHealthUpgradeCost();        
         if (cost > 0) // not maxed out
         {
-            this.buyHealthButton.text = Translater.get("UPGRADES_BUY_HEALTH", [cost]);
+            this.buyHealthButton.text = Translater.get("UPGRADES_BUY_NEXT", [cost]);
         }
         else
         {
-            this.buyHealthButton.text = Translater.get("UPGRADES_MAX_HEALTH");
+            this.buyHealthButton.text = Translater.get("UPGRADES_MAXED_OUT");
+        }
+        
+        this.smellIndicator.text = Translater.get("UPGRADES_SMELL_LEVEL", [playerData.smellUpgrades]);
+        this.buySmellButton.x = smellIndicator.x  + smellIndicator.width + UI_PADDING;
+        var cost = playerData.getNextSmellUpgradeCost();        
+        if (cost > 0) // not maxed out
+        {
+            this.buySmellButton.text = Translater.get("UPGRADES_BUY_NEXT", [cost]);
+        }
+        else
+        {
+            this.buySmellButton.text = Translater.get("UPGRADES_MAXED_OUT");
         }
     }
 }

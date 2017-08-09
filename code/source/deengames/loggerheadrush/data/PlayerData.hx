@@ -12,6 +12,7 @@ class PlayerData
 {
     public var foodCurrency(get, null):Int;
     public var startingHealth(get, null):Int = 0;
+    public var smellUpgrades(get, null):Int = 0;
 
     private var save = new FlxSave();
     
@@ -30,6 +31,7 @@ class PlayerData
         {
             save.data.foodCurrency = 0;
             save.data.startingHealth = Config.getInt("startingHealth");
+            save.data.smellUpgrades = 0;            
             save.flush();
         }
     }
@@ -56,12 +58,12 @@ class PlayerData
 
     public function getNextHealthUpgradeCost():Int
     {
-        if (this.startingHealth < Config.getInt("maxHealth"))
+        if (this.startingHealth < Config.get("upgradeData").maxHealth)
         {
-            var baseCost = Config.getInt("healthUpgradeBaseCost");
-            var costExponent = Config.getFloat("healthUpgradeCostExponent");
+            var baseCost:Int = Config.get("upgradeData").healthUpgradeBaseCost;
+            var costExponent:Float = Config.get("upgradeData").healthUpgradeCostExponent;
             var numPurchased = this.startingHealth - Config.getInt("startingHealth");
-            // +1 because O^n = 0
+            // +1 because 0^n = 0, and n * 0 = 0
             return Std.int(Math.floor(baseCost * Math.pow(numPurchased + 1, costExponent)));
         }
         else
@@ -72,10 +74,40 @@ class PlayerData
     
     public function buyHealthUpgrade():Void
     {
-        if (this.startingHealth < Config.getInt("maxHealth") && this.foodCurrency >= this.getNextHealthUpgradeCost())
+        if (this.startingHealth < Config.get("upgradeData").maxHealth && this.foodCurrency >= this.getNextHealthUpgradeCost())
         {
             save.data.foodCurrency -= this.getNextHealthUpgradeCost();
             save.data.startingHealth += 1;
+            save.flush();
+        }
+    }
+
+    public function get_smellUpgrades():Int
+    {
+        return save.data.smellUpgrades;
+    }
+
+    public function getNextSmellUpgradeCost():Int
+    {
+        if (this.smellUpgrades < Config.get("upgradeData").maxSmellUpgrades)
+        {
+            var baseCost:Int = Config.get("upgradeData").smellUpgradeBaseCost;
+            var costExponent:Float = Config.get("upgradeData").smellUpgradeCostExponent;
+            // +1 because 0^n = 0, and n * 0 = 0
+            return Std.int(Math.floor(baseCost * Math.pow(this.smellUpgrades + 1, costExponent)));
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+    public function buySmellUpgrade():Void
+    {
+        if (this.smellUpgrades < Config.get("upgradeData").maxSmellUpgrades && this.foodCurrency >= this.getNextSmellUpgradeCost())
+        {
+            save.data.foodCurrency -= this.getNextSmellUpgradeCost();
+            save.data.smellUpgrades += 1;
             save.flush();
         }
     }

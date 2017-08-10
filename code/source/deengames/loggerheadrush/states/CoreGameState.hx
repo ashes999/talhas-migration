@@ -59,6 +59,12 @@ class CoreGameState extends HelixState
 	private var isSilentPaused:Bool = false;
 	private var watermark:HelixSprite;
 
+	// Where the next entity will spawn.
+	private var nextTargetX:Float = 0;
+	private var nextTargetY:Float = 0;
+	private var showNextTarget:Bool = false;
+	private var nextTargetArrow:HelixSprite;
+
 	override public function create():Void
 	{
 		super.create();
@@ -68,6 +74,9 @@ class CoreGameState extends HelixState
 		this.ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ceiling = new HelixSprite("assets/images/ceiling.png").collisionImmovable();
+
+		this.nextTargetArrow = new HelixSprite("assets/images/ui/smell-neutral.png");
+		this.nextTargetArrow.alpha = 0;
 
 		this.healthText = new HelixText(0, UI_PADDING, "", UI_FONT_SIZE);
 		this.distanceText = new HelixText(0, 0, "", UI_FONT_SIZE);
@@ -80,13 +89,18 @@ class CoreGameState extends HelixState
 
 		var random = Main.seededRandom;
 
+		// Must be set the first time 
+		this.nextTargetY = random.float(0, ground1.y);
+
 		this.entitySpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
 		{
 			if (!this.player.dead)
 			{
+				this.showNextTarget = false;
+
 				var currentLevel:Int = this.getCurrentLevel();
 				currentLevel = Std.int(Math.min(currentLevel, Config.getInt("maxLevel") - 1));
-				var stage = Config.get("stages")[currentLevel];
+				var stage = Config.get("stages")[currentLevel];				
 
 				var weightArray:Array<Float> = [
 					stage.jellyfishWeight,
@@ -98,15 +112,13 @@ class CoreGameState extends HelixState
 					stage.squidWeight
 				];
 
-				// TODO: put constructors into an array, unify signatures, and turn the
-				// random interval timer into a REAL spawner like it used to be.
 				var nextEntityPick = random.weightedPick(weightArray);
 				var nextEntity:HelixSprite;
 
 				// position randomly off-screen (RHS).
 				// 1.5x => spawn slightly off-screen
-				var targetX = this.camera.scroll.x + (this.width * 1.5);
-				var targetY = random.float(0, ground1.y);
+				var targetX = this.nextTargetX;
+				var targetY = this.nextTargetY;
 
 				if (nextEntityPick == 0) // Jellyfish
 				{
@@ -145,6 +157,24 @@ class CoreGameState extends HelixState
 
 				// If null, recycle failed in some horrible way ...
 				nextEntity.reset(targetX, targetY);
+
+				// nextTargetX is relative to the camera (non-random), so it's set in update
+				this.nextTargetY = random.float(0, ground1.y);
+				////////////////////////////////////////////////
+				//
+				// this.nextTargetX and this.nextTargetY are not enough. The entity
+				// can move itself in .revive() (after construction), or in the worst
+				// case (like MorayEel), it can move itself after the first update.
+				// 
+				// This ... is bad.
+				//
+				////////////////////////////////////////////////
+
+				// If the sense of smell upgrade picks it up, show it
+				if (random.int(1, 100) <= player.smellProbability)
+				{
+					this.showNextTarget = true;
+				}
 			}
 		});
 
@@ -175,6 +205,8 @@ class CoreGameState extends HelixState
 		var intervalDiff:Float = elapsedSeconds * Config.getFloat("shrinkIntervalPerSecondBy");
 		this.minIntervalSeconds -= intervalDiff;
 		this.maxIntervalSeconds -= intervalDiff;
+
+		this.nextTargetX = this.camera.scroll.x + (this.width * 1.5);
 
 		this.ceiling.move(camera.scroll.x, Config.getInt("ceilingY"));
 		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;
@@ -225,6 +257,19 @@ class CoreGameState extends HelixState
 
 		this.foodPointsText.x = this.distanceText.x;
 		this.foodPointsText.y = this.distanceText.y + this.distanceText.height;
+
+		if (this.showNextTarget == true)
+		{
+			this.nextTargetArrow.alpha = Math.abs(Math.sin(GameTime.totalGameTimeSeconds));
+			this.nextTargetArrow.x = this.camera.scroll.x + this.width - this.nextTargetArrow.width;
+			this.nextTargetArrow.y = this.nextTargetY;
+
+			// Target is pretty much in sight, disable arrow.
+			if (this.nextTargetArrow.x <= this.nextTargetX - this.nextTargetArrow.width)
+			{
+				this.showNextTarget = false;
+			}
+		}
 
 		watermark.move(this.camera.scroll.x + this.width - watermark.width - UI_PADDING, this.camera.scroll.y + this.height - watermark.height - UI_PADDING);
 	}

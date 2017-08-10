@@ -3,7 +3,7 @@
 
     // All velocities/speeds are in pixels per second
     "ceilingY": 8,
-    "deletePersistentData": true,
+    "deletePersistentData": false,
     //"randomSeed": 1234567,
     "debugMode": true, // enables freezing, screenshoting, etc. Press P to pause.
     "maxLevel": 3, // base 1
@@ -53,8 +53,8 @@
     ],
 
     // Interval when things appear
-    "minIntervalSeconds": 0.5,
-    "maxIntervalSeconds": 1,
+    "minIntervalSeconds": 5,
+    "maxIntervalSeconds": 10,
     "shrinkIntervalPerSecondBy": 0.01,
 
     // Player
@@ -71,11 +71,13 @@
         "maxHealth": 6,
         "healthUpgradeCostExponent": 1.5,
 
-        "smellUpgradeBaseCost": 2,
+        "smellUpgradeBaseCost": 7.5,
         "maxSmellUpgrades": 3,
         "smellUpgradeCostExponent": 2
     },
     
+    "smellPercentPerUpgradeLevel": 150,
+
     "pixelsPerMeter": 50,
 
     // Jellyfish

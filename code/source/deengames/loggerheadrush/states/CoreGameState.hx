@@ -60,7 +60,7 @@ class CoreGameState extends HelixState
 	private var watermark:HelixSprite;
 
 	// Where the next entity will spawn.
-	private var nextEntityX:Float = 0;
+	private var nextEntityX:Float = 1;
 	private var nextEntityY:Float = 0;
 	private var nextEntityType:Class<HelixSprite>;
 	private var showNextTarget:Bool = false;
@@ -109,7 +109,6 @@ class CoreGameState extends HelixState
 		// Must be set the first time 
 		this.nextEntityY = random.float(0, ground1.y);
 		this.nextEntityType = Jellyfish;
-		trace("J: " + this.nextEntityType);
 
 		this.entitySpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
 		{
@@ -127,17 +126,16 @@ class CoreGameState extends HelixState
 				if (nextEntityType == Jellyfish || nextEntityType == Starfish || nextEntityType == Squid)
 				{
 					entity = this.preyGroup.recycle(nextEntityType);
-					trace("PREY recycle: " + entity);
 				}
 				else
 				{
 					entity = this.predatorGroup.recycle(nextEntityType);
-					trace("PREDATOR recycle: " + entity);
 				}
+
 				var x = this.nextEntityX == 1 ? this.camera.scroll.x + this.width : this.camera.scroll.x - entity.width;
 				var y = this.nextEntityY;
+				
 				entity.reset(x, y);
-				trace('Spawned ${Type.getClassName(nextEntityType)} : ${entity}');
 
 				// Figure out the next thing that'll appear
 				var weightArray:Array<Float> = [
@@ -193,8 +191,6 @@ class CoreGameState extends HelixState
 					throw 'Weighted entity array returned ${nextEntityType} but there is no implementation for that yet.';
 				}
 
-				trace('Next ${nextEntityPick} is a ${Type.getClassName(nextEntityType)}');
-
 				// If the sense of smell upgrade picks it up, show it
 				if (random.int(1, 100) <= player.smellProbability)
 				{
@@ -235,8 +231,6 @@ class CoreGameState extends HelixState
 		var intervalDiff:Float = elapsedSeconds * Config.getFloat("shrinkIntervalPerSecondBy");
 		this.minIntervalSeconds -= intervalDiff;
 		this.maxIntervalSeconds -= intervalDiff;
-
-		this.nextEntityX = this.camera.scroll.x + (this.width * 1.5);
 
 		this.ceiling.move(camera.scroll.x, Config.getInt("ceilingY"));
 		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;

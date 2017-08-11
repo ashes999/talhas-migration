@@ -21,7 +21,7 @@
             // 80% chance (40/50) to get a jellyfish and a 20% chance to get a crab.
             "jellyfishWeight": 35,
             "starfishWeight": 15,
-            "squidWeight": 0,
+            "squidWeight": 100,
 
             "swimmingCrabWeight": 30,
             "morayEelWeight": 20,
@@ -53,8 +53,8 @@
     ],
 
     // Interval when things appear
-    "minIntervalSeconds": 4,
-    "maxIntervalSeconds": 5,
+    "minIntervalSeconds": 1,
+    "maxIntervalSeconds": 2,
     "shrinkIntervalPerSecondBy": 0.01,
 
     // Player
@@ -76,7 +76,7 @@
         "smellUpgradeCostExponent": 2
     },
     
-    "smellPercentPerUpgradeLevel": 50,
+    "smellPercentPerUpgradeLevel": 25,
 
     "pixelsPerMeter": 50,
 

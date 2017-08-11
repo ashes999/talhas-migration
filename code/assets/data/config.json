@@ -53,8 +53,8 @@
     ],
 
     // Interval when things appear
-    "minIntervalSeconds": 5,
-    "maxIntervalSeconds": 10,
+    "minIntervalSeconds": 4,
+    "maxIntervalSeconds": 5,
     "shrinkIntervalPerSecondBy": 0.01,
 
     // Player
@@ -76,7 +76,7 @@
         "smellUpgradeCostExponent": 2
     },
     
-    "smellPercentPerUpgradeLevel": 150,
+    "smellPercentPerUpgradeLevel": 50,
 
     "pixelsPerMeter": 50,
 

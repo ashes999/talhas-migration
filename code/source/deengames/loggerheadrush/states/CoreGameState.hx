@@ -60,14 +60,31 @@ class CoreGameState extends HelixState
 	private var watermark:HelixSprite;
 
 	// Where the next entity will spawn.
-	private var nextTargetX:Float = 0;
-	private var nextTargetY:Float = 0;
+	private var nextEntityX:Float = 0;
+	private var nextEntityY:Float = 0;
+	private var nextEntityType:Class<HelixSprite>;
 	private var showNextTarget:Bool = false;
 	private var nextTargetArrow:HelixSprite;
+
+	private static var MORAY_EEL_HEIGHT:Float;
+	private static var STARFISH_HEIGHT:Float;
+	private static var SEAL_HEIGHT:Float;
 
 	override public function create():Void
 	{
 		super.create();
+
+		// Figure out heights
+		var disposable:HelixSprite = new MorayEel();
+		MORAY_EEL_HEIGHT = disposable.height;
+
+		disposable = new Starfish();
+		STARFISH_HEIGHT = disposable.height;
+
+		disposable = new Seal();
+		SEAL_HEIGHT = disposable.height;
+		disposable.destroy();
+
 		var bgRgb = Config.get("stages")[0].background;
 		this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 
@@ -90,7 +107,9 @@ class CoreGameState extends HelixState
 		var random = Main.seededRandom;
 
 		// Must be set the first time 
-		this.nextTargetY = random.float(0, ground1.y);
+		this.nextEntityY = random.float(0, ground1.y);
+		this.nextEntityType = Jellyfish;
+		trace("J: " + this.nextEntityType);
 
 		this.entitySpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
 		{
@@ -102,6 +121,25 @@ class CoreGameState extends HelixState
 				currentLevel = Std.int(Math.min(currentLevel, Config.getInt("maxLevel") - 1));
 				var stage = Config.get("stages")[currentLevel];				
 
+				// spawn creature
+				// // If null, recycle failed in some horrible way ...
+				var entity:HelixSprite;
+				if (nextEntityType == Jellyfish || nextEntityType == Starfish || nextEntityType == Squid)
+				{
+					entity = this.preyGroup.recycle(nextEntityType);
+					trace("PREY recycle: " + entity);
+				}
+				else
+				{
+					entity = this.predatorGroup.recycle(nextEntityType);
+					trace("PREDATOR recycle: " + entity);
+				}
+				var x = this.nextEntityX == 1 ? this.camera.scroll.x + this.width : this.camera.scroll.x - entity.width;
+				var y = this.nextEntityY;
+				entity.reset(x, y);
+				trace('Spawned ${Type.getClassName(nextEntityType)} : ${entity}');
+
+				// Figure out the next thing that'll appear
 				var weightArray:Array<Float> = [
 					stage.jellyfishWeight,
 					stage.swimmingCrabWeight,
@@ -113,67 +151,59 @@ class CoreGameState extends HelixState
 				];
 
 				var nextEntityPick = random.weightedPick(weightArray);
-				var nextEntity:HelixSprite;
 
-				// position randomly off-screen (RHS).
-				// 1.5x => spawn slightly off-screen
-				var targetX = this.nextTargetX;
-				var targetY = this.nextTargetY;
+				// nextEntityX is +1 (RHS of screen) or -1 (LHS of screen)
+				this.nextEntityX = 1;
+				this.nextEntityY = random.float(0, ground1.y);
 
 				if (nextEntityPick == 0) // Jellyfish
 				{
-					nextEntity = this.preyGroup.recycle(Jellyfish);		
+					nextEntityType = Jellyfish;
 				}
 				else if (nextEntityPick == 1) // Swimming crab
 				{
-					nextEntity = this.predatorGroup.recycle(SwimmingCrab);
+					nextEntityType = SwimmingCrab;
 				}
 				else if (nextEntityPick == 2) // Moral eel
 				{
-					nextEntity = this.predatorGroup.recycle(MorayEel);
-					targetY = ground1.y - (nextEntity.height / 2); // ground it
+					nextEntityType = MorayEel;
+					nextEntityY = ground1.y - (MORAY_EEL_HEIGHT / 2); // ground it
 				}
 				else if (nextEntityPick == 3) // Starfish
 				{
-					nextEntity = this.preyGroup.recycle(Starfish);
-					targetY = ground1.y - nextEntity.height; // ground it
+					nextEntityType = Starfish;
+					nextEntityY = ground1.y - STARFISH_HEIGHT; // ground it
 				}
 				else if (nextEntityPick == 4) // Seal
 				{
-					nextEntity = this.predatorGroup.recycle(Seal);					
+					this.nextEntityY = -this.camera.scroll.y - SEAL_HEIGHT;
+					nextEntityType = Seal;
 				}
 				else if (nextEntityPick == 5) // Shark
 				{
-					nextEntity = this.predatorGroup.recycle(Shark);
+					this.nextEntityX = -1;
+					nextEntityType = Shark;
 				}
 				else if (nextEntityPick == 6) // Squid
 				{
-					nextEntity = this.preyGroup.recycle(Squid);
+					nextEntityType = Squid;
 				}
 				else
 				{
-					throw 'Weighted entity array returned ${nextEntityPick} but there is no implementation for that yet.';
+					throw 'Weighted entity array returned ${nextEntityType} but there is no implementation for that yet.';
 				}
 
-				// If null, recycle failed in some horrible way ...
-				nextEntity.reset(targetX, targetY);
-
-				// nextTargetX is relative to the camera (non-random), so it's set in update
-				this.nextTargetY = random.float(0, ground1.y);
-				////////////////////////////////////////////////
-				//
-				// this.nextTargetX and this.nextTargetY are not enough. The entity
-				// can move itself in .revive() (after construction), or in the worst
-				// case (like MorayEel), it can move itself after the first update.
-				// 
-				// This ... is bad.
-				//
-				////////////////////////////////////////////////
+				trace('Next ${nextEntityPick} is a ${Type.getClassName(nextEntityType)}');
 
 				// If the sense of smell upgrade picks it up, show it
 				if (random.int(1, 100) <= player.smellProbability)
 				{
 					this.showNextTarget = true;
+				}
+				else
+				{
+					this.showNextTarget = false;
+					this.nextTargetArrow.alpha = 0;
 				}
 			}
 		});
@@ -206,7 +236,7 @@ class CoreGameState extends HelixState
 		this.minIntervalSeconds -= intervalDiff;
 		this.maxIntervalSeconds -= intervalDiff;
 
-		this.nextTargetX = this.camera.scroll.x + (this.width * 1.5);
+		this.nextEntityX = this.camera.scroll.x + (this.width * 1.5);
 
 		this.ceiling.move(camera.scroll.x, Config.getInt("ceilingY"));
 		var previousGround:HelixSprite = ground1.x < ground2.x ? ground1 : ground2;
@@ -260,15 +290,11 @@ class CoreGameState extends HelixState
 
 		if (this.showNextTarget == true)
 		{
-			this.nextTargetArrow.alpha = Math.abs(Math.sin(GameTime.totalGameTimeSeconds));
+			// Oscillate from 0.5 to 1.0 in a sine wave.
+			// http://www.wolframalpha.com/input/?i=y+%3D+0.75+%2B+sin(x)+%2F+4
+			this.nextTargetArrow.alpha = 0.75 + Math.sin(4 * GameTime.totalGameTimeSeconds) / 4;
 			this.nextTargetArrow.x = this.camera.scroll.x + this.width - this.nextTargetArrow.width;
-			this.nextTargetArrow.y = this.nextTargetY;
-
-			// Target is pretty much in sight, disable arrow.
-			if (this.nextTargetArrow.x <= this.nextTargetX - this.nextTargetArrow.width)
-			{
-				this.showNextTarget = false;
-			}
+			this.nextTargetArrow.y = this.nextEntityY;
 		}
 
 		watermark.move(this.camera.scroll.x + this.width - watermark.width - UI_PADDING, this.camera.scroll.y + this.height - watermark.height - UI_PADDING);

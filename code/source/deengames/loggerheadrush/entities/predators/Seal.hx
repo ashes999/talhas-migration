@@ -46,7 +46,6 @@ class Seal extends HelixSprite
     {
         super.revive();
         this.hasLaunched = false;
-        this.y = -this.height;
         this.targetDistanceSquared = Math.pow(Config.get("seal").detectionRange, 2);
     }
 }

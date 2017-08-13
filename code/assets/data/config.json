@@ -93,8 +93,8 @@
 
     // Eel
     "morayEelDetectionRange": 250,
-    "morayEelAttackVelocity": -375,
-    "morayEelTravelHeight": 450,
+    "morayEelAttackVelocity": -250,
+    "morayEelTravelHeight": 250,
 
     // Starfish
     "starfishVelocity": 10, // they're very slow

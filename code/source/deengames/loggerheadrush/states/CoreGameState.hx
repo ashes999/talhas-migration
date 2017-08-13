@@ -165,7 +165,7 @@ class CoreGameState extends HelixState
 				else if (nextEntityPick == 2) // Moral eel
 				{
 					nextEntityType = MorayEel;
-					nextEntityY = ground1.y - (MORAY_EEL_HEIGHT / 2); // ground it
+					nextEntityY = ground1.y; // ground it
 				}
 				else if (nextEntityPick == 3) // Starfish
 				{

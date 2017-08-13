@@ -21,7 +21,7 @@ class Squid extends HelixSprite
         super.revive();
         
         var velocityDiff:Int = Config.get("squid").velocityDifference;
-        var vx:Int = Math.round(Player.instance.velocity.x - velocityDiff);
+        var vx:Int = Config.get("playerAutoMoveVelocity") - velocityDiff;
         this.setComponentVelocity("Escape", vx, 0);        
     }
 }

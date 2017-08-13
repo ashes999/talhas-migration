@@ -58,7 +58,7 @@
     "shrinkIntervalPerSecondBy": 0.01,
 
     // Player
-    "playerKeyboardMoveVelocity": 150,
+    "playerKeyboardMoveVelocity": 200,
     "playerAutoMoveVelocity": 250,
     "autoMoveVelocityIncreasePerSecond": 5,
     "maxVelocity": 400,
@@ -71,7 +71,7 @@
         "maxHealth": 6,
         "healthUpgradeCostExponent": 1.5,
 
-        "smellUpgradeBaseCost": 7.5,
+        "smellUpgradeBaseCost": 75,
         "maxSmellUpgrades": 3,
         "smellUpgradeCostExponent": 2
     },

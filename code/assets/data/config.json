@@ -21,7 +21,7 @@
             // 80% chance (40/50) to get a jellyfish and a 20% chance to get a crab.
             "jellyfishWeight": 35,
             "starfishWeight": 15,
-            "squidWeight": 100,
+            "squidWeight": 0,
 
             "swimmingCrabWeight": 30,
             "morayEelWeight": 20,

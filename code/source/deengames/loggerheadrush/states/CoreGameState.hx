@@ -87,7 +87,7 @@ class CoreGameState extends HelixState
 		disposable.destroy();
 
 		var bgRgb = Config.get("stages")[0].background;
-		this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
+		//this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 
 		this.ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
@@ -208,7 +208,7 @@ class CoreGameState extends HelixState
 		if (Config.getBool("debugMode") == true)
 		{
 			watermark = new HelixSprite("assets/images/watermark.png");
-			watermark.alpha = 0.5;
+			watermark.alpha = 0.0; // disabled
 		}
 	}
 
@@ -320,7 +320,7 @@ class CoreGameState extends HelixState
 		this.maxIntervalSeconds = Config.getFloat("maxIntervalSeconds");
 
 		var bgRgb = Config.get("stages")[0].background;
-		this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
+		//this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 
 		if (gameOverText != null)
 		{
@@ -394,7 +394,7 @@ class CoreGameState extends HelixState
 			if (currentLevel > previousLevel && currentLevel < Config.getInt("maxLevel"))
 			{
 				var bgRgb = Config.get("stages")[currentLevel].background;
-				this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
+				//this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 				player.transform(currentLevel);
 			}
 		});

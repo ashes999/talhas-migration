@@ -23,13 +23,10 @@ class Squid extends HelixSprite
     override function revive():Void
     {
         super.revive();
-        this.targetY = Main.seededRandom.int(0, Squid.MAX_Y);
         var velocityDiff:Int = Config.get("squid").xVelocityDifference;
         var vx:Int = Config.get("playerAutoMoveVelocity") - velocityDiff;
         this.setComponentVelocity("Escape", vx, 0);
-
-        var vy:Int = Config.get("squid").vy * (targetY < this.y ? -1 : 1);
-        this.setComponentVelocity("Target", 0, vy);        
+        this.pickNewTargetY();
     }
 
     override function update(elapsed:Float):Void
@@ -39,9 +36,14 @@ class Squid extends HelixSprite
         if ((this.y >= this.targetY && vy > 0) ||
             (this.y <= this.targetY && vy < 0))
         {
-            this.targetY = Main.seededRandom.int(0, Squid.MAX_Y);
-            var vy:Int = Config.get("squid").vy * (targetY < this.y ? -1 : 1);
-            this.setComponentVelocity("Target", 0, vy);            
+            this.pickNewTargetY();       
         }
+    }
+
+    private function pickNewTargetY():Void
+    {
+        this.targetY = Main.seededRandom.int(0, Squid.MAX_Y);
+        var vy:Int = Config.get("squid").vy * (targetY < this.y ? -1 : 1);
+        this.setComponentVelocity("Target", 0, vy);        
     }
 }

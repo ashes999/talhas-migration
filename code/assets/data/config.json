@@ -34,9 +34,9 @@
             "starfishWeight": 5,
             "squidWeight": 10,
 
-            "swimmingCrabWeight": 35,
+            "swimmingCrabWeight": 25,
             "morayEelWeight": 20,
-            "sealWeight": 10,
+            "sealWeight": 20,
             "sharkWeight": 0
         },
         {
@@ -45,10 +45,10 @@
             "starfishWeight": 0,
             "squidWeight": 20,
 
-            "swimmingCrabWeight": 20,
-            "morayEelWeight": 20,
-            "sealWeight": 20,
-            "sharkWeight": 20
+            "swimmingCrabWeight": 0,
+            "morayEelWeight": 0,
+            "sealWeight": 40,
+            "sharkWeight": 40
         }
     ],
 

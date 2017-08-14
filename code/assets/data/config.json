@@ -112,7 +112,8 @@
     },
 
     "squid": {
-        "velocityDifference": 15
+        "xVelocityDifference": 15,
+        "vy": 250
     },
 
     // Food points!

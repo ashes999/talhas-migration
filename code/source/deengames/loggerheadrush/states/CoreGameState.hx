@@ -32,6 +32,7 @@ class CoreGameState extends HelixState
 {
 	private static inline var UI_PADDING:Int = 12;
 	private static inline var UI_FONT_SIZE:Int = 24;
+	private static inline var FIRST_ENEMY_TYPE:Class<HelixSprite> = Jellyfish;
 
 	// Entities
 	private var player:Player;
@@ -108,7 +109,7 @@ class CoreGameState extends HelixState
 
 		// Must be set the first time 
 		this.nextEntityY = random.float(0, ground1.y);
-		this.nextEntityType = Jellyfish;
+		this.nextEntityType = FIRST_ENEMY_TYPE;
 
 		this.entitySpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
 		{
@@ -352,6 +353,7 @@ class CoreGameState extends HelixState
 
 		ground1.move(0, this.height - 32);
 		ground2.move(ground1.x + ground1.width, ground1.y);
+		Squid.MAX_Y = Std.int(ground1.y);
 		
 		var playerData = new PlayerData();
 		

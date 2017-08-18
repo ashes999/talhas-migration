@@ -115,14 +115,12 @@ class CoreGameState extends HelixState
 
 		if (Config.get("plankton").enabled == true)
 		{
-			trace("PLANKTON!");
 			this.planktonSpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
 			{
 				var plankton = this.preyGroup.recycle(Plankton);
 				var x:Int = Std.int(this.camera.scroll.x) + this.width;
 				var y:Int = Main.seededRandom.int(Std.int(this.camera.scroll.y), Std.int(this.camera.scroll.y) + this.height);
 				plankton.reset(x, y);
-				trace('${x}, ${y}');
 			});
 		}
 		

@@ -30,11 +30,14 @@ class Player extends HelixSprite
         this.currentHealth = this.totalHealth = playerData.startingHealth;
         this.smellProbability = playerData.smellUpgrades * Config.getInt("smellPercentPerUpgradeLevel");
 
-        this
-            .moveWithKeyboard(Config.getInt("playerKeyboardMoveVelocity"))
-            .setComponentVelocity("AutoMove", Config.getInt("playerAutoMoveVelocity"), 0)
-            .setComponentVelocity("Buoyancy", 0, Config.get("buoyancy").velocity)
+        this.moveWithKeyboard(Config.getInt("playerKeyboardMoveVelocity"))
+            .setComponentVelocity("AutoMove", Config.getInt("playerAutoMoveVelocity"), 0)            
             .trackWithCamera();
+
+        if (Config.get("buoyancy").enabled == true)
+        {
+            this.setComponentVelocity("Buoyancy", 0, Config.get("buoyancy").velocity);
+        }
     }
 
     public function transform(stage:Int):Void

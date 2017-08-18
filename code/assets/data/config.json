@@ -9,7 +9,7 @@
     "maxLevel": 3, // base 1
     
     "buoyancy": {
-        "enabled": true,
+        "enabled": false,
         "velocity": -100
     },
 

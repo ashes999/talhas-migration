@@ -116,6 +116,13 @@
         "vy": 250
     },
 
+    "plankton": {
+        "enabled": true,
+        "minInterval": 0.5,
+        "maxInterval": 0.75,
+        "foodPoints": 1
+    },
+
     // Food points!
     "foodPointsRequiredPerLevel": 40,
     "foodPointsJellyfish": 3,

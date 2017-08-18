@@ -7,6 +7,7 @@ import deengames.loggerheadrush.entities.predators.Seal;
 import deengames.loggerheadrush.entities.predators.Shark;
 import deengames.loggerheadrush.entities.predators.SwimmingCrab;
 import deengames.loggerheadrush.entities.prey.Jellyfish;
+import deengames.loggerheadrush.entities.prey.Plankton;
 import deengames.loggerheadrush.entities.prey.Starfish;
 import deengames.loggerheadrush.entities.prey.Squid;
 
@@ -42,6 +43,7 @@ class CoreGameState extends HelixState
 	private var ground2:HelixSprite;
 	private var ceiling:HelixSprite;
 	private var entitySpawner:IntervalRandomTimer;
+	private var planktonSpawner:IntervalRandomTimer;
 
 	// Collision groups. Used to set collision handlers once.
 	private var preyGroup = new FlxTypedGroup<HelixSprite>(); // FlxGroup<HelixSprite>
@@ -111,6 +113,19 @@ class CoreGameState extends HelixState
 		this.nextEntityY = random.float(0, ground1.y);
 		this.nextEntityType = FIRST_ENEMY_TYPE;
 
+		if (Config.get("plankton").enabled == true)
+		{
+			trace("PLANKTON!");
+			this.planktonSpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
+			{
+				var plankton = this.preyGroup.recycle(Plankton);
+				var x:Int = Std.int(this.camera.scroll.x) + this.width;
+				var y:Int = Main.seededRandom.int(Std.int(this.camera.scroll.y), Std.int(this.camera.scroll.y) + this.height);
+				plankton.reset(x, y);
+				trace('${x}, ${y}');
+			});
+		}
+		
 		this.entitySpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
 		{
 			if (!this.player.dead)
@@ -226,6 +241,10 @@ class CoreGameState extends HelixState
 
 		super.update(elapsedSeconds);
 		entitySpawner.update(elapsedSeconds);
+		if (this.planktonSpawner != null)
+		{
+			this.planktonSpawner.update(elapsedSeconds);
+		}
 
 		// Difficulty scales by increasing speed in Player.update
 		// We also shrink the interval ever so slightly; in 30s, it reduces by ~0.1
@@ -382,6 +401,10 @@ class CoreGameState extends HelixState
 			else if (Std.is(prey, Squid))
 			{
 				foodPoints = Config.getInt("foodPointsSquid");
+			}
+			else if (Std.is(prey, Plankton))
+			{
+				foodPoints += Config.get("plankton").foodPoints;
 			}
 			else
 			{

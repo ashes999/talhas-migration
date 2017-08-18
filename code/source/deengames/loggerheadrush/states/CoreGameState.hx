@@ -7,7 +7,7 @@ import deengames.loggerheadrush.entities.predators.Seal;
 import deengames.loggerheadrush.entities.predators.Shark;
 import deengames.loggerheadrush.entities.predators.SwimmingCrab;
 import deengames.loggerheadrush.entities.prey.Jellyfish;
-import deengames.loggerheadrush.entities.prey.Plankton;
+import deengames.loggerheadrush.entities.prey.Krill;
 import deengames.loggerheadrush.entities.prey.Starfish;
 import deengames.loggerheadrush.entities.prey.Squid;
 
@@ -43,7 +43,7 @@ class CoreGameState extends HelixState
 	private var ground2:HelixSprite;
 	private var ceiling:HelixSprite;
 	private var entitySpawner:IntervalRandomTimer;
-	private var planktonSpawner:IntervalRandomTimer;
+	private var krillSpawner:IntervalRandomTimer;
 
 	// Collision groups. Used to set collision handlers once.
 	private var preyGroup = new FlxTypedGroup<HelixSprite>(); // FlxGroup<HelixSprite>
@@ -113,14 +113,14 @@ class CoreGameState extends HelixState
 		this.nextEntityY = random.float(0, ground1.y);
 		this.nextEntityType = FIRST_ENEMY_TYPE;
 
-		if (Config.get("plankton").enabled == true)
+		if (Config.get("krill").enabled == true)
 		{
-			this.planktonSpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
+			this.krillSpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
 			{
-				var plankton = this.preyGroup.recycle(Plankton);
+				var krill = this.preyGroup.recycle(Krill);
 				var x:Int = Std.int(this.camera.scroll.x) + this.width;
 				var y:Int = Main.seededRandom.int(Std.int(this.camera.scroll.y), Std.int(this.camera.scroll.y) + this.height);
-				plankton.reset(x, y);
+				krill.reset(x, y);
 			});
 		}
 		
@@ -239,9 +239,9 @@ class CoreGameState extends HelixState
 
 		super.update(elapsedSeconds);
 		entitySpawner.update(elapsedSeconds);
-		if (this.planktonSpawner != null)
+		if (this.krillSpawner != null)
 		{
-			this.planktonSpawner.update(elapsedSeconds);
+			this.krillSpawner.update(elapsedSeconds);
 		}
 
 		// Difficulty scales by increasing speed in Player.update
@@ -400,9 +400,9 @@ class CoreGameState extends HelixState
 			{
 				foodPoints = Config.getInt("foodPointsSquid");
 			}
-			else if (Std.is(prey, Plankton))
+			else if (Std.is(prey, Krill))
 			{
-				foodPoints += Config.get("plankton").foodPoints;
+				foodPoints += Config.get("krill").foodPoints;
 			}
 			else
 			{

@@ -116,7 +116,7 @@
         "vy": 250
     },
 
-    "plankton": {
+    "krill": {
         "enabled": true,
         "minInterval": 0.5,
         "maxInterval": 0.75,

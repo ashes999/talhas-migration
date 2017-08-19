@@ -57,11 +57,11 @@
     "maxIntervalSeconds": 2,
     "shrinkIntervalPerSecondBy": 0.01,
 
-    // Player
+    // Player. Max speed is (auto move velocity + max velocity).
     "playerKeyboardMoveVelocity": 200,
     "playerAutoMoveVelocity": 250,
+    "maxVelocity": 300,    
     "autoMoveVelocityIncreasePerSecond": 5,
-    "maxVelocity": 400,
     "startingHealth": 3,
     "gotHurtInvincibleSeconds": 1,
 
@@ -106,7 +106,7 @@
 
     "shark": {
         "velocity": {
-            "x": 500,
+            "x": 600,
             "y": 50
         }
     },

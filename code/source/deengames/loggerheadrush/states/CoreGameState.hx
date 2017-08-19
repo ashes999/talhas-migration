@@ -115,11 +115,11 @@ class CoreGameState extends HelixState
 
 		if (Config.get("krill").enabled == true)
 		{
-			this.krillSpawner = new IntervalRandomTimer(this.minIntervalSeconds, this.maxIntervalSeconds, function()
+			this.krillSpawner = new IntervalRandomTimer(Config.get("krill").minInterval, Config.get("krill").maxInterval, function()
 			{
 				var krill = this.preyGroup.recycle(Krill);
 				var x:Int = Std.int(this.camera.scroll.x) + this.width;
-				var y:Int = Main.seededRandom.int(Std.int(this.camera.scroll.y), Std.int(this.camera.scroll.y) + this.height);
+				var y:Int = Main.seededRandom.int(0, Std.int(this.ground1.y));
 				krill.reset(x, y);
 			});
 		}

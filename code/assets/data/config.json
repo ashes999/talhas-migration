@@ -2,7 +2,7 @@
     // TODO: refactor into a hierarchial, nested structure
 
     // All velocities/speeds are in pixels per second
-    "ceilingY": 8,
+    "ceilingY": 0,
     "deletePersistentData": false,
     //"randomSeed": 1234567,
     "debugMode": true, // enables freezing, screenshoting, etc. Press P to pause.

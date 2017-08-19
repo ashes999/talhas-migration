@@ -36,6 +36,8 @@ ApplicationMain.create = function() {
 	types.push("IMAGE");
 	urls.push("assets/images/entities/jellyfish.png");
 	types.push("IMAGE");
+	urls.push("assets/images/entities/krill.png");
+	types.push("IMAGE");
 	urls.push("assets/images/entities/seal.png");
 	types.push("IMAGE");
 	urls.push("assets/images/entities/shark.png");
@@ -104,7 +106,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "8", company : "Deen Games", file : "LoggerheadRush", fps : 60, name : "Loggerhead Rush", orientation : "", packageName : "com.deengames.loggerheadrush", version : "1.0.0", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 540, parameters : "{}", resizable : false, stencilBuffer : true, title : "Loggerhead Rush", vsync : true, width : 960, x : null, y : null}]};
+	ApplicationMain.config = { build : "40", company : "Deen Games", file : "LoggerheadRush", fps : 60, name : "Loggerhead Rush", orientation : "", packageName : "com.deengames.loggerheadrush", version : "1.0.0", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 540, parameters : "{}", resizable : false, stencilBuffer : true, title : "Loggerhead Rush", vsync : true, width : 960, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -2255,7 +2257,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this11.h[id] = value5;
 	}
-	id = "assets/images/entities/seal.png";
+	id = "assets/images/entities/krill.png";
 	var _this12 = this.path;
 	if(__map_reserved[id] != null) {
 		_this12.setReserved(id,id);
@@ -2269,7 +2271,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this13.h[id] = value6;
 	}
-	id = "assets/images/entities/shark.png";
+	id = "assets/images/entities/seal.png";
 	var _this14 = this.path;
 	if(__map_reserved[id] != null) {
 		_this14.setReserved(id,id);
@@ -2283,7 +2285,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this15.h[id] = value7;
 	}
-	id = "assets/images/entities/squid.png";
+	id = "assets/images/entities/shark.png";
 	var _this16 = this.path;
 	if(__map_reserved[id] != null) {
 		_this16.setReserved(id,id);
@@ -2297,7 +2299,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this17.h[id] = value8;
 	}
-	id = "assets/images/entities/starfish.png";
+	id = "assets/images/entities/squid.png";
 	var _this18 = this.path;
 	if(__map_reserved[id] != null) {
 		_this18.setReserved(id,id);
@@ -2311,7 +2313,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this19.h[id] = value9;
 	}
-	id = "assets/images/entities/swimmingCrab.png";
+	id = "assets/images/entities/starfish.png";
 	var _this20 = this.path;
 	if(__map_reserved[id] != null) {
 		_this20.setReserved(id,id);
@@ -2325,7 +2327,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this21.h[id] = value10;
 	}
-	id = "assets/images/entities/turtle-stage2.png";
+	id = "assets/images/entities/swimmingCrab.png";
 	var _this22 = this.path;
 	if(__map_reserved[id] != null) {
 		_this22.setReserved(id,id);
@@ -2339,7 +2341,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this23.h[id] = value11;
 	}
-	id = "assets/images/entities/turtle-stage3.png";
+	id = "assets/images/entities/turtle-stage2.png";
 	var _this24 = this.path;
 	if(__map_reserved[id] != null) {
 		_this24.setReserved(id,id);
@@ -2353,7 +2355,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this25.h[id] = value12;
 	}
-	id = "assets/images/entities/turtle.png";
+	id = "assets/images/entities/turtle-stage3.png";
 	var _this26 = this.path;
 	if(__map_reserved[id] != null) {
 		_this26.setReserved(id,id);
@@ -2367,7 +2369,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this27.h[id] = value13;
 	}
-	id = "assets/images/ground.png";
+	id = "assets/images/entities/turtle.png";
 	var _this28 = this.path;
 	if(__map_reserved[id] != null) {
 		_this28.setReserved(id,id);
@@ -2381,7 +2383,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this29.h[id] = value14;
 	}
-	id = "assets/images/shop.png";
+	id = "assets/images/ground.png";
 	var _this30 = this.path;
 	if(__map_reserved[id] != null) {
 		_this30.setReserved(id,id);
@@ -2395,7 +2397,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this31.h[id] = value15;
 	}
-	id = "assets/images/ui/play.png";
+	id = "assets/images/shop.png";
 	var _this32 = this.path;
 	if(__map_reserved[id] != null) {
 		_this32.setReserved(id,id);
@@ -2409,7 +2411,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this33.h[id] = value16;
 	}
-	id = "assets/images/ui/restart.png";
+	id = "assets/images/ui/play.png";
 	var _this34 = this.path;
 	if(__map_reserved[id] != null) {
 		_this34.setReserved(id,id);
@@ -2423,7 +2425,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this35.h[id] = value17;
 	}
-	id = "assets/images/ui/smell-neutral.png";
+	id = "assets/images/ui/restart.png";
 	var _this36 = this.path;
 	if(__map_reserved[id] != null) {
 		_this36.setReserved(id,id);
@@ -2437,7 +2439,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this37.h[id] = value18;
 	}
-	id = "assets/images/watermark.png";
+	id = "assets/images/ui/smell-neutral.png";
 	var _this38 = this.path;
 	if(__map_reserved[id] != null) {
 		_this38.setReserved(id,id);
@@ -2451,7 +2453,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this39.h[id] = value19;
 	}
-	id = "flixel/sounds/beep.ogg";
+	id = "assets/images/watermark.png";
 	var _this40 = this.path;
 	if(__map_reserved[id] != null) {
 		_this40.setReserved(id,id);
@@ -2459,13 +2461,13 @@ var DefaultAssetLibrary = function() {
 		_this40.h[id] = id;
 	}
 	var _this41 = this.type;
-	var value20 = "SOUND";
+	var value20 = "IMAGE";
 	if(__map_reserved[id] != null) {
 		_this41.setReserved(id,value20);
 	} else {
 		_this41.h[id] = value20;
 	}
-	id = "flixel/sounds/flixel.ogg";
+	id = "flixel/sounds/beep.ogg";
 	var _this42 = this.path;
 	if(__map_reserved[id] != null) {
 		_this42.setReserved(id,id);
@@ -2479,51 +2481,51 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this43.h[id] = value21;
 	}
-	id = "flixel/fonts/nokiafc22.ttf";
-	var _this44 = this.className;
-	var value22 = _$_$ASSET_$_$flixel_$fonts_$nokiafc22_$ttf;
+	id = "flixel/sounds/flixel.ogg";
+	var _this44 = this.path;
 	if(__map_reserved[id] != null) {
-		_this44.setReserved(id,value22);
+		_this44.setReserved(id,id);
 	} else {
-		_this44.h[id] = value22;
+		_this44.h[id] = id;
 	}
 	var _this45 = this.type;
-	var value23 = "FONT";
+	var value22 = "SOUND";
 	if(__map_reserved[id] != null) {
-		_this45.setReserved(id,value23);
+		_this45.setReserved(id,value22);
 	} else {
-		_this45.h[id] = value23;
+		_this45.h[id] = value22;
 	}
-	id = "flixel/fonts/monsterrat.ttf";
+	id = "flixel/fonts/nokiafc22.ttf";
 	var _this46 = this.className;
-	var value24 = _$_$ASSET_$_$flixel_$fonts_$monsterrat_$ttf;
+	var value23 = _$_$ASSET_$_$flixel_$fonts_$nokiafc22_$ttf;
 	if(__map_reserved[id] != null) {
-		_this46.setReserved(id,value24);
+		_this46.setReserved(id,value23);
 	} else {
-		_this46.h[id] = value24;
+		_this46.h[id] = value23;
 	}
 	var _this47 = this.type;
-	var value25 = "FONT";
+	var value24 = "FONT";
 	if(__map_reserved[id] != null) {
-		_this47.setReserved(id,value25);
+		_this47.setReserved(id,value24);
 	} else {
-		_this47.h[id] = value25;
+		_this47.h[id] = value24;
 	}
-	id = "flixel/images/ui/button.png";
-	var _this48 = this.path;
+	id = "flixel/fonts/monsterrat.ttf";
+	var _this48 = this.className;
+	var value25 = _$_$ASSET_$_$flixel_$fonts_$monsterrat_$ttf;
 	if(__map_reserved[id] != null) {
-		_this48.setReserved(id,id);
+		_this48.setReserved(id,value25);
 	} else {
-		_this48.h[id] = id;
+		_this48.h[id] = value25;
 	}
 	var _this49 = this.type;
-	var value26 = "IMAGE";
+	var value26 = "FONT";
 	if(__map_reserved[id] != null) {
 		_this49.setReserved(id,value26);
 	} else {
 		_this49.h[id] = value26;
 	}
-	id = "flixel/images/logo/default.png";
+	id = "flixel/images/ui/button.png";
 	var _this50 = this.path;
 	if(__map_reserved[id] != null) {
 		_this50.setReserved(id,id);
@@ -2537,6 +2539,20 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this51.h[id] = value27;
 	}
+	id = "flixel/images/logo/default.png";
+	var _this52 = this.path;
+	if(__map_reserved[id] != null) {
+		_this52.setReserved(id,id);
+	} else {
+		_this52.h[id] = id;
+	}
+	var _this53 = this.type;
+	var value28 = "IMAGE";
+	if(__map_reserved[id] != null) {
+		_this53.setReserved(id,value28);
+	} else {
+		_this53.h[id] = value28;
+	}
 	var assetsPrefix = null;
 	if(ApplicationMain.config != null && Object.prototype.hasOwnProperty.call(ApplicationMain.config,"assetsPrefix")) {
 		assetsPrefix = ApplicationMain.config.assetsPrefix;
@@ -2546,13 +2562,13 @@ var DefaultAssetLibrary = function() {
 		while(k.hasNext()) {
 			var k1 = k.next();
 			var this1 = this.path;
-			var _this52 = this.path;
-			var value28 = assetsPrefix + (__map_reserved[k1] != null ? _this52.getReserved(k1) : _this52.h[k1]);
-			var _this53 = this1;
+			var _this54 = this.path;
+			var value29 = assetsPrefix + (__map_reserved[k1] != null ? _this54.getReserved(k1) : _this54.h[k1]);
+			var _this55 = this1;
 			if(__map_reserved[k1] != null) {
-				_this53.setReserved(k1,value28);
+				_this55.setReserved(k1,value29);
 			} else {
-				_this53.h[k1] = value28;
+				_this55.h[k1] = value29;
 			}
 		}
 	}
@@ -6041,7 +6057,10 @@ var deengames_loggerheadrush_entities_Player = function(playerData) {
 	deengames_loggerheadrush_entities_Player.instance = this;
 	this.currentHealth = this.totalHealth = playerData.get_startingHealth();
 	this.smellProbability = playerData.get_smellUpgrades() * helix_data_Config.getInt("smellPercentPerUpgradeLevel");
-	this.moveWithKeyboard(helix_data_Config.getInt("playerKeyboardMoveVelocity")).setComponentVelocity("AutoMove",helix_data_Config.getInt("playerAutoMoveVelocity"),0).setComponentVelocity("Buoyancy",0,helix_data_Config.get("buoyancy").velocity).trackWithCamera();
+	this.moveWithKeyboard(helix_data_Config.getInt("playerKeyboardMoveVelocity")).setComponentVelocity("AutoMove",helix_data_Config.getInt("playerAutoMoveVelocity"),0).trackWithCamera();
+	if(helix_data_Config.get("buoyancy").enabled == true) {
+		this.setComponentVelocity("Buoyancy",0,helix_data_Config.get("buoyancy").velocity);
+	}
 };
 $hxClasses["deengames.loggerheadrush.entities.Player"] = deengames_loggerheadrush_entities_Player;
 deengames_loggerheadrush_entities_Player.__name__ = ["deengames","loggerheadrush","entities","Player"];
@@ -6212,6 +6231,15 @@ deengames_loggerheadrush_entities_prey_Jellyfish.prototype = $extend(helix_core_
 		this.sineWaveOffset = Main.seededRandom["int"](0,1000);
 	}
 	,__class__: deengames_loggerheadrush_entities_prey_Jellyfish
+});
+var deengames_loggerheadrush_entities_prey_Krill = function() {
+	helix_core_HelixSprite.call(this,"assets/images/entities/krill.png");
+};
+$hxClasses["deengames.loggerheadrush.entities.prey.Krill"] = deengames_loggerheadrush_entities_prey_Krill;
+deengames_loggerheadrush_entities_prey_Krill.__name__ = ["deengames","loggerheadrush","entities","prey","Krill"];
+deengames_loggerheadrush_entities_prey_Krill.__super__ = helix_core_HelixSprite;
+deengames_loggerheadrush_entities_prey_Krill.prototype = $extend(helix_core_HelixSprite.prototype,{
+	__class__: deengames_loggerheadrush_entities_prey_Krill
 });
 var deengames_loggerheadrush_entities_prey_Squid = function() {
 	this.targetY = 0;
@@ -6892,6 +6920,14 @@ deengames_loggerheadrush_states_CoreGameState.prototype = $extend(helix_core_Hel
 		var random = Main.seededRandom;
 		this.nextEntityY = random["float"](0,this.ground1.y);
 		this.nextEntityType = deengames_loggerheadrush_entities_prey_Jellyfish;
+		if(helix_data_Config.get("krill").enabled == true) {
+			this.krillSpawner = new helix_random_IntervalRandomTimer(helix_data_Config.get("krill").minInterval,helix_data_Config.get("krill").maxInterval,function() {
+				var krill = _gthis.preyGroup.recycle(deengames_loggerheadrush_entities_prey_Krill);
+				var x = (_gthis.get_camera().scroll.x | 0) + _gthis.get_width();
+				var y = Main.seededRandom["int"](0,_gthis.ground1.y | 0);
+				krill.reset(x,y);
+			});
+		}
 		this.entitySpawner = new helix_random_IntervalRandomTimer(this.minIntervalSeconds,this.maxIntervalSeconds,function() {
 			if(!_gthis.player.get_dead()) {
 				_gthis.showNextTarget = false;
@@ -6904,9 +6940,9 @@ deengames_loggerheadrush_states_CoreGameState.prototype = $extend(helix_core_Hel
 				} else {
 					entity = _gthis.predatorGroup.recycle(_gthis.nextEntityType);
 				}
-				var x = _gthis.nextEntityX == 1 ? _gthis.get_camera().scroll.x + _gthis.get_width() : _gthis.get_camera().scroll.x - entity.get_width();
-				var y = _gthis.nextEntityY;
-				entity.reset(x,y);
+				var x1 = _gthis.nextEntityX == 1 ? _gthis.get_camera().scroll.x + _gthis.get_width() : _gthis.get_camera().scroll.x - entity.get_width();
+				var y1 = _gthis.nextEntityY;
+				entity.reset(x1,y1);
 				var weightArray = [stage.jellyfishWeight,stage.swimmingCrabWeight,stage.morayEelWeight,stage.starfishWeight,stage.sealWeight,stage.sharkWeight,stage.squidWeight];
 				var nextEntityPick = random.weightedPick(weightArray);
 				_gthis.nextEntityX = 1;
@@ -6954,6 +6990,9 @@ deengames_loggerheadrush_states_CoreGameState.prototype = $extend(helix_core_Hel
 		}
 		helix_core_HelixState.prototype.update.call(this,elapsedSeconds);
 		this.entitySpawner.update(elapsedSeconds);
+		if(this.krillSpawner != null) {
+			this.krillSpawner.update(elapsedSeconds);
+		}
 		var intervalDiff = elapsedSeconds * helix_data_Config.getFloat("shrinkIntervalPerSecondBy");
 		this.minIntervalSeconds -= intervalDiff;
 		this.maxIntervalSeconds -= intervalDiff;
@@ -7052,6 +7091,8 @@ deengames_loggerheadrush_states_CoreGameState.prototype = $extend(helix_core_Hel
 				foodPoints = helix_data_Config.getInt("foodPointsStarfish");
 			} else if(js_Boot.__instanceof(prey2,deengames_loggerheadrush_entities_prey_Squid)) {
 				foodPoints = helix_data_Config.getInt("foodPointsSquid");
+			} else if(js_Boot.__instanceof(prey2,deengames_loggerheadrush_entities_prey_Krill)) {
+				foodPoints += helix_data_Config.get("krill").foodPoints;
 			} else {
 				throw new js__$Boot_HaxeError("Did not implement food points cost yet for " + Type.getClassName(prey2 == null ? null : js_Boot.getClass(prey2)));
 			}

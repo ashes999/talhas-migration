@@ -2,14 +2,14 @@
     // TODO: refactor into a hierarchial, nested structure
 
     // All velocities/speeds are in pixels per second
-    "ceilingY": 8,
+    "ceilingY": 0,
     "deletePersistentData": false,
     //"randomSeed": 1234567,
     "debugMode": true, // enables freezing, screenshoting, etc. Press P to pause.
     "maxLevel": 3, // base 1
     
     "buoyancy": {
-        "enabled": true,
+        "enabled": false,
         "velocity": -100
     },
 
@@ -57,11 +57,11 @@
     "maxIntervalSeconds": 2,
     "shrinkIntervalPerSecondBy": 0.01,
 
-    // Player
+    // Player. Max speed is (auto move velocity + max velocity).
     "playerKeyboardMoveVelocity": 200,
     "playerAutoMoveVelocity": 250,
+    "maxVelocity": 300,    
     "autoMoveVelocityIncreasePerSecond": 5,
-    "maxVelocity": 400,
     "startingHealth": 3,
     "gotHurtInvincibleSeconds": 1,
 
@@ -106,7 +106,7 @@
 
     "shark": {
         "velocity": {
-            "x": 500,
+            "x": 600,
             "y": 50
         }
     },
@@ -114,6 +114,13 @@
     "squid": {
         "xVelocityDifference": 15,
         "vy": 250
+    },
+
+    "krill": {
+        "enabled": true,
+        "minInterval": 0.5,
+        "maxInterval": 0.75,
+        "foodPoints": 1
     },
 
     // Food points!

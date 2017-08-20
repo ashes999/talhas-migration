@@ -1,6 +1,7 @@
 HEALTH_UI: Health: {0}/{1}
 DISTANCE_UI: {0}m
 FOOD_POINTS_UI: Food: {0}/{1}
+MAX_FOOD_POINTS_UI: Food: {0}
 GAME_OVER: You Died!
 
 UPGRADES_TOTAL_FOOD: Total Food: {0}

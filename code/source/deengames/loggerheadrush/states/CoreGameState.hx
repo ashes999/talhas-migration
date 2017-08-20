@@ -88,9 +88,6 @@ class CoreGameState extends HelixState
 		SEAL_HEIGHT = disposable.height;
 		disposable.destroy();
 
-		var bgRgb = Config.get("stages")[0].background;
-		//this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
-
 		this.ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ceiling = new HelixSprite("assets/images/ceiling.png").collisionImmovable();
@@ -119,7 +116,7 @@ class CoreGameState extends HelixState
 			{
 				var krill = this.preyGroup.recycle(Krill);
 				var x:Int = Std.int(this.camera.scroll.x) + this.width;
-				var y:Int = Main.seededRandom.int(0, Std.int(this.ground1.y));
+				var y:Int = Main.seededRandom.int(0, Std.int(this.ground1.y - krill.height));
 				krill.reset(x, y);
 			});
 		}
@@ -320,7 +317,17 @@ class CoreGameState extends HelixState
 		var pointsPerLevel:Int = Config.getInt("foodPointsRequiredPerLevel");
 		player.foodPoints += pointsGained;		
 		var currentFoodLevel:Int = Math.floor(player.foodPoints / pointsPerLevel);
-		this.foodPointsText.text = Translater.get("FOOD_POINTS_UI", [player.foodPoints, (currentFoodLevel + 1) * pointsPerLevel]);
+
+		if (currentFoodLevel < Config.getInt("maxLevel"))
+		{
+			var nextLevelPoints = (currentFoodLevel + 1) * pointsPerLevel;
+			this.foodPointsText.text = Translater.get("FOOD_POINTS_UI", [player.foodPoints, nextLevelPoints]);			
+		} 
+		else
+		{
+			this.foodPointsText.text = Translater.get("MAX_FOOD_POINTS_UI", [player.foodPoints]);
+		}
+
 	}
 
 	private function getCurrentLevel():Int
@@ -335,9 +342,6 @@ class CoreGameState extends HelixState
 		this.sessionStartTime = GameTime.totalGameTimeSeconds;
 		this.minIntervalSeconds = Config.getFloat("minIntervalSeconds");
 		this.maxIntervalSeconds = Config.getFloat("maxIntervalSeconds");
-
-		var bgRgb = Config.get("stages")[0].background;
-		//this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 
 		if (gameOverText != null)
 		{
@@ -414,8 +418,6 @@ class CoreGameState extends HelixState
 			var currentLevel = this.getCurrentLevel();			
 			if (currentLevel > previousLevel && currentLevel < Config.getInt("maxLevel"))
 			{
-				var bgRgb = Config.get("stages")[currentLevel].background;
-				//this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 				player.transform(currentLevel);
 			}
 		});

@@ -53,8 +53,8 @@
     ],
 
     // Interval when things appear
-    "minIntervalSeconds": 1,
-    "maxIntervalSeconds": 2,
+    "minIntervalSeconds": 0.5,
+    "maxIntervalSeconds": 1,
     "shrinkIntervalPerSecondBy": 0.01,
 
     // Player. Max speed is (auto move velocity + max velocity).
@@ -124,7 +124,7 @@
     },
 
     // Food points!
-    "foodPointsRequiredPerLevel": 40,
+    "foodPointsRequiredPerLevel": 100,
     "foodPointsJellyfish": 3,
     "foodPointsStarfish": 5,
     "foodPointsSquid": 9

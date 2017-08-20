@@ -1,0 +1,131 @@
+{
+    // TODO: refactor into a hierarchial, nested structure
+
+    // All velocities/speeds are in pixels per second
+    "ceilingY": 0,
+    "deletePersistentData": false,
+    //"randomSeed": 1234567,
+    "debugMode": true, // enables freezing, screenshoting, etc. Press P to pause.
+    "maxLevel": 3, // base 1
+    
+    "buoyancy": {
+        "enabled": false,
+        "velocity": -100
+    },
+
+    "stages": [
+        {
+            "background": [87, 191, 217],
+            // Probability of spawning stuff. NOT a percentage, and doesn't have
+            // to add up to 100. Eg. if jellyfish = 40 and crab = 10, there's an
+            // 80% chance (40/50) to get a jellyfish and a 20% chance to get a crab.
+            "jellyfishWeight": 35,
+            "starfishWeight": 15,
+            "squidWeight": 0,
+
+            "swimmingCrabWeight": 30,
+            "morayEelWeight": 20,
+            "sealWeight": 0,
+            "sharkWeight": 0
+        },
+        {
+            "background": [64, 115, 128],
+            "jellyfishWeight": 20,
+            "starfishWeight": 5,
+            "squidWeight": 10,
+
+            "swimmingCrabWeight": 25,
+            "morayEelWeight": 20,
+            "sealWeight": 20,
+            "sharkWeight": 0
+        },
+        {
+            "background": [37, 79, 89],
+            "jellyfishWeight": 0,
+            "starfishWeight": 0,
+            "squidWeight": 20,
+
+            "swimmingCrabWeight": 0,
+            "morayEelWeight": 0,
+            "sealWeight": 40,
+            "sharkWeight": 40
+        }
+    ],
+
+    // Interval when things appear
+    "minIntervalSeconds": 0.5,
+    "maxIntervalSeconds": 1,
+    "shrinkIntervalPerSecondBy": 0.01,
+
+    // Player. Max speed is (auto move velocity + max velocity).
+    "playerKeyboardMoveVelocity": 200,
+    "playerAutoMoveVelocity": 250,
+    "maxVelocity": 300,    
+    "autoMoveVelocityIncreasePerSecond": 5,
+    "startingHealth": 3,
+    "gotHurtInvincibleSeconds": 1,
+
+    // Upgrades!
+    "upgradeData": {
+        "healthUpgradeBaseCost": 100,
+        "maxHealth": 6,
+        "healthUpgradeCostExponent": 1.5,
+
+        "smellUpgradeBaseCost": 75,
+        "maxSmellUpgrades": 3,
+        "smellUpgradeCostExponent": 2
+    },
+    
+    "smellPercentPerUpgradeLevel": 25,
+
+    "pixelsPerMeter": 50,
+
+    // Jellyfish
+    "jellyfishVelocityPercent": 40,
+    "jellyfishWaveAmplitude": 40,
+    "jellyfishWaveFrequencyMultiplier": 3,
+
+    // Swimming crab
+    "swimmingCrabVxMin": -50, // move left
+    "swimmingCrabVxMax": -100,    
+    "swimmingCrabVyMin": -200, // Slightly up or down
+    "swimmingCrabVyMax": 200,
+
+    // Eel
+    "morayEelDetectionRange": 250,
+    "morayEelAttackVelocity": -250,
+    "morayEelTravelHeight": 250,
+
+    // Starfish
+    "starfishVelocity": 10, // they're very slow
+
+    "seal": {
+        "detectionRange": 350,
+        "attackVelocity": 350
+    },
+
+    "shark": {
+        "velocity": {
+            "x": 600,
+            "y": 50
+        }
+    },
+
+    "squid": {
+        "xVelocityDifference": 15,
+        "vy": 250
+    },
+
+    "krill": {
+        "enabled": true,
+        "minInterval": 0.5,
+        "maxInterval": 0.75,
+        "foodPoints": 1
+    },
+
+    // Food points!
+    "foodPointsRequiredPerLevel": 100,
+    "foodPointsJellyfish": 3,
+    "foodPointsStarfish": 5,
+    "foodPointsSquid": 9
+}

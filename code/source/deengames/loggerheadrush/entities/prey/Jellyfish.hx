@@ -31,7 +31,7 @@ class Jellyfish extends HelixSprite
         super.update(elapsedSeconds);
         this.y = this.baseY + (this.waveAmplitude * 
             Math.sin(sineWaveOffset +
-                (frequencyMultiplier * GameTime.totalGameTimeSeconds)));
+                (frequencyMultiplier * GameTime.totalElapsedSeconds)));
     }
 
     // Common code shared between constructor and recycle

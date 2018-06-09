@@ -4,6 +4,7 @@ import deengames.loggerheadrush.data.PlayerData;
 
 import helix.GameTime;
 import helix.core.HelixSprite;
+using helix.core.HelixSpriteFluentApi;
 import helix.data.Config;
  
 // The player
@@ -19,7 +20,7 @@ class Player extends HelixSprite
     public var foodPoints(default, default):Int = 0;
     public var smellProbability(default, null):Int = 0;
     
-    private var lastHurtTime:TotalGameTime = 0;
+    private var lastHurtTime:Float = 0;
     
     public function new(playerData:PlayerData)
     {
@@ -48,9 +49,9 @@ class Player extends HelixSprite
     public function getHurt():Void
     {
         var invincibleDuration:Int = Config.getInt("gotHurtInvincibleSeconds");
-        if (GameTime.totalGameTimeSeconds - lastHurtTime >= invincibleDuration)
+        if (GameTime.totalElapsedSeconds - lastHurtTime >= invincibleDuration)
         {            
-            lastHurtTime = GameTime.totalGameTimeSeconds;
+            lastHurtTime = GameTime.totalElapsedSeconds;
             this.currentHealth -= 1;
             this.flicker(invincibleDuration);
 
@@ -73,7 +74,7 @@ class Player extends HelixSprite
         if (this.currentHealth > 0)
         {
             var baseVelocity:Int = Config.getInt("playerAutoMoveVelocity");
-            var elapsedTimeVelocity = GameTime.totalGameTimeSeconds * Config.getInt("autoMoveVelocityIncreasePerSecond");
+            var elapsedTimeVelocity = GameTime.totalElapsedSeconds * Config.getInt("autoMoveVelocityIncreasePerSecond");
             var totalVelocity = Math.min(baseVelocity + elapsedTimeVelocity, Config.getInt("maxVelocity"));
             
             totalVelocity = Std.int(Math.floor(totalVelocity));

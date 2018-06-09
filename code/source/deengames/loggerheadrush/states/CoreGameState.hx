@@ -22,6 +22,7 @@ import flixel.ui.FlxButton;
 
 import helix.GameTime;
 import helix.core.HelixSprite;
+using helix.core.HelixSpriteFluentApi;
 import helix.core.HelixState;
 import helix.core.HelixText;
 import helix.data.Config;
@@ -88,6 +89,9 @@ class CoreGameState extends HelixState
 		SEAL_HEIGHT = disposable.height;
 		disposable.destroy();
 
+		var bgRgb = Config.get("stages")[0].background;
+		this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
+		
 		this.ground1 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ground2 = new HelixSprite("assets/images/ground.png").collisionImmovable();
 		this.ceiling = new HelixSprite("assets/images/ceiling.png").collisionImmovable();
@@ -301,7 +305,7 @@ class CoreGameState extends HelixState
 		{
 			// Oscillate from 0.5 to 1.0 in a sine wave.
 			// http://www.wolframalpha.com/input/?i=y+%3D+0.75+%2B+sin(x)+%2F+4
-			this.nextTargetArrow.alpha = 0.75 + Math.sin(4 * GameTime.totalGameTimeSeconds) / 4;
+			this.nextTargetArrow.alpha = 0.75 + Math.sin(4 * GameTime.totalElapsedSeconds) / 4;
 			this.nextTargetArrow.x = this.camera.scroll.x + this.width - this.nextTargetArrow.width;
 			this.nextTargetArrow.y = this.nextEntityY;
 		}
@@ -339,9 +343,12 @@ class CoreGameState extends HelixState
 
 	private function restart(?gameOverText:FlxText, ?restartButton:HelixSprite, ?shopButton:HelixSprite):Void
 	{
-		this.sessionStartTime = GameTime.totalGameTimeSeconds;
+		this.sessionStartTime = GameTime.totalElapsedSeconds;
 		this.minIntervalSeconds = Config.getFloat("minIntervalSeconds");
 		this.maxIntervalSeconds = Config.getFloat("maxIntervalSeconds");
+
+		var bgRgb = Config.get("stages")[0].background;
+		this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 
 		if (gameOverText != null)
 		{
@@ -418,6 +425,8 @@ class CoreGameState extends HelixState
 			var currentLevel = this.getCurrentLevel();			
 			if (currentLevel > previousLevel && currentLevel < Config.getInt("maxLevel"))
 			{
+ 				var bgRgb = Config.get("stages")[currentLevel].background;
+				this.bgColor = flixel.util.FlxColor.fromRGB(bgRgb[0], bgRgb[1], bgRgb[2]);
 				player.transform(currentLevel);
 			}
 		});
@@ -454,7 +463,7 @@ class CoreGameState extends HelixState
 					this.restart(gameOverText, restartButton, shopButton);
 				});
 
-				var elapsed = GameTime.totalGameTimeSeconds - this.sessionStartTime;
+				var elapsed = GameTime.totalElapsedSeconds - this.sessionStartTime;
 			}
 		});
 

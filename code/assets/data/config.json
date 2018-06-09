@@ -124,7 +124,7 @@
     },
 
     // Food points!
-    "foodPointsRequiredPerLevel": 100,
+    "foodPointsRequiredPerLevel": 5,
     "foodPointsJellyfish": 3,
     "foodPointsStarfish": 5,
     "foodPointsSquid": 9
